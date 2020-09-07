@@ -3,23 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/mapFragment">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.rentals.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
+        android:id="@+id/mapFragment"
+        android:name="com.example.rentals.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.rentals.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
+        android:id="@+id/wishlistFragment"
+        android:name="com.example.rentals.WishlistFragment"
+        android:label="fragment_wishlist"
+        tools:layout="@layout/fragment_wishlist" />
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.rentals.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/profileFragment"
+        android:name="com.example.rentals.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
