@@ -7,10 +7,11 @@
     tools:context=".MapFragment">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary"
+        android:background="#007aff"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -53,6 +54,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
+    <fragment android:id="@+id/map"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar"
+        tools:context=".map.MapsActivity"
+
+        android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
 
 
