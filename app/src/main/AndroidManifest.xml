@@ -8,19 +8,24 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo1"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme2">
-        <activity android:name=".MainActivity"></activity>
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".Login"></activity>
+
+        <activity android:name=".Postadd"></activity>
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDzkhBJZpa16X7NMsbveeggrcSGfT-IsH0" />
 
+
         <activity
-            android:name=".Login"
+            android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
