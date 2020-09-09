@@ -6,10 +6,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
-
-
-
     <style name="myStyleText">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">#FFFFFF</item>\
