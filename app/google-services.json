@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "401387963490",
+    "firebase_url": "https://rentals-a8d39.firebaseio.com",
+    "project_id": "rentals-a8d39",
+    "storage_bucket": "rentals-a8d39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401387963490:android:288749c65468c647d07d3b",
+        "android_client_info": {
+          "package_name": "com.example.rentals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401387963490-4d5n1lvpugumf899gdb2t2imrlu91jis.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw2GuomsdIOxaKXscc5OmQMi_EtuML2U4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401387963490-4d5n1lvpugumf899gdb2t2imrlu91jis.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
