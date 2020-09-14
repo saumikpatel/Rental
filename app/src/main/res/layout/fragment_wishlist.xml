@@ -5,10 +5,28 @@
     android:layout_height="match_parent"
     tools:context=".WishlistFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+
+        android:background="#3cb6d3 "
+        >
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="55dp"
+            android:src="@drawable/logo" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Rentals"
+            android:textSize="28sp"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            />
+
+    </androidx.appcompat.widget.Toolbar>
 
 </FrameLayout>
