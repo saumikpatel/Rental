@@ -52,7 +52,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginTop="10dp"
-                android:id="@+id/textField"
+                android:id="@+id/textField4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:counterEnabled="true"
@@ -133,7 +133,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textField6"
+                android:id="@+id/textField1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
