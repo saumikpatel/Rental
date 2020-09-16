@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:Style="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,83 +12,112 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:background="#3cb6d3"
-        >
+        android:background="#3cb6d3">
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="55dp"
             android:src="@drawable/logo" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="Rentals"
-            android:textSize="28sp"
             android:textColor="#ffffff"
-            android:textStyle="bold"
-            />
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.Toolbar>
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
 
- <ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@id/toolbar">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_marginTop="20dp"
                 android:layout_width="100dp"
                 android:layout_height="80dp"
-                android:src="@drawable/uploadnew"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
 
-                android:layout_gravity="center"/>
+                android:src="@drawable/uploadnew" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_marginTop="10dp"
-                android:id="@+id/textField4"
+                android:id="@+id/title"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:counterEnabled="true"
-                app:counterMaxLength="64"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="5dp"
                 android:hint="Title"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:counterEnabled="true"
+                app:counterMaxLength="64">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/des"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
+                android:hint="Description"
+                app:counterEnabled="true"
+                app:counterMaxLength="10000">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
 
+
+                    />
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/amount"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:hint="$ Amount ">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textField1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:counterEnabled="true"
-                app:counterMaxLength="10000"
-                android:layout_marginTop="3dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
-                android:hint="Description"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:hint="Location">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-
-                    />
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
-
 
 
             <LinearLayout
@@ -97,242 +126,91 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/unit1"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="5dp"
-
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                     >
+                    android:layout_marginTop="5dp">
 
                     <AutoCompleteTextView
-                        android:id="@+id/price"
-                        android:hint="Price"
+                        android:id="@+id/unit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:hint="Unit" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textField5"
+                    android:id="@+id/pnum"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="1dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
-                    android:hint="$ Amount "
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    android:hint="Phone Number">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        />
+                        android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+
             </LinearLayout>
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textField1"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:hint="Location"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/date"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="5dp"
+                    android:enabled="false"
+                    android:hint="Move In Date">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:orientation="horizontal">
-
-         <com.google.android.material.textfield.TextInputLayout
-             android:layout_width="250dp"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5dp"
-             android:layout_marginLeft="5dp"
-             style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-             >
-
-             <AutoCompleteTextView
-                 android:id="@+id/unit"
-                 android:hint="unit"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 />
-         </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textField7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="5dp"
-                android:hint="Phone Number"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/calender"
+                    style="@style/Widget.AppCompat.Button"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="10dp"
+                    android:backgroundTint="#3cb6d3"
+                    android:singleLine="true"
+                    android:text="calender" />
 
-     </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/Rent"
-                    android:text="For Rent By"
-                    android:width="170dp"
-                    android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
-
-
-                </com.google.android.material.textview.MaterialTextView>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
-
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rbrent"
-                    android:checkedButton="@id/owner"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/owner"
-                        android:text="Owner"
-                        android:textColor="#696969"
-                        android:textSize="15sp"
-                        android:width="150dp"/>
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/professional"
-                        android:text="Professional"
-                        android:textColor="#696969"
-                        android:textSize="15sp"
-                        android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
-                </RadioGroup>
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/app"
-                    android:text="Appartment Type"
-                    android:width="170dp"
-                    android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
-
-
-                </com.google.android.material.textview.MaterialTextView>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
-
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rbapp"
-                    android:checkedButton="@id/month"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/month"
-                        android:text="Month-to-month"
-                        android:width="150dp"/>
-                    <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/year"
-                        android:text="1 year"
-                        android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
-                </RadioGroup>
-
-
-            </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:hint="Move In Date"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/furnished"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:width="170dp"
                     android:text="Furnished"
-                    android:width="170dp"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -343,29 +221,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/rbfurnished"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/Fyes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/Fyes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/Fno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
@@ -374,19 +254,19 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/laundry"
-                    android:text="Laundry(In Unit)"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:width="170dp"
+                    android:text="Laundry(In Unit)"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -397,29 +277,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/rbflaundry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rbflaundry"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/layes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/layes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/lano"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
@@ -428,19 +310,19 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/Laundryb"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/Laundryb"
-                    android:text="Laundry(In Building)"
+                    android:layout_marginTop="8dp"
                     android:width="170dp"
+                    android:text="Laundry(In Building)"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -451,66 +333,67 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/rbLaundryb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rbLaundryb"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/Laundrybyes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/Laundrybyes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/Laundrybno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bathroom1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
-                style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                >
+                android:layout_marginTop="5dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/bathroom"
-                    android:hint="Bathroom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:hint="Bathroom" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/dishwasher"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:width="170dp"
                     android:text="Dishwasher"
-                    android:width="170dp"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -521,29 +404,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/rbdishwasher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/dyes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/dyes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/dno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
@@ -553,19 +438,19 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/fridge"
-                    android:text="Fridge"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:width="170dp"
+                    android:text="Fridge"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -576,29 +461,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/rbfridge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rbfridge"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/fryes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/fryes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/frno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
@@ -608,19 +495,19 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/air_conditioning"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/air_conditioning"
-                    android:text="Air Conditioning"
+                    android:layout_marginTop="8dp"
                     android:width="170dp"
+                    android:text="Air Conditioning"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -631,67 +518,68 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/rbair_conditioning"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rbair_conditioning"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/ayes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/ayes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/ano"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bedroom1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
-                style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                >
+                android:layout_marginTop="5dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/bedroom"
-                    android:hint="bedroom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:hint="bedroom" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/yard"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/yard"
-                    android:text="Yard"
+                    android:layout_marginTop="8dp"
                     android:width="170dp"
+                    android:text="Yard"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -702,67 +590,67 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/rbyard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rbyard"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/yyes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/yyes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/yno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/pet1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
-
-                style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                >
+                android:layout_marginTop="5dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/pet"
-                    android:hint="Pet Friendly"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:hint="Pet Friendly" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/balcony"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/balcony"
-                    android:text="Balcony"
+                    android:layout_marginTop="8dp"
                     android:width="170dp"
+                    android:text="Balcony"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -773,29 +661,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/rbbalcony"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rbbalcony"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/balyes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/balyes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/balno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
@@ -803,36 +693,35 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/size"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginRight="5dp"
-                android:hint="Size(sqft)"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:hint="Size(sqft)">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/ramp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:width="250dp"
                     android:text="Barrier-free Entrance and Ramps"
-                    android:width="250dp"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -843,29 +732,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/rbramp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/rampyes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/rampyes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/rampno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
@@ -874,19 +765,19 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/aids"
-                    android:text="Visual Aids"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:width="170dp"
+                    android:text="Visual Aids"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -897,29 +788,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/rbaids"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rbaids"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/aidsyes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/aidsyes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/aidsno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
@@ -928,19 +821,19 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/suite"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/suite"
-                    android:text="Accessible Washrooms in Suite"
+                    android:layout_marginTop="8dp"
                     android:width="250dp"
+                    android:text="Accessible Washrooms in Suite"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -951,66 +844,67 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/rbsuite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rbsuite"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/suiteyes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/suiteyes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/suiteno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/smoke1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
-                style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                >
+                android:layout_marginTop="5dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/smoke"
-                    android:hint="Smoking Permitted"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:hint="Smoking Permitted" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/hydro"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:width="170dp"
                     android:text="Hydro"
-                    android:width="170dp"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -1021,29 +915,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/rbhydro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/hydroyes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/hydroyes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/hydrono"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
@@ -1052,19 +948,19 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/heat"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:width="170dp"
                     android:text="Heat"
-                    android:width="170dp"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -1075,29 +971,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/rbheat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/heatyes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/heatyes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/heatno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
@@ -1106,19 +1004,19 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/water"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:width="170dp"
                     android:text="Water"
-                    android:width="170dp"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -1129,29 +1027,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/rbwater"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/wateryes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/wateryes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/waterno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
@@ -1160,19 +1060,19 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/tv"
-                    android:text="Cable/TV"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:width="170dp"
+                    android:text="Cable/TV"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -1183,29 +1083,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/rbtv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rbtv"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/tvyes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/tvyes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/tvno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
@@ -1214,19 +1116,19 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/internet"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/internet"
-                    android:text="Internet"
+                    android:layout_marginTop="8dp"
                     android:width="170dp"
+                    android:text="Internet"
                     android:textColor="#696969"
-                    android:textSize="15sp"
-                    style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="8dp">
+                    android:textSize="15sp">
 
 
                 </com.google.android.material.textview.MaterialTextView>
@@ -1237,51 +1139,50 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/rbinternet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rbinternet"
+                    android:layout_marginTop="6dp"
                     android:checkedButton="@id/internetyes"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="6dp">
+                    android:orientation="horizontal">
+
                     <RadioButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/internetyes"
-                        android:text="Yes"
-                        android:width="150dp"/>
-                    <RadioButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:width="150dp"
+                        android:text="Yes" />
+
+                    <RadioButton
                         android:id="@+id/internetno"
-                        android:text="No"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:width="150dp"/>
+                        android:width="150dp"
+                        android:text="No" />
                 </RadioGroup>
 
 
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/parking1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
-
-                style= "@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                >
+                android:layout_marginTop="5dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/parking"
-                    android:hint="Parking Included"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:hint="Parking Included" />
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <Button
                 android:id="@+id/post_ad"
@@ -1289,8 +1190,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
                 android:backgroundTint="#3cb6d3"
                 android:singleLine="true"
@@ -1298,17 +1199,6 @@
 
         </LinearLayout>
 
-
-
-
-   </ScrollView>
-
-
-
-
-
-
-
-
+    </ScrollView>
 
 </RelativeLayout>
