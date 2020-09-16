@@ -19,6 +19,7 @@
         <activity android:name=".Contact" />
         <activity android:name=".Login" />
         <activity android:name=".ForgotPassword" />
+        <activity android:name=".ApartmentDetails" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
