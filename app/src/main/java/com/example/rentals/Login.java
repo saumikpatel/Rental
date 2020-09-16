@@ -1,5 +1,6 @@
 package com.example.rentals;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
