@@ -27,9 +27,9 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textAlignment="center"
+            android:text="Rentals"
 
-            android:text="Rental"
+            android:textAlignment="center"
             android:textColor="#ffffff"
             android:textSize="60dp"
             android:textStyle="bold" />

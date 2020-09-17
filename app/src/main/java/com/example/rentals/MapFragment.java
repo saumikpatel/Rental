@@ -101,7 +101,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapFrag.getMapAsync(this);
 
 
-        Places.initialize(getActivity().getApplicationContext(), "AIzaSyDzkhBJZpa16X7NMsbveeggrcSGfT-IsH0");
+        Places.initialize(getActivity().getApplicationContext(), "" +
+                "");
 
         // Create a new PlacesClient instance
         PlacesClient placesClient = Places.createClient(getActivity());
