@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50px"
         android:layout_marginTop="70px"
-        android:text="My Account"
+        android:text="My Information"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="30sp" />
 
@@ -126,6 +126,11 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:layout_marginTop="320dp" />
 
 
 </LinearLayout>
