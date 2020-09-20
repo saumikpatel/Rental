@@ -49,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="70px"
         android:background="#D9E6E8"
+        android:clickable="true"
         android:orientation="horizontal">
 
         <ImageView
@@ -134,17 +135,17 @@
 
         <RadioButton
             android:id="@+id/radioMap"
-            android:layout_width="wrap_content"
+            android:layout_width="66dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10px"
+            android:layout_marginLeft="0px"
             android:button="@drawable/ic_baseline_location_on_24"
             android:text="Map" />
 
         <RadioButton
             android:id="@+id/radioButton2"
-            android:layout_width="wrap_content"
+            android:layout_width="69dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10px"
+            android:layout_marginLeft="0px"
             android:button="@drawable/ic_baseline_list_alt_24"
             android:text="List" />
 
@@ -152,7 +153,7 @@
             android:id="@+id/radioButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10px"
+            android:layout_marginLeft="0px"
             android:layout_weight="1"
             android:button="@drawable/ic_baseline_notifications_24"
             android:text="Notifications" />
@@ -161,7 +162,7 @@
             android:id="@+id/radioButton4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10px"
+            android:layout_marginLeft="0px"
             android:layout_weight="1"
             android:button="@drawable/ic_baseline_favorite_24"
             android:text="Wishlist" />
@@ -169,7 +170,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10px"
+            android:layout_marginLeft="0px"
             android:layout_weight="1"
             android:button="@drawable/ic_baseline_account_circle_24"
             android:text="Account" />
