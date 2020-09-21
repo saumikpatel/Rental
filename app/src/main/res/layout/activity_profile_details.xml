@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    tools:context=".ProfileDetails">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="#3cb6d3 ">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="55dp"
+            app:srcCompat="?attr/actionModeCloseDrawable" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Profile"
+            android:textColor="#ffffff"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="365dp"
+        android:layout_height="66dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:background="#F6EEEE"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:padding="10px"
+            android:text="Name*"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <EditText
+            android:id="@+id/txtName"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="10dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:padding="10px"
+            android:text="Tony Stark" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="365dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:background="#F6EEEE"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:padding="10px"
+            android:text="Email*"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <EditText
+            android:id="@+id/txtEmail"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="10dp"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:padding="10px"
+            android:text="tonystark@gmail.com" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="365dp"
+        android:layout_height="66dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:background="#F6EEEE"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:padding="10px"
+            android:text="Phone*"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <EditText
+            android:id="@+id/txtPhone"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="10dp"
+            android:ems="10"
+            android:inputType="phone"
+            android:padding="10px"
+            android:text="@string/_1234567890" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnUpdate"
+        android:layout_width="365dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="30dp"
+        android:text="@string/update_profile" />
+
+    <Button
+        android:id="@+id/btnDiscard"
+        android:layout_width="365dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:text="@string/discard_changes" />
+
+</LinearLayout>
