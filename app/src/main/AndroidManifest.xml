@@ -21,14 +21,14 @@
         <activity android:name=".Contact" />
         <activity android:name=".Login" />
         <activity android:name=".ForgotPassword" />
-        <activity android:name=".ApartmentDetails" />
+        <activity android:name=".MainActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDzkhBJZpa16X7NMsbveeggrcSGfT-IsH0" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ApartmentDetails"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
