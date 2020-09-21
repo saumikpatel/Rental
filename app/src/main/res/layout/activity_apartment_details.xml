@@ -42,12 +42,14 @@
             android:orientation="vertical"
             android:layout_marginTop="55dp">
 
-            <ImageView
-                android:layout_marginTop="5dp"
-                android:layout_width="400dp"
-                android:layout_height="180dp"
-                android:src="@drawable/uploadnew"
-                android:layout_gravity="center"/>
+
+
+
+            <androidx.viewpager.widget.ViewPager
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/imageslider"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,9 +60,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="Property Name"
-                android:textSize="25sp"
+                android:text="3 1/2 Apartment"
+                android:textSize="22sp"
                 android:textStyle="bold"
+                android:id="@+id/apartmentName"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/quantum_black_100"
                 />
 
             <ImageView
@@ -69,17 +74,20 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="150dp"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/like"/>
 
         </LinearLayout>
 
             <TextView
+                android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="999$"
-                android:textSize="35sp"
+                android:textSize="25sp"
                 android:textStyle="bold"
+                android:textColor="@color/quantum_black_100"
                 />
 
             <LinearLayout
@@ -95,18 +103,24 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/locationpin"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Address"
+                    android:text="Montreal"
                     android:textSize="25sp"
                     android:textStyle="bold"
+                    android:textColor="#3cb6d3"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/address"
                     />
 
             </LinearLayout>
+
+
 
 
             <com.google.android.material.tabs.TabLayout
@@ -118,13 +132,27 @@
                 app:tabIndicatorColor="@android:color/holo_blue_dark"/>
             <androidx.viewpager.widget.ViewPager
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="750dp"
                 android:id="@+id/viewPager"/>
 
 
 
 
+            <Button
+                android:id="@+id/buyapartment"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="#3cb6d3"
+                android:singleLine="true"
+                android:text="Buy" />
         </LinearLayout>
+
+
     </ScrollView>
 
 

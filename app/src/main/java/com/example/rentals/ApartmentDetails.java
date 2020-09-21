@@ -13,6 +13,8 @@ public class ApartmentDetails extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
 
+    ViewPager imageViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +22,11 @@ public class ApartmentDetails extends AppCompatActivity {
 
         tabLayout=findViewById(R.id.tablayout);
         viewPager=findViewById(R.id.viewPager);
+
+        imageViewPager=findViewById(R.id.imageslider);
+
+        ViewImagePagerAdapter viewImagePagerAdapter=new ViewImagePagerAdapter(this);
+        imageViewPager.setAdapter(viewImagePagerAdapter);
 
         getTabs();
     }
@@ -33,8 +40,8 @@ public class ApartmentDetails extends AppCompatActivity {
 
 
                 viewPagerAdapter.addFragment(overviewFragment.getInstance(),"OVERVIEW");
-                viewPagerAdapter.addFragment(theunitFragment.getInstance(),"THEUNIT");
-                viewPagerAdapter.addFragment(thebuildingFragment.getInstance(),"THEBUILDING");
+                viewPagerAdapter.addFragment(theunitFragment.getInstance(),"THE UNIT");
+                viewPagerAdapter.addFragment(thebuildingFragment.getInstance(),"THE BUILDING");
                 viewPagerAdapter.addFragment(accessibilityfragment.getInstance(),"ACCESSIBILITY");
 
                 viewPager.setAdapter(viewPagerAdapter);
