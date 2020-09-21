@@ -1,11 +1,13 @@
 package com.example.rentals;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -13,12 +15,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -33,6 +38,7 @@ public class Postadd extends AppCompatActivity {
     private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet;
     private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet;
     private Button btn_postad, btn_calender;
+    private ImageView upload;
 
     FirebaseFirestore fstore;
 
@@ -55,6 +61,8 @@ public class Postadd extends AppCompatActivity {
         et_smoke = findViewById(R.id.smoke1);
         et_parking = findViewById(R.id.parking1);
         btn_calender = findViewById(R.id.calender);
+
+        upload = findViewById(R.id.uploadImage);
 
 
         btn_postad = findViewById(R.id.post_ad);
@@ -182,6 +190,14 @@ public class Postadd extends AppCompatActivity {
         });
 
 
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Postadd.this, ImageUpload.class);
+                startActivity(i);
+            }
+        });
+
         btn_postad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -201,6 +217,9 @@ public class Postadd extends AppCompatActivity {
                 String MoveInDate = et_date.getEditText().getText().toString().trim();
                 String SmokePermitted = et_smoke.getEditText().getText().toString().trim();
                 String ParkingIncluded = et_parking.getEditText().getText().toString().trim();
+
+
+
 
 
                /* Log.v("tagvv", " " + Title);
@@ -417,6 +436,23 @@ public class Postadd extends AppCompatActivity {
                         }
                     });
 
+
+                    DocumentReference docRef = fstore.collection("Apartment").document("g1BJ8ohTwN41Ju4Y6efa");
+                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+                                } else {
+                                    Log.d("tagvv", "No such document");
+                                }
+                            } else {
+                                Log.d("tagvv", "get failed with ", task.getException());
+                            }
+                        }
+                    });
 
                 }
 
