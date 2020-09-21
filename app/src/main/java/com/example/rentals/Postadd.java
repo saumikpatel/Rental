@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -26,8 +28,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 
 public class Postadd extends AppCompatActivity {
@@ -35,8 +39,8 @@ public class Postadd extends AppCompatActivity {
 
     private AutoCompleteTextView unit, bedroom, bathroom, pet, smoke, parking;
     private TextInputLayout et_title, et_des, et_amt, et_unit, et_pnum, et_date, et_bath, et_bed, et_pet, et_size, et_smoke, et_parking;
-    private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet;
-    private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet;
+    private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet,rbgym, rbpool, rbconcierge, rbstorage,rbsecurity,rbelevator,rbwheelchair, rblabels ,rbaudio ,rbbicycle;
+    private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet,btn_gym, btn_pool, btn_concierge ,btn_storage, btn_security,btn_elevator,btn_wheelchair,btn_labels,btn_audio,btn_bicycle;
     private Button btn_postad, btn_calender;
     private ImageView upload;
 
@@ -83,6 +87,16 @@ public class Postadd extends AppCompatActivity {
         rbwater = findViewById(R.id.rbwater);
         rbtv = findViewById(R.id.rbtv);
         rbinternet = findViewById(R.id.rbinternet);
+        rbgym = findViewById(R.id.rbgym);
+        rbpool = findViewById(R.id.rbpool);
+        rbconcierge = findViewById(R.id.rbconcierge);
+        rbstorage = findViewById(R.id.rbstorage);
+        rbsecurity = findViewById(R.id.rbsecurity);
+        rbelevator = findViewById(R.id.rbelevator);
+        rbwheelchair = findViewById(R.id.rbwheelchair);
+        rblabels = findViewById(R.id.rblabels);
+        rbaudio = findViewById(R.id.rbaudio);
+        rbbicycle = findViewById(R.id.rbbicycle);
 
 
         unit = findViewById(R.id.unit);
@@ -168,10 +182,23 @@ public class Postadd extends AppCompatActivity {
         parking.setAdapter(adapter6);
 
 
+        Calendar calender = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calender.clear();
+
+        Long today = MaterialDatePicker.todayInUtcMilliseconds();
+
+        calender.setTimeInMillis(today);
+
+        CalendarConstraints.Builder constraint = new CalendarConstraints.Builder();
+        constraint.setValidator(DateValidatorPointForward.now());
+
+
         MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
 
         builder.setTitleText("SELECT A DATE");
+        builder.setCalendarConstraints(constraint.build());
         final MaterialDatePicker materialDatePicker = builder.build();
+        builder.setSelection(today);
 
 
         btn_calender.setOnClickListener(new View.OnClickListener() {
@@ -388,6 +415,66 @@ public class Postadd extends AppCompatActivity {
                     String Internet = btn_internet.getText().toString().trim();
                     Log.v("tagvv", " " + Internet);
 
+                    int selectedId17 = rbgym.getCheckedRadioButtonId();
+                    btn_gym = findViewById(selectedId17);
+                    //Toast.makeText(Postadd.this, btn_gym.getText(), Toast.LENGTH_SHORT).show();
+                    String Gym = btn_gym.getText().toString().trim();
+                    Log.v("tagvv", " " + Gym);
+
+                    int selectedId18 = rbpool.getCheckedRadioButtonId();
+                    btn_pool = findViewById(selectedId18);
+                    //Toast.makeText(Postadd.this, btn_pool.getText(), Toast.LENGTH_SHORT).show();
+                    String Pool = btn_pool.getText().toString().trim();
+                    Log.v("tagvv", " " + Pool);
+
+                    int selectedId19 = rbconcierge.getCheckedRadioButtonId();
+                    btn_concierge = findViewById(selectedId19);
+                    //Toast.makeText(Postadd.this, btn_concierge.getText(), Toast.LENGTH_SHORT).show();
+                    String Concierge = btn_concierge.getText().toString().trim();
+                    Log.v("tagvv", " " + Concierge);
+
+                    int selectedId20 = rbstorage.getCheckedRadioButtonId();
+                    btn_storage = findViewById(selectedId20);
+                    //Toast.makeText(Postadd.this, btn_storage.getText(), Toast.LENGTH_SHORT).show();
+                    String Storage_Space = btn_storage.getText().toString().trim();
+                    Log.v("tagvv", " " + Storage_Space);
+
+                    int selectedId21 = rbsecurity.getCheckedRadioButtonId();
+                    btn_security = findViewById(selectedId21);
+                    //Toast.makeText(Postadd.this, btn_security.getText(), Toast.LENGTH_SHORT).show();
+                    String Security = btn_security.getText().toString().trim();
+                    Log.v("tagvv", " " + Security);
+
+                    int selectedId22 = rbelevator.getCheckedRadioButtonId();
+                    btn_elevator = findViewById(selectedId22);
+                    //Toast.makeText(Postadd.this, btn_elevator.getText(), Toast.LENGTH_SHORT).show();
+                    String Elevator = btn_elevator.getText().toString().trim();
+                    Log.v("tagvv", " " + Elevator);
+
+                    int selectedId23 = rbwheelchair.getCheckedRadioButtonId();
+                    btn_wheelchair = findViewById(selectedId23);
+                    //Toast.makeText(Postadd.this, btn_wheelchair.getText(), Toast.LENGTH_SHORT).show();
+                    String Wheelchair = btn_wheelchair.getText().toString().trim();
+                    Log.v("tagvv", " " + Wheelchair);
+
+                    int selectedId24 = rblabels.getCheckedRadioButtonId();
+                    btn_labels = findViewById(selectedId24);
+                    //Toast.makeText(Postadd.this, btn_labels.getText(), Toast.LENGTH_SHORT).show();
+                    String Barille_Labels = btn_labels.getText().toString().trim();
+                    Log.v("tagvv", " " + Barille_Labels);
+
+                    int selectedId25 = rbaudio.getCheckedRadioButtonId();
+                    btn_audio = findViewById(selectedId25);
+                    //Toast.makeText(Postadd.this, btn_audio.getText(), Toast.LENGTH_SHORT).show();
+                    String Audio = btn_audio.getText().toString().trim();
+                    Log.v("tagvv", " " + Audio);
+
+                    int selectedId26 = rbbicycle.getCheckedRadioButtonId();
+                    btn_bicycle = findViewById(selectedId26);
+                    //Toast.makeText(Postadd.this, btn_bicycle.getText(), Toast.LENGTH_SHORT).show();
+                    String Bicycle = btn_bicycle.getText().toString().trim();
+                    Log.v("tagvv", " " + Bicycle);
+
 
                     Map<String, Object> userMap = new HashMap<>();
                     //  userMap.put("UserID",userid);
@@ -408,17 +495,27 @@ public class Postadd extends AppCompatActivity {
                     userMap.put("Yard", Yard);
                     userMap.put("PetFriendly", PetFriendly);
                     userMap.put("Balcony", Balcony);
+                    userMap.put("Gym", Gym);
+                    userMap.put("Pool", Pool);
+                    userMap.put("Concierge", Concierge);
                     userMap.put("Size", Size);
                     userMap.put("Barrier_free_Entrance_Ramps", Barrier_free_Entrance_Ramps);
                     userMap.put("VisualAids", VisualAids);
                     userMap.put("Accessible_Washrooms_in_suite", Accessible_Washrooms_in_suite);
+                    userMap.put("Storage_Space", Storage_Space);
+                    userMap.put("24_Hour_Security", Security);
                     userMap.put("SmokePermitted", SmokePermitted);
                     userMap.put("Hydro", Hydro);
                     userMap.put("Heat", Heat);
                     userMap.put("Water", Water);
                     userMap.put("Tv", Tv);
                     userMap.put("Internet", Internet);
+                    userMap.put("Elevator", Elevator);
+                    userMap.put("Wheelchair_Accessible", Wheelchair);
+                    userMap.put("Braille_Labels", Barille_Labels);
+                    userMap.put("Audio_Prompts", Audio);
                     userMap.put("ParkingIncluded", ParkingIncluded);
+                    userMap.put("Bicycle_Parking", Bicycle);
 
                     fstore.collection("Apartment").add(userMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
