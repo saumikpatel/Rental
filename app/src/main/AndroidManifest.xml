@@ -13,27 +13,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".ProfileDetails"></activity>
+        <activity android:name=".ApartmentDetails"></activity>
         <activity android:name=".MyAccount" />
         <activity android:name=".SplashScreen" />
+        <activity android:name=".ImageUpload" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".CreateAccount" />
         <activity android:name=".Postadd" />
         <activity android:name=".Contact" />
-        <activity android:name=".ImageUpload" />
         <activity android:name=".Login" />
         <activity android:name=".ForgotPassword" />
-        <activity android:name=".ApartmentDetails" />
-        
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDzkhBJZpa16X7NMsbveeggrcSGfT-IsH0" />
 
         <activity
-
-            android:name=".MainActivity"
-
+            android:name=".wishlistactivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
