@@ -6,47 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".wishlistactivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        android:background="#3cb6d3">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="55dp"
-            android:src="@drawable/logo" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="Rentals"
-            android:textColor="#ffffff"
-            android:textSize="28sp"
-            android:textStyle="bold" />
 
-    </androidx.appcompat.widget.Toolbar>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:text="Favourites"
-                android:textSize="35sp"
-                android:textStyle="bold"
-                android:layout_marginTop="25dp"/>
+
 
             <ImageView
                 android:layout_width="380dp"
@@ -59,7 +29,7 @@
                 android:layout_width="380dp"
                 android:layout_height="150dp"
                 android:orientation="vertical"
-                android:background="#F9EEEC"
+                android:background="#ffffff"
                 android:layout_marginLeft="17dp">
 
                 <LinearLayout
@@ -150,18 +120,14 @@
                     android:textSize="25dp" />
 
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
 
         </LinearLayout>
 
-    </ScrollView>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="?android:attr/windowBackground"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav_menu" />
+
+
 
 </RelativeLayout>

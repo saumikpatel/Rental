@@ -8,7 +8,10 @@ import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -25,7 +28,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -116,16 +121,19 @@ public class ImageUpload extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST_CODE) {
+        if (requestCode ==  CAMERA_PERM_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
-                File f = new File(currentPhotoPath);
-
-                selectedImage.setImageURI(Uri.fromFile(f));
-                Log.d("tag", "ABsolute Url of Image is " + Uri.fromFile(f));
-
-                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                Uri contentUri = Uri.fromFile(f);
+//                File f = new File(currentPhotoPath);
+//
+//                selectedImage.setImageURI(Uri.fromFile(f));
+//                Log.d("tag", "ABsolute Url of Image is " + Uri.fromFile(f));
+//
+//                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//                Uri contentUri = Uri.fromFile(f);
+                Bundle extras = data.getExtras();;
+                Bitmap img = (Bitmap)extras.get("data");
+                selectedImage.setImageBitmap(img);
 
 
             }
@@ -135,21 +143,44 @@ public class ImageUpload extends AppCompatActivity {
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
+
                 ClipData clipdata = data.getClipData();
-
                 if (clipdata != null) {
-                    selectedImage.setImageURI(clipdata.getItemAt(0).getUri());
-                    selectedImage1.setImageURI(clipdata.getItemAt(1).getUri());
-                    selectedImage2.setImageURI(clipdata.getItemAt(2).getUri());
-                    selectedImage3.setImageURI(clipdata.getItemAt(3).getUri());
-
-                    for (int i = 0; i < clipdata.getItemCount(); i++) {
-                        ClipData.Item item = clipdata.getItemAt(i);
-                        Uri contentUri = item.getUri();
-                    }
-
-
+                    Uri selectedImageuri = clipdata.getItemAt(0).getUri();
+//                    Bitmap bitmap = null;
+//                    //        Uri selectedImage1 = data.getData();
+//                    try {
+//                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageuri);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+                    selectedImage.setImageURI(selectedImageuri);
                 }
+                else{
+                    InputStream ist = null;
+                    try {
+                        ist = this.getContentResolver()
+                                .openInputStream(data.getData());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Bitmap bitmap = BitmapFactory.decodeStream(ist);
+                    selectedImage.setImageBitmap(bitmap);
+                }
+
+//                if (clipdata != null) {
+//                    selectedImage.setImageURI(clipdata.getItemAt(0).getUri());
+//                    selectedImage1.setImageURI(clipdata.getItemAt(1).getUri());
+//                    selectedImage2.setImageURI(clipdata.getItemAt(2).getUri());
+//                    selectedImage3.setImageURI(clipdata.getItemAt(3).getUri());
+//
+//                    for (int i = 0; i < clipdata.getItemCount(); i++) {
+//                        ClipData.Item item = clipdata.getItemAt(i);
+//                        Uri contentUri = item.getUri();
+//                    }
+//
+//
+//                }
 
 
             }
