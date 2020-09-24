@@ -57,8 +57,8 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="5dp"
-                android:hint="Title"
                 android:focusableInTouchMode="true"
+                android:hint="Title"
                 app:counterEnabled="true"
                 app:counterMaxLength="64">
 

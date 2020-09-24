@@ -39,8 +39,8 @@ public class Postadd extends AppCompatActivity {
 
     private AutoCompleteTextView unit, bedroom, bathroom, pet, smoke, parking;
     private TextInputLayout et_title, et_des, et_amt, et_unit, et_pnum, et_date, et_bath, et_bed, et_pet, et_size, et_smoke, et_parking;
-    private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet,rbgym, rbpool, rbconcierge, rbstorage,rbsecurity,rbelevator,rbwheelchair, rblabels ,rbaudio ,rbbicycle;
-    private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet,btn_gym, btn_pool, btn_concierge ,btn_storage, btn_security,btn_elevator,btn_wheelchair,btn_labels,btn_audio,btn_bicycle;
+    private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
+    private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet, btn_gym, btn_pool, btn_concierge, btn_storage, btn_security, btn_elevator, btn_wheelchair, btn_labels, btn_audio, btn_bicycle;
     private Button btn_postad, btn_calender;
     private ImageView upload;
 
@@ -541,6 +541,7 @@ public class Postadd extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
+                                    //String nu = a.substring(a.indexOf("number=") + 7, a.indexOf(", name="));
                                     Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                                 } else {
                                     Log.d("tagvv", "No such document");
@@ -553,27 +554,6 @@ public class Postadd extends AppCompatActivity {
 
                 }
 
-
-
-              /*      if (ag.isEmpty()) {
-                    Toast.makeText(dataActivity.this, "Please enter Age ", Toast.LENGTH_LONG).show();
-                } else if (ag.matches(".*[a-zA-Z]+.*")) {
-                    Toast.makeText(dataActivity.this, "Please Enter Age in Digit", Toast.LENGTH_LONG).show();
-                } else if (num.isEmpty()) {
-                    Toast.makeText(dataActivity.this, "Please Enter Your Phone Number", Toast.LENGTH_LONG).show();
-                } else if (num.length() < 10 || num.length() > 12) {
-                    Toast.makeText(dataActivity.this, "Please enter 10 to 12 digit Phone number", Toast.LENGTH_LONG).show();
-                    Log.v("tagv", "" + num.length());
-                } else if (num.matches(".*[a-zA-Z]+.*")) {
-                    Toast.makeText(dataActivity.this, "Please enter proper phone number", Toast.LENGTH_LONG).show();
-                } else if (coun.isEmpty()) {
-                    Toast.makeText(dataActivity.this, "Please enter your Country", Toast.LENGTH_LONG).show();
-                } else if (coun.contains("0") || coun.contains("1") || coun.contains("2") || coun.contains("3") || coun.contains("4") || coun.contains("5") || coun.contains("6") || coun.contains("7") || coun.contains("8") || coun.contains("9")) {
-                    Toast.makeText(dataActivity.this, "Please enter your Country , Not digit!!", Toast.LENGTH_LONG).show();
-                } else {
-*/
-
-                //  if (!fyes.isChecked() && !fno.isChecked()) {
 
             }
         });
