@@ -41,6 +41,7 @@ public class ImageUpload extends AppCompatActivity {
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int GALLERY_REQUEST_CODE = 105;
     ImageView selectedImage, selectedImage1, selectedImage2, selectedImage3;
+    ImageView[] image;
     String currentPhotoPath;
     private int requestCode;
     private int resultCode;
@@ -57,7 +58,7 @@ public class ImageUpload extends AppCompatActivity {
         selectedImage1 = findViewById(R.id.uploadImage2);
         selectedImage2 = findViewById(R.id.uploadImage3);
         selectedImage3 = findViewById(R.id.uploadImage4);
-
+        image= new ImageView[]{selectedImage, selectedImage1, selectedImage2, selectedImage3};
         //storageReference = FirebaseStorage.getInstance().getReference();
 
         selectedImage.setOnClickListener(new View.OnClickListener() {
@@ -146,17 +147,14 @@ public class ImageUpload extends AppCompatActivity {
 
                 ClipData clipdata = data.getClipData();
                 if (clipdata != null) {
-                    Uri selectedImageuri = clipdata.getItemAt(0).getUri();
-//                    Bitmap bitmap = null;
-//                    //        Uri selectedImage1 = data.getData();
-//                    try {
-//                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageuri);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-                    selectedImage.setImageURI(selectedImageuri);
-                }
-                else{
+                    // Uri selectedImageuri = clipdata.getItemAt(0).getUri();
+                    Toast.makeText(this, ""+clipdata.getItemCount(), Toast.LENGTH_SHORT).show();
+                    for (int i = 0; i < clipdata.getItemCount(); i++) {
+                        ClipData.Item item = clipdata.getItemAt(i);
+                        Uri contentUri = item.getUri();
+                        image[i].setImageURI(contentUri);
+                    }
+                } else {
                     InputStream ist = null;
                     try {
                         ist = this.getContentResolver()
@@ -167,6 +165,7 @@ public class ImageUpload extends AppCompatActivity {
                     Bitmap bitmap = BitmapFactory.decodeStream(ist);
                     selectedImage.setImageBitmap(bitmap);
                 }
+            }
 
 //                if (clipdata != null) {
 //                    selectedImage.setImageURI(clipdata.getItemAt(0).getUri());
@@ -174,10 +173,7 @@ public class ImageUpload extends AppCompatActivity {
 //                    selectedImage2.setImageURI(clipdata.getItemAt(2).getUri());
 //                    selectedImage3.setImageURI(clipdata.getItemAt(3).getUri());
 //
-//                    for (int i = 0; i < clipdata.getItemCount(); i++) {
-//                        ClipData.Item item = clipdata.getItemAt(i);
-//                        Uri contentUri = item.getUri();
-//                    }
+
 //
 //
 //                }
@@ -188,7 +184,7 @@ public class ImageUpload extends AppCompatActivity {
         }
 
 
-    }
+
 
 
     private String getFileExt(Uri contentUri) {
