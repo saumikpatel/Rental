@@ -1,4 +1,4 @@
-package com.example.rentals;
+package com.example.rentals.Activity;
 
 
 import android.os.Bundle;
@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.rentals.Fragments.ProfileFragment;
+import com.example.rentals.Fragments.WishlistFragment;
+import com.example.rentals.Fragments.MapFragment;
+import com.example.rentals.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.nav_view);
-        auth=FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         final FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().add(R.id.frame, profile, "3").hide(profile).commit();
@@ -54,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
                     fm.beginTransaction().hide(active).show(profile).commit();
                     active = profile;
                 }
-
                 return true;
             }
         });

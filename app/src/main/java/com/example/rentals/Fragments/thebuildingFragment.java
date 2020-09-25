@@ -1,4 +1,4 @@
-package com.example.rentals;
+package com.example.rentals.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,11 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class accessibilityfragment extends Fragment {
+import com.example.rentals.R;
 
-    public static accessibilityfragment getInstance(){
-        accessibilityfragment AccessibilityFragment = new accessibilityfragment();
-        return AccessibilityFragment;
+public class thebuildingFragment extends Fragment {
+
+    public static thebuildingFragment getInstance(){
+        thebuildingFragment ThebuildingFragment = new thebuildingFragment();
+        return ThebuildingFragment;
     }
 
 
@@ -27,7 +29,7 @@ public class accessibilityfragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.row_accessibility,container,false);
+        View view = inflater.inflate(R.layout.row_thebuilding,container,false);
 
         return view;
 

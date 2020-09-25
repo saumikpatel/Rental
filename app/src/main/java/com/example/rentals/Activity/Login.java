@@ -1,16 +1,17 @@
-package com.example.rentals;
+package com.example.rentals.Activity;
 
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.rentals.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity {
     public TextInputLayout Email, Password;
     Button create, login, forgot;
+    ProgressDialog pd;
     private FirebaseAuth auth;
     private FirebaseUser curUser;
 
@@ -47,15 +49,18 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Please Fill The Form", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                pd = new ProgressDialog(Login.this);
+                pd.setMessage("Loading...");
+                pd.show();
                 auth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             curUser = auth.getCurrentUser();
                             Toast.makeText(getApplicationContext(), "Login Success!", Toast.LENGTH_LONG).show();
-
                             Intent i = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(i);
+                            pd.dismiss();
                         } else {
                             try {
                                 throw task.getException();
@@ -65,6 +70,7 @@ public class Login extends AppCompatActivity {
                                 Password.getEditText().getText().clear();
                                 Email.setError("Email not exist!");
                                 Email.requestFocus();
+                                pd.dismiss();
                                 return;
                             } catch (FirebaseAuthInvalidCredentialsException e) {
 
@@ -73,9 +79,11 @@ public class Login extends AppCompatActivity {
                                 Password.getEditText().getText().clear();
 
                                 Email.requestFocus();
+                                pd.dismiss();
                                 return;
                             } catch (Exception e) {
                                 Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_LONG).show();
+                                pd.dismiss();
                             }
                         }
 
@@ -103,7 +111,7 @@ public class Login extends AppCompatActivity {
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),ForgotPassword.class );
+                Intent i = new Intent(getApplicationContext(), ForgotPassword.class);
                 startActivity(i);
 
             }

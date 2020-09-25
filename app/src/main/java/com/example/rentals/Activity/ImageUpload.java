@@ -1,5 +1,4 @@
-package com.example.rentals;
-
+package com.example.rentals.Activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,21 +10,20 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Binder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.example.rentals.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,15 +56,13 @@ public class ImageUpload extends AppCompatActivity {
         selectedImage1 = findViewById(R.id.uploadImage2);
         selectedImage2 = findViewById(R.id.uploadImage3);
         selectedImage3 = findViewById(R.id.uploadImage4);
-        image= new ImageView[]{selectedImage, selectedImage1, selectedImage2, selectedImage3};
+        image = new ImageView[]{selectedImage, selectedImage1, selectedImage2, selectedImage3};
         //storageReference = FirebaseStorage.getInstance().getReference();
 
         selectedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImage();
-
-
             }
         });
 
@@ -122,33 +118,18 @@ public class ImageUpload extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode ==  CAMERA_PERM_CODE) {
+        if (requestCode == CAMERA_PERM_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-
-//                File f = new File(currentPhotoPath);
-//
-//                selectedImage.setImageURI(Uri.fromFile(f));
-//                Log.d("tag", "ABsolute Url of Image is " + Uri.fromFile(f));
-//
-//                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//                Uri contentUri = Uri.fromFile(f);
-                Bundle extras = data.getExtras();;
-                Bitmap img = (Bitmap)extras.get("data");
+                Bundle extras = data.getExtras();
+                Bitmap img = (Bitmap) extras.get("data");
                 selectedImage.setImageBitmap(img);
-
-
             }
-
         }
-
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-
-
                 ClipData clipdata = data.getClipData();
                 if (clipdata != null) {
-                    // Uri selectedImageuri = clipdata.getItemAt(0).getUri();
-                    Toast.makeText(this, ""+clipdata.getItemCount(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + clipdata.getItemCount(), Toast.LENGTH_SHORT).show();
                     for (int i = 0; i < clipdata.getItemCount(); i++) {
                         ClipData.Item item = clipdata.getItemAt(i);
                         Uri contentUri = item.getUri();
@@ -166,33 +147,14 @@ public class ImageUpload extends AppCompatActivity {
                     selectedImage.setImageBitmap(bitmap);
                 }
             }
-
-//                if (clipdata != null) {
-//                    selectedImage.setImageURI(clipdata.getItemAt(0).getUri());
-//                    selectedImage1.setImageURI(clipdata.getItemAt(1).getUri());
-//                    selectedImage2.setImageURI(clipdata.getItemAt(2).getUri());
-//                    selectedImage3.setImageURI(clipdata.getItemAt(3).getUri());
-//
-
-//
-//
-//                }
-
-
-            }
-
         }
-
-
-
-
+    }
 
     private String getFileExt(Uri contentUri) {
         ContentResolver c = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(c.getType(contentUri));
     }
-
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -214,7 +176,6 @@ public class ImageUpload extends AppCompatActivity {
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         startActivityForResult(takePictureIntent, CAMERA_PERM_CODE);
     }
 

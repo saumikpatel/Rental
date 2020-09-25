@@ -1,22 +1,25 @@
-package com.example.rentals;
+package com.example.rentals.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.rentals.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -30,6 +33,7 @@ public class CreateAccount extends AppCompatActivity {
     TextInputLayout create_name, create_phone, create_email, create_password, create_confirmPassword;
     Button create_btn, login_btn;
     private FirebaseAuth mFirebaseAuth;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class CreateAccount extends AppCompatActivity {
         create_confirmPassword = findViewById(R.id.create_confirmPassword);
         create_btn = findViewById(R.id.create_btn);
         login_btn = findViewById(R.id.login_btn);
+
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         create_btn.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +82,9 @@ public class CreateAccount extends AppCompatActivity {
                     Toast.makeText(CreateAccount.this, "Please enter valid email", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                pd = new ProgressDialog(CreateAccount.this);
+                pd.setMessage("Loading...");
+                pd.show();
                 final Map<String,Object> usermap=new HashMap<>();
                 usermap.put("Name",Name);
                 usermap.put("Phone",Phone);
@@ -96,6 +104,7 @@ public class CreateAccount extends AppCompatActivity {
                                         Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(i);
                                         finish();
+                                        pd.dismiss();
                                     }
                                 }
                             });
@@ -104,13 +113,32 @@ public class CreateAccount extends AppCompatActivity {
 
 
                         else {
+                            try{
+                                throw task.getException();
+                            } catch (FirebaseAuthUserCollisionException e){
+                                Toast.makeText(CreateAccount.this, "Email id already Exist", Toast.LENGTH_SHORT).show();
+
+                            }
+                            catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             Toast.makeText(CreateAccount.this, "SignUp Unsuccessful, Please Try Again", Toast.LENGTH_SHORT).show();
+                            pd.dismiss();
 
                         }
                     }
                 });
 
 
+
+            }
+        });
+        login_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), Login.class);
+                startActivity(i);
+                finish();
 
             }
         });

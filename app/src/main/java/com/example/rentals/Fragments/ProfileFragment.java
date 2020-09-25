@@ -1,15 +1,18 @@
-package com.example.rentals;
+package com.example.rentals.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.example.rentals.Activity.CreateAccount;
+import com.example.rentals.Activity.Login;
+import com.example.rentals.R;
 
 /**
  * A simple {@link Fragment} subclass.

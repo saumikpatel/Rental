@@ -1,10 +1,12 @@
-package com.example.rentals;
+package com.example.rentals.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.example.rentals.R;
 
 public class SplashScreen extends AppCompatActivity {
     Handler handler;

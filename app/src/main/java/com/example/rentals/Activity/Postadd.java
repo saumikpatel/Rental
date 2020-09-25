@@ -1,5 +1,6 @@
-package com.example.rentals;
+package com.example.rentals.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.rentals.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -170,7 +172,6 @@ public class Postadd extends AppCompatActivity {
 
         /* -------*/
 
-
         String[] parkings = new String[]{"0", "1", "2", "3+"};
 
         ArrayAdapter<String> adapter6 = new ArrayAdapter<>(
@@ -265,60 +266,87 @@ public class Postadd extends AppCompatActivity {
 
                 if (Title.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please Enter Title", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (Title.length() > 65) {
                     Toast.makeText(Postadd.this, "Title should be 64 letters in length", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (Description.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please Enter Description", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (Description.length() > 10000) {
                     Toast.makeText(Postadd.this, "Title should be 100000 letters in length", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (Amount.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please enter Amount ", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (Amount.matches(".*[a-zA-Z]+.*")) {
                     Toast.makeText(Postadd.this, "Please Enter Amount in Digit", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (Unit.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please select Unit", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (!(Unit.equals("Apartment") || Unit.equals("Room") || Unit.equals("House") || Unit.equals("Condo"))) {
                     Toast.makeText(Postadd.this, "Please Select Unit from DropDown", Toast.LENGTH_LONG).show();
                     et_unit.getEditText().getText().clear();
+                    return;
                 } else if (PhoneNumber.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please enter PhoneNumber ", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (PhoneNumber.matches(".*[a-zA-Z]+.*")) {
                     Toast.makeText(Postadd.this, "Please Enter PhoneNumber in Digit", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (PhoneNumber.length() < 10 || PhoneNumber.length() > 12) {
                     Toast.makeText(Postadd.this, "Please enter 10 to 12 digit PhoneNumber", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (MoveInDate.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please enter MoveInDate ", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (Bathroom.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please select Bathroom", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (!(Bathroom.equals("1") || Bathroom.equals("1.5") || Bathroom.equals("2") || Bathroom.equals("2.5") || Bathroom.equals("3") || Bathroom.equals("3.5") || Bathroom.equals("4") || Bathroom.equals("4.5") || Bathroom.equals("5") || Bathroom.equals("5.5") || Bathroom.equals("6"))) {
                     Toast.makeText(Postadd.this, "Please Select Bathroom from DropDown", Toast.LENGTH_LONG).show();
                     et_bath.getEditText().getText().clear();
+                    return;
                 } else if (Bedroom.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please select Bedroom", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (!(Bedroom.equals("Studio") || Bedroom.equals("1") || Bedroom.equals("1 + Den") || Bedroom.equals("2") || Bedroom.equals("2 + Den") || Bedroom.equals("3") || Bedroom.equals("3 + Den") || Bedroom.equals("4") || Bedroom.equals("4 + Den") || Bedroom.equals("5+"))) {
                     Toast.makeText(Postadd.this, "Please Select Bedroom from DropDown", Toast.LENGTH_LONG).show();
                     et_bed.getEditText().getText().clear();
+                    return;
                 } else if (PetFriendly.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please select Pet Friendly", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (!(PetFriendly.equals("Yes") || PetFriendly.equals("No") || PetFriendly.equals("Limited"))) {
                     Toast.makeText(Postadd.this, "Please Select Pet Friendly from DropDown", Toast.LENGTH_LONG).show();
                     et_pet.getEditText().getText().clear();
+                    return;
                 } else if (Size.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please enter Size ", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (Size.matches(".*[a-zA-Z]+.*")) {
                     Toast.makeText(Postadd.this, "Please Enter Size in Digit", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (SmokePermitted.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please select Smoke Permitted", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (!(SmokePermitted.equals("Yes") || SmokePermitted.equals("No") || SmokePermitted.equals("Outdoors only"))) {
                     Toast.makeText(Postadd.this, "Please Select Smoke Permitted from DropDown", Toast.LENGTH_LONG).show();
                     et_smoke.getEditText().getText().clear();
+                    return;
                 } else if (ParkingIncluded.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please select Parking Included", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (!(ParkingIncluded.equals("0") || ParkingIncluded.equals("1") || ParkingIncluded.equals("2") || ParkingIncluded.equals("3+"))) {
                     Toast.makeText(Postadd.this, "Please Select Parking Included from DropDown", Toast.LENGTH_LONG).show();
                     et_parking.getEditText().getText().clear();
+                    return;
                 } else {
-
+                    final ProgressDialog pd;
+                    pd = new ProgressDialog(Postadd.this);
+                    pd.setMessage("Loading...");
+                    pd.show();
                     int selectedId1 = rbfurnished.getCheckedRadioButtonId();
                     btn_furnished = findViewById(selectedId1);
                     //Toast.makeText(Postadd.this, btn_furnished.getText(), Toast.LENGTH_SHORT).show();
@@ -521,6 +549,7 @@ public class Postadd extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             Toast.makeText(Postadd.this, " Data Added in DB ", Toast.LENGTH_SHORT).show();
+                            pd.dismiss();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {

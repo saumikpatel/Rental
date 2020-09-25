@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/mapFragment"
-        android:name="com.example.rentals.MapFragment"
+        android:name="com.example.rentals.Fragments.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
     <fragment
         android:id="@+id/wishlistFragment"
-        android:name="com.example.rentals.WishlistFragment"
+        android:name="com.example.rentals.Fragments.WishlistFragment"
         android:label="fragment_wishlist"
         tools:layout="@layout/fragment_wishlist" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.rentals.ProfileFragment"
+        android:name="com.example.rentals.Fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

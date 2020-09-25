@@ -1,4 +1,4 @@
-package com.example.rentals;
+package com.example.rentals.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -6,6 +6,13 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.rentals.Fragments.accessibilityfragment;
+import com.example.rentals.Fragments.overviewFragment;
+import com.example.rentals.Fragments.thebuildingFragment;
+import com.example.rentals.Fragments.theunitFragment;
+import com.example.rentals.R;
+import com.example.rentals.Adapters.ViewImagePagerAdapter;
+import com.example.rentals.Adapters.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class ApartmentDetails extends AppCompatActivity {
