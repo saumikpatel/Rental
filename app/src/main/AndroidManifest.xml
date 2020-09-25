@@ -23,16 +23,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".Activity.ApartmentDetails"></activity>
         <activity android:name=".Activity.MyAccount" />
         <activity android:name=".Activity.SplashScreen" />
 
 
+
+
+        <activity android:name=".Activity.ApartmentDetails"></activity>
+        <activity android:name=".Activity.MyAccount" />
+        <activity android:name=".Activity.SplashScreen" />
+
         <activity android:name=".Activity.ImageUpload" />
         <activity android:name=".Activity.wishlistactivity" />
         <activity android:name=".Activity.CreateAccount" />
         <activity android:name=".Activity.Postadd" />
-        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.Contact" />
+
         <activity android:name=".Activity.Login" />
         <activity android:name=".Activity.ForgotPassword" />
 
@@ -42,7 +50,10 @@
 
         <activity
             android:name=".Activity.Contact"
-            android:grantUriPermissions="true">
+
+            android:name=".Activity.MainActivity"
+
+        android:grantUriPermissions="true">
 
 
             <intent-filter>
