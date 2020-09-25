@@ -1,22 +1,22 @@
-package com.example.rentals;
+package com.example.rentals.Fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,19 +25,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import android.os.Looper;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
-
+import com.example.rentals.R;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.common.util.MapUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -49,18 +38,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
@@ -73,6 +55,7 @@ import java.util.List;
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     GoogleMap mGoogleMap;
     SupportMapFragment mapFrag;
     LocationRequest mLocationRequest;
@@ -80,6 +63,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
     boolean boundary = false;
+    LocationCallback mLocationCallback = new LocationCallback() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            List<Location> locationList = locationResult.getLocations();
+            if (locationList.size() > 0) {
+                //The last location in the list is the newest
+                Location location = locationList.get(locationList.size() - 1);
+                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+                mLastLocation = location;
+                if (mCurrLocationMarker != null) {
+                    mCurrLocationMarker.remove();
+                }
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+                putmarker(latLng);
+
+            }
+        }
+    };
 
 
     public MapFragment() {
@@ -91,7 +94,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -180,7 +182,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-
     private void putapartment(LatLng address) {
 
     }
@@ -230,29 +231,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
     }
-
-    LocationCallback mLocationCallback = new LocationCallback() {
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            List<Location> locationList = locationResult.getLocations();
-            if (locationList.size() > 0) {
-                //The last location in the list is the newest
-                Location location = locationList.get(locationList.size() - 1);
-                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
-                mLastLocation = location;
-                if (mCurrLocationMarker != null) {
-                    mCurrLocationMarker.remove();
-                }
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-                putmarker(latLng);
-
-            }
-        }
-    };
-
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -330,8 +308,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         markerOptions.alpha(0.8f);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
         mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-
-        //move map camera
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
     }
 }

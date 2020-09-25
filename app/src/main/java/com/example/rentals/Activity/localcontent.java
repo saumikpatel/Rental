@@ -1,9 +1,11 @@
-package com.example.rentals;
+package com.example.rentals.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.webkit.WebView;
+
+import com.example.rentals.R;
 
 public class localcontent extends AppCompatActivity {
 

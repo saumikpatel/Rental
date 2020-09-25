@@ -1,4 +1,4 @@
-package com.example.rentals;
+package com.example.rentals.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

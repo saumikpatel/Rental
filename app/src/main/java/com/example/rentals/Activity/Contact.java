@@ -1,4 +1,4 @@
-package com.example.rentals;
+package com.example.rentals.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.rentals.R;
 
 public class Contact extends AppCompatActivity {
     //EditText Username = (EditText) findViewById(R.id.txtname);

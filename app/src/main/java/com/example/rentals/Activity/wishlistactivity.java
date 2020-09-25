@@ -1,8 +1,10 @@
-package com.example.rentals;
+package com.example.rentals.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.rentals.R;
 
 public class wishlistactivity extends AppCompatActivity {
 
