@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,7 +27,7 @@ import java.util.regex.Pattern;
 
 public class CreateAccount extends AppCompatActivity {
 
-    EditText create_name, create_phone, create_email, create_password, create_confirmPassword;
+    TextInputLayout create_name, create_phone, create_email, create_password, create_confirmPassword;
     Button create_btn, login_btn;
     private FirebaseAuth mFirebaseAuth;
 
@@ -48,25 +49,23 @@ public class CreateAccount extends AppCompatActivity {
         create_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(i);
-                finish();
-                String Name = create_name.getText().toString();
-                String Phone = create_phone.getText().toString();
-                String Email = create_email.getText().toString();
-                String Password = create_password.getText().toString();
-                String ConfirmPassword = create_confirmPassword.getText().toString();
+
+                String Name = create_name.getEditText().getText().toString();
+                String Phone = create_phone.getEditText().getText().toString();
+                String Email = create_email.getEditText().getText().toString();
+                String Password = create_password.getEditText().getText().toString();
+                String ConfirmPassword = create_confirmPassword.getEditText().getText().toString();
                 if (Name.isEmpty() || Phone.isEmpty() || Email.isEmpty() || Password.isEmpty() || ConfirmPassword.isEmpty()) {
                     Toast.makeText(CreateAccount.this, "Please Fill The Form", Toast.LENGTH_SHORT).show();
-
                     return;
 
                 }
                 if (Password.length() < 6) {
+
                     Toast.makeText(CreateAccount.this, "Password should be 6 characters or long", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (Phone.length() < 10) {
+                if ((Phone.length() < 10) ||(Phone.length()>10)){
                     Toast.makeText(CreateAccount.this, "Please Enter Valid Mobile Number", Toast.LENGTH_SHORT).show();
                     return;
                 }

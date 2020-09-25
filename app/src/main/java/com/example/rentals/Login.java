@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -20,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
-    public EditText Email, Password;
+    public TextInputLayout Email, Password;
     Button create, login, forgot;
     private FirebaseAuth auth;
     private FirebaseUser curUser;
@@ -40,8 +41,8 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = Email.getText().toString();
-                String pwd = Password.getText().toString();
+                String email = Email.getEditText().getText().toString();
+                String pwd = Password.getEditText().getText().toString();
                 if (email.isEmpty() || pwd.isEmpty()) {
                     Toast.makeText(Login.this, "Please Fill The Form", Toast.LENGTH_SHORT).show();
                     return;
@@ -60,18 +61,18 @@ public class Login extends AppCompatActivity {
                                 throw task.getException();
                             } catch (FirebaseAuthInvalidUserException e) {
                                 Toast.makeText(getApplicationContext(), "Email not exist!", Toast.LENGTH_LONG).show();
-                                Email.getText().clear();
-                                Password.getText().clear();
+                                Email.getEditText().getText().clear();
+                                Password.getEditText().getText().clear();
                                 Email.setError("Email not exist!");
                                 Email.requestFocus();
                                 return;
                             } catch (FirebaseAuthInvalidCredentialsException e) {
 
 
-                                Toast.makeText(getApplicationContext(), "Wrong Password!", Toast.LENGTH_LONG).show();
-                                Password.getText().clear();
-                                Password.setError("Wrong Password!");
-                                Password.requestFocus();
+                                Toast.makeText(getApplicationContext(), "Wrong Credential!", Toast.LENGTH_LONG).show();
+                                Password.getEditText().getText().clear();
+
+                                Email.requestFocus();
                                 return;
                             } catch (Exception e) {
                                 Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_LONG).show();
