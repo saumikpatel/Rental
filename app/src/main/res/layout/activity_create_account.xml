@@ -37,7 +37,7 @@
         app:srcCompat="@drawable/logo" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TextField2"
+        android:id="@+id/create_name"
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TextField3"
+        android:id="@+id/create_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -71,7 +71,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TextField4"
+        android:id="@+id/create_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
@@ -88,7 +88,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TextField5"
+        android:id="@+id/create_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -105,7 +105,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TextField6"
+        android:id="@+id/create_confirmPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -123,7 +123,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/containedButton"
+        android:id="@+id/create_btn"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
         android:layout_height="42dp"
@@ -137,10 +137,10 @@
         android:text="Create Account" />
 
     <Button
-        android:id="@+id/create"
+        android:id="@+id/login_btn"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
-        android:layout_height="49dp"
+        android:layout_height="48dp"
         android:layout_gravity="center"
         android:layout_marginTop="7dp"
         android:text="Login"

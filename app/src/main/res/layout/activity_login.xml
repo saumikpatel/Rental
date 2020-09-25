@@ -42,7 +42,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textField4"
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -80,7 +80,7 @@
              />
 
         <Button
-            android:id="@+id/containedButton"
+            android:id="@+id/login"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
