@@ -26,6 +26,8 @@ import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,6 +49,7 @@ public class Postadd extends AppCompatActivity {
     private ImageView upload;
 
     FirebaseFirestore fstore;
+    FirebaseAuth auth;
 
 
     @Override
@@ -504,8 +507,13 @@ public class Postadd extends AppCompatActivity {
                     Log.v("tagvv", " " + Bicycle);
 
 
+                    auth = FirebaseAuth.getInstance();
+                    FirebaseUser firebaseUser = auth.getCurrentUser();
+                    String uid = firebaseUser.getUid();
+                    Log.v("tagvv", " " + uid);
+
                     Map<String, Object> userMap = new HashMap<>();
-                    //  userMap.put("UserID",userid);
+                    userMap.put("UserID",uid);
                     userMap.put("Title", Title);
                     userMap.put("Description", Description);
                     userMap.put("Amount", Amount);
