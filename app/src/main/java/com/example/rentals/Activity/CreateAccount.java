@@ -133,15 +133,15 @@ public class CreateAccount extends AppCompatActivity {
 
             }
         });
-        login_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), Login.class);
-                startActivity(i);
-                finish();
-
-            }
-        });
+//        login_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(getApplicationContext(), Login.class);
+//                startActivity(i);
+//                finish();
+//
+//            }
+//        });
 
 
             }
