@@ -25,7 +25,6 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".Activity.ApartmentDetails"></activity>
-        <activity android:name=".Activity.MyAccount" />
         <activity android:name=".Activity.SplashScreen" />
 
         <activity android:name=".Activity.ProfileDetails"/>
