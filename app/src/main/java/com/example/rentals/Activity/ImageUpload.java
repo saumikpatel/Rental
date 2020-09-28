@@ -79,11 +79,13 @@ public class ImageUpload extends AppCompatActivity {
                 if (options[item].equals("Take Photo")) {
                     askCameraPermissions();
                 } else if (options[item].equals("Choose from Gallery")) {
+
                     Intent gallery = new Intent();
                     gallery.setType("image/*");
                     //  gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                     gallery.setAction(Intent.ACTION_GET_CONTENT);
+
                     startActivityForResult(Intent.createChooser(gallery, ""), GALLERY_REQUEST_CODE);
                 } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -172,7 +174,6 @@ public class ImageUpload extends AppCompatActivity {
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
-
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

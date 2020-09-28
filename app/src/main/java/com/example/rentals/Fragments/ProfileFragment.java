@@ -1,18 +1,33 @@
 package com.example.rentals.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.rentals.Activity.CreateAccount;
-import com.example.rentals.Activity.Login;
+import com.example.rentals.Activity.ForgotPassword;
+import com.example.rentals.Activity.MainActivity;
 import com.example.rentals.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,10 +36,11 @@ import com.example.rentals.R;
  */
 public class ProfileFragment extends Fragment {
 
-    Button btnLogin;
-    Button btnCreate;
-
-    // TODO: Rename parameter arguments, choose names that match
+    public TextInputLayout Email, Password;
+    Button create, login, forgot;
+    ProgressDialog pd;
+    private FirebaseAuth auth;
+    private FirebaseUser curUser;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -70,25 +86,101 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_profile, container, false);
 
-        btnLogin = v.findViewById(R.id.btnLogin);
-        btnCreate = v.findViewById(R.id.btnCreate);
+        auth = FirebaseAuth.getInstance();
+        Email = v.findViewById(R.id.email);
+        Password = v.findViewById(R.id.password);
+        create = v.findViewById(R.id.create);
+        login = v.findViewById(R.id.login);
+        forgot = v.findViewById(R.id.forgotpass);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getActivity(), Login.class);
-                startActivity(in);
+                Log.v("tagvv", " hello"  );
+                String email = Email.getEditText().getText().toString();
+                String pwd = Password.getEditText().getText().toString();
+                System.out.println(email+""+pwd);
+                if (email.isEmpty() || pwd.isEmpty()) {
+                    Toast.makeText(getActivity(), "Please Fill The Form", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                pd = new ProgressDialog(getActivity());
+                pd.setMessage("Loading...");
+                pd.show();
+                auth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            curUser = auth.getCurrentUser();
+                            Toast.makeText(getActivity().getApplicationContext(), "Login Success!", Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(getActivity(), MainActivity.class);
+                            startActivity(i);
+
+//                            Fragment fragment = new MapFragment();
+//                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                            fragmentTransaction.replace(R.id.profileFragment, fragment);
+//                            fragmentTransaction.addToBackStack(null);
+//                            fragmentTransaction.commit();
+//                            pd.dismiss();
+                        } else {
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthInvalidUserException e) {
+                                Toast.makeText(getActivity().getApplicationContext(), "Email not exist!", Toast.LENGTH_LONG).show();
+                                Email.getEditText().getText().clear();
+                                Password.getEditText().getText().clear();
+                                Email.setError("Email not exist!");
+                                Email.requestFocus();
+                                pd.dismiss();
+                                return;
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+
+
+                                Toast.makeText(getActivity().getApplicationContext(), "Wrong Credential!", Toast.LENGTH_LONG).show();
+                                Password.getEditText().getText().clear();
+
+                                Email.requestFocus();
+                                pd.dismiss();
+                                return;
+                            } catch (Exception e) {
+                                Toast.makeText(getActivity().getApplicationContext(), "Login Failed!", Toast.LENGTH_LONG).show();
+                                pd.dismiss();
+                            }
+                        }
+
+
+                    }
+                });
+
 
             }
         });
 
-        btnCreate.setOnClickListener(new View.OnClickListener() {
+        /**
+         *  go to Create ACC activity
+         */
+
+
+        create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getActivity(), CreateAccount.class);
-                startActivity(in);
+                Intent i = new Intent(getActivity().getApplicationContext(), CreateAccount.class);
+                startActivity(i);
+
             }
         });
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity().getApplicationContext(), ForgotPassword.class);
+                startActivity(i);
+
+            }
+        });
+
+
         return v;
     }
 

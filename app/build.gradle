@@ -34,7 +34,7 @@ dependencies {
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-auth:19.4.0'
-
+    implementation 'androidx.preference:preference:1.0.0'
     implementation 'com.google.firebase:firebase-firestore:21.6.0'
 
     testImplementation 'junit:junit:4.12'

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.rentals.Fragments.MyAccountFragment;
 import com.example.rentals.Fragments.ProfileFragment;
 import com.example.rentals.Fragments.WishlistFragment;
 import com.example.rentals.Fragments.MapFragment;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     final Fragment wishlist = new WishlistFragment();
     final Fragment profile = new ProfileFragment();
     final Fragment map = new MapFragment();
+    final Fragment account = new MyAccountFragment();
     BottomNavigationView bottomNavigationView;
     Fragment active = map;
     private FirebaseUser curUser;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         final FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().add(R.id.frame, profile, "3").hide(profile).commit();
         fm.beginTransaction().add(R.id.frame, wishlist, "2").hide(wishlist).commit();
+        fm.beginTransaction().add(R.id.frame, account, "4").hide(account).commit();
         fm.beginTransaction().add(R.id.frame, map, "1").commit();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -51,12 +54,18 @@ public class MainActivity extends AppCompatActivity {
                     fm.beginTransaction().hide(active).show(map).commit();
                     active = map;
                 } else if (item.getItemId() == R.id.navigation_profile) {
-//                    curUser=auth.getCurrentUser();
-//                       if(curUser!=null){
-//                       }
+                    curUser=auth.getCurrentUser();
+                       if(curUser!=null){
+                           fm.beginTransaction().hide(active).show(account).commit();
+                           active = account;
+                       }
+                       else{
+                           fm.beginTransaction().hide(active).show(profile).commit();
+                           active = profile;
+                       }
 
-                    fm.beginTransaction().hide(active).show(profile).commit();
-                    active = profile;
+
+
                 }
                 return true;
             }

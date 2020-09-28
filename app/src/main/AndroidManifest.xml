@@ -5,10 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -25,25 +23,30 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".Activity.ApartmentDetails"></activity>
-        <activity android:name=".Activity.SplashScreen" />
 
-        <activity android:name=".Activity.ProfileDetails"/>
+
+        <activity android:name=".Activity.ProfileDetails" />
+
+
+        <activity android:name=".Activity.Postadd" />
 
         <activity android:name=".Activity.ImageUpload" />
         <activity android:name=".Activity.wishlistactivity" />
         <activity android:name=".Activity.CreateAccount" />
-        <activity android:name=".Activity.Postadd" />
+        <activity android:name=".Activity.SplashScreen" />
         <activity android:name=".Activity.Contact" />
 
-        <activity android:name=".Activity.Login" />
         <activity android:name=".Activity.ForgotPassword" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDzkhBJZpa16X7NMsbveeggrcSGfT-IsH0" />
 
+        <activity
 
-        <activity    android:name=".Activity.MainActivity"
+
+            android:name=".Activity.MainActivity"
+
             android:grantUriPermissions="true">
 
 
