@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.net.Uri;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.example.rentals.R;
 
@@ -35,13 +35,17 @@ public class Contact extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
         sendMsg = (Button) findViewById(R.id.btnsendsms);
-
+        Button startBtn = (Button) findViewById(R.id.btnsendemail);
         final EditText msg = (EditText) findViewById(R.id.inputtextsms);
         final EditText username=(EditText) findViewById(R.id.txtname);
         final EditText userphone=(EditText) findViewById(R.id.userphone);
         ImageView imageCall = findViewById(R.id.imgcall);
         final TextView phone = (TextView) findViewById(R.id.txtphonenumber);
-
+        startBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                sendEmail();
+            }
+        });
         sendMsg.setEnabled(false);
         //check if permission is granted or not
         if (checkPermission(Manifest.permission.SEND_SMS)) {
@@ -125,5 +129,26 @@ public class Contact extends AppCompatActivity {
         }
     }
 
+    protected void sendEmail() {
+        Log.i("Send email", "");
+        String[] TO = {""};
+        String[] CC = {""};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+            Log.i("Finished sending email...", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(Contact.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
