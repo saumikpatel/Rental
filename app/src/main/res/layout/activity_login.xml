@@ -6,17 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Login"
     android:background="#ffffff"
-    android:orientation="vertical"
-
-    >
+    android:orientation="vertical">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-
-        android:background="#3cb6d3 "
-        >
+        android:background="#3cb6d3 ">
         <ImageView
             android:layout_width="50dp"
             android:layout_height="55dp"
@@ -28,9 +24,7 @@
             android:text="Rentals"
             android:textSize="28sp"
             android:textColor="#ffffff"
-            android:textStyle="bold"
-            />
-
+            android:textStyle="bold"/>
     </androidx.appcompat.widget.Toolbar>
 
  <ImageView
@@ -38,46 +32,35 @@
      android:layout_height="200dp"
      android:layout_gravity="center"
      android:src="@drawable/logo"/>
-
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email"
+     <com.google.android.material.textfield.TextInputLayout android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="Email"
-      >
-
+        android:hint="Email">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="66dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:background="#ffffff"
-            app:endIconMode="password_toggle"
-          />
+            app:endIconMode="password_toggle"/>
+     </com.google.android.material.textfield.TextInputLayout>
 
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
+     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:hint="Password"
         app:endIconMode="password_toggle">
-
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="66dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:inputType="textPassword"
-            android:background="#ffffff"
-             />
+            android:background="#ffffff"/>
 
         <Button
             android:id="@+id/login"
@@ -88,11 +71,9 @@
             android:layout_marginTop="25dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-
             android:backgroundTint="#3cb6d3"
             android:singleLine="true"
             android:text="Login" />
-
 
         <Button
             android:id="@+id/create"
@@ -117,6 +98,5 @@
             android:layout_gravity="center"
             android:textSize="15sp"
             android:textStyle="bold" />
-    </com.google.android.material.textfield.TextInputLayout>
-
+     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>
