@@ -41,12 +41,9 @@ import java.util.TimeZone;
 public class Postadd extends AppCompatActivity {
 
 
-    private AutoCompleteTextView unit, bedroom, bathroom, pet, smoke, parking;
     private TextInputLayout et_title, et_des, et_amt, et_unit, et_pnum, et_date, et_bath, et_bed, et_pet, et_size, et_smoke, et_parking;
     private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
     private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet, btn_gym, btn_pool, btn_concierge, btn_storage, btn_security, btn_elevator, btn_wheelchair, btn_labels, btn_audio, btn_bicycle;
-    private Button btn_postad, btn_calender;
-    private ImageView upload;
 
     FirebaseFirestore fstore;
     FirebaseAuth auth;
@@ -69,12 +66,12 @@ public class Postadd extends AppCompatActivity {
         et_size = findViewById(R.id.size);
         et_smoke = findViewById(R.id.smoke1);
         et_parking = findViewById(R.id.parking1);
-        btn_calender = findViewById(R.id.calender);
+        Button btn_calender = findViewById(R.id.calender);
 
-        upload = findViewById(R.id.uploadImage);
+        ImageView upload = findViewById(R.id.uploadImage);
 
 
-        btn_postad = findViewById(R.id.post_ad);
+        Button btn_postad = findViewById(R.id.post_ad);
 
         rbfurnished = findViewById(R.id.rbfurnished);
         rbflaundry = findViewById(R.id.rbflaundry);
@@ -104,12 +101,12 @@ public class Postadd extends AppCompatActivity {
         rbbicycle = findViewById(R.id.rbbicycle);
 
 
-        unit = findViewById(R.id.unit);
-        bedroom = findViewById(R.id.bedroom);
-        bathroom = findViewById(R.id.bathroom);
-        pet = findViewById(R.id.pet);
-        smoke = findViewById(R.id.smoke);
-        parking = findViewById(R.id.parking);
+        AutoCompleteTextView unit = findViewById(R.id.unit);
+        AutoCompleteTextView bedroom = findViewById(R.id.bedroom);
+        AutoCompleteTextView bathroom = findViewById(R.id.bathroom);
+        AutoCompleteTextView pet = findViewById(R.id.pet);
+        AutoCompleteTextView smoke = findViewById(R.id.smoke);
+        AutoCompleteTextView parking = findViewById(R.id.parking);
         /* -------*/
 
         String[] units = new String[]{"Apartment", "Room", "House", "Condo"};

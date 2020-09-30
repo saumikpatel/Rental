@@ -42,4 +42,5 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         stringList.add(title);
 
     }
+
 }

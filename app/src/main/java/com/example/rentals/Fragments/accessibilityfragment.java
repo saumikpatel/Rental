@@ -34,4 +34,6 @@ public class accessibilityfragment extends Fragment {
         return view;
 
     }
+
+
 }

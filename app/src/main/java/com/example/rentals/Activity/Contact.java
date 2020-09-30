@@ -27,14 +27,13 @@ public class Contact extends AppCompatActivity {
     //EditText Username = (EditText) findViewById(R.id.txtname);
     private final static int SEND_SMS_PERMISSION_REQUEST_CODE = 111;
     private static final int PERMISSION_REQUEST_CODE = 1;
-    private Button sendMsg;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
-        sendMsg = (Button) findViewById(R.id.btnsendsms);
+        Button sendMsg = (Button) findViewById(R.id.btnsendsms);
         Button startBtn = (Button) findViewById(R.id.btnsendemail);
         final EditText msg = (EditText) findViewById(R.id.inputtextsms);
         final EditText username=(EditText) findViewById(R.id.txtname);

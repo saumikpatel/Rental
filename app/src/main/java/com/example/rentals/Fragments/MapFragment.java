@@ -11,9 +11,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.rentals.Activity.ApartmentDialog;
 import com.example.rentals.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -141,7 +145,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 LatLng latLng3 = new LatLng(45.496813, -73.578334);
                 LatLng latLng4 = new LatLng(45.496824, -73.577363);
                 LatLng latLng5 = new LatLng(45.495797, -73.577626);
-                LatLng address[] = new LatLng[5];
+                LatLng[] address = new LatLng[5];
                 address[0] = latLng1;
                 address[1] = latLng2;
                 address[2] = latLng3;
@@ -169,6 +173,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
                 }
+
 
             }
 
@@ -267,7 +272,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
@@ -309,5 +314,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
         mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+
+        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                ApartmentDialog alert = new ApartmentDialog();
+                alert.showDialog(getActivity(), "Error de conexión al servidor");
+                return true;
+            }
+        });
     }
 }
