@@ -1,13 +1,19 @@
 package com.example.rentals.Activity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -17,10 +23,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rentals.R;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -31,9 +48,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.maps.android.ui.IconGenerator;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -44,10 +68,11 @@ public class Postadd extends AppCompatActivity {
     private TextInputLayout et_title, et_des, et_amt, et_unit, et_pnum, et_date, et_bath, et_bed, et_pet, et_size, et_smoke, et_parking;
     private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
     private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet, btn_gym, btn_pool, btn_concierge, btn_storage, btn_security, btn_elevator, btn_wheelchair, btn_labels, btn_audio, btn_bicycle;
-
+    String cityName,address;
+    LatLng latLng;
     FirebaseFirestore fstore;
     FirebaseAuth auth;
-
+    AutocompleteSupportFragment autocompleteFragment,city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +133,10 @@ public class Postadd extends AppCompatActivity {
         AutoCompleteTextView smoke = findViewById(R.id.smoke);
         AutoCompleteTextView parking = findViewById(R.id.parking);
         /* -------*/
-
+        autocompleteFragment= (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.location_fragment);
+        city= (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.city);
         String[] units = new String[]{"Apartment", "Room", "House", "Condo"};
 
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(
@@ -216,6 +244,72 @@ public class Postadd extends AppCompatActivity {
 
             }
         });
+        setSearchUI();
+        Places.initialize(getApplicationContext(), "AIzaSyDzkhBJZpa16X7NMsbveeggrcSGfT-IsH0");
+
+        // Create a new PlacesClient instance
+        PlacesClient placesClient = Places.createClient(this);
+        // Initialize the AutocompleteSupportFragment.
+
+
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS));
+        //autocompleteFragment.setTypeFilter(TypeFilter.CITIES);
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onPlaceSelected(@NotNull Place place) {
+                // TODO: Get info about the selected place.
+                Log.i("", "Place: " + place.getAddressComponents());
+               setSearchUI();
+               latLng=place.getLatLng();
+
+               address=place.getName();
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onError(@NotNull Status status) {
+                // TODO: Handle the error.
+                Log.i("", "An error occurred: " + status);
+            }
+        });
+
+      setCitySearchUI();
+        city.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS));
+        city.setTypeFilter(TypeFilter.CITIES);
+
+        // Set up a PlaceSelectionListener to handle the response.
+        city.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onPlaceSelected(@NotNull Place place) {
+                // TODO: Get info about the selected place.
+                Log.i("", "Place: " + place.getAddressComponents());
+                setCitySearchUI();
+                cityName=place.getName();
+
+
+
+
+            }
+
+            @Override
+            public void onError(@NotNull Status status) {
+                // TODO: Handle the error.
+                Log.i("", "An error occurred: " + status);
+            }
+        });
+
+
 
 
         upload.setOnClickListener(new View.OnClickListener() {
@@ -549,6 +643,10 @@ public class Postadd extends AppCompatActivity {
                     userMap.put("Audio_Prompts", Audio);
                     userMap.put("ParkingIncluded", ParkingIncluded);
                     userMap.put("Bicycle_Parking", Bicycle);
+                    userMap.put("CityName",cityName);
+                    userMap.put("Latitude",latLng.latitude);
+                    userMap.put("Longitude",latLng.longitude);
+                    userMap.put("Address",address);
 
                     fstore.collection("Apartment").add(userMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
@@ -594,4 +692,30 @@ public class Postadd extends AppCompatActivity {
 
 
     }
+
+    private void setCitySearchUI() {
+        View fView = city.getView();
+        EditText etTextInput = fView.findViewById(R.id.places_autocomplete_search_input);
+        etTextInput.setTextColor(Color.BLACK);
+        etTextInput.setHintTextColor(Color.GRAY);
+        etTextInput.setTextSize(14.5f);
+        etTextInput.setHint("City");
+        ImageButton close = fView.findViewById(R.id.places_autocomplete_clear_button);
+        close.setVisibility(View.GONE);
+
+    }
+
+    private void setSearchUI() {
+        View fView = autocompleteFragment.getView();
+        EditText etTextInput = fView.findViewById(R.id.places_autocomplete_search_input);
+        etTextInput.setTextColor(Color.BLACK);
+        etTextInput.setHintTextColor(Color.GRAY);
+        etTextInput.setTextSize(14.5f);
+        etTextInput.setHint("Address");
+        ImageButton close = fView.findViewById(R.id.places_autocomplete_clear_button);
+        close.setVisibility(View.GONE);
+
+    }
+
+
 }

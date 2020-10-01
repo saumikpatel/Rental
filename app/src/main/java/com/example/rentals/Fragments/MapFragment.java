@@ -11,15 +11,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,11 +43,17 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.maps.android.ui.IconGenerator;
 
 import org.jetbrains.annotations.NotNull;
@@ -65,6 +69,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     LocationRequest mLocationRequest;
     Location mLastLocation;
     Marker mCurrLocationMarker;
+    FirebaseFirestore db;
     FusedLocationProviderClient mFusedLocationClient;
     boolean boundary = false;
     LocationCallback mLocationCallback = new LocationCallback() {
@@ -118,7 +123,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         // Specify the types of place data to return.
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.VIEWPORT, Place.Field.ADDRESS_COMPONENTS));
-        //autocompleteFragment.setTypeFilter(TypeFilter.CITIES);
+        autocompleteFragment.setTypeFilter(TypeFilter.CITIES);
 
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -140,39 +145,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 close.setVisibility(View.GONE);
 
                 putmarker(place.getLatLng());
-                LatLng latLng1 = new LatLng(45.496049, -73.577975);
-                LatLng latLng2 = new LatLng(45.496185, -73.578688);
-                LatLng latLng3 = new LatLng(45.496813, -73.578334);
-                LatLng latLng4 = new LatLng(45.496824, -73.577363);
-                LatLng latLng5 = new LatLng(45.495797, -73.577626);
-                LatLng[] address = new LatLng[5];
-                address[0] = latLng1;
-                address[1] = latLng2;
-                address[2] = latLng3;
-                address[3] = latLng4;
-                address[4] = latLng5;
-
-
-                for (int i = 0; i < address.length; i++) {
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(address[i]);
-                    //markerOptions.title("Current Position");
-                    markerOptions.alpha(1.0f);
-                    IconGenerator iconFactory = new IconGenerator(getActivity());
-                    iconFactory.setBackground(getResources().getDrawable(R.drawable.marker1));
-                    iconFactory.setTextAppearance(R.style.myStyleText);
-                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon("500$")));
-
-                    markerOptions.anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
-
-
-                    Marker m = mGoogleMap.addMarker(markerOptions);
-                    m.setTag("hello");
-
-                    m.setTitle("vvv");
-
-
-                }
+                getApartments(place.getName());
 
 
             }
@@ -187,9 +160,58 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    private void putapartment(LatLng address) {
+    private void getApartments(String city) {
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("Apartment")
+                .whereEqualTo("CityName", city)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("TAG", document.getId() + " => " + document.getData());
+                                LatLng latLng1 = new LatLng((Double) document.getData().get("Latitude"), (Double) document.getData().get("Longitude"));
+                                putApartmentMarker(latLng1);
+                            }
+                        } else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
     }
+
+    private void putApartmentMarker(LatLng latlng) {
+        Toast.makeText(getActivity(), "" + latlng, Toast.LENGTH_SHORT).show();
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latlng);
+        //markerOptions.title("Current Position");
+        markerOptions.alpha(1.0f);
+        IconGenerator iconFactory = new IconGenerator(getActivity());
+        iconFactory.setBackground(getResources().getDrawable(R.drawable.marker1));
+        iconFactory.setTextAppearance(R.style.myStyleText);
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon("500$")));
+
+        markerOptions.anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
+
+
+        Marker m = mGoogleMap.addMarker(markerOptions);
+        m.setTag("hello");
+        m.setTitle("vvv");
+        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                ApartmentDialog alert = new ApartmentDialog();
+                alert.showDialog(getActivity());
+
+                return true;
+            }
+        });
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -204,7 +226,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         mGoogleMap.setMaxZoomPreference(22);
-        mGoogleMap.setMinZoomPreference(17);
+        mGoogleMap.setMinZoomPreference(10);
 
         mLocationRequest = new LocationRequest();
         //  mLocationRequest.setInterval(30000); // two minute interval
@@ -315,14 +337,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
 
-        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
 
-                ApartmentDialog alert = new ApartmentDialog();
-                alert.showDialog(getActivity(), "Error de conexión al servidor");
-                return true;
-            }
-        });
     }
 }
