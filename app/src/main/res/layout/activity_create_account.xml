@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateAccount"
+    tools:context=".Activity.CreateAccount"
     android:orientation="vertical"
     >
     <androidx.appcompat.widget.Toolbar
@@ -49,8 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-
-            />
+            android:password="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            />
+            android:phoneNumber="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -98,10 +97,11 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:hint="Password"
             android:inputType="textPassword"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp" />
+            android:password="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -115,10 +115,11 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:hint="Confirm Password"
             android:inputType="textPassword"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:password="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

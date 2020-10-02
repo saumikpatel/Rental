@@ -1,0 +1,82 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/dialoglayout"
+    android:clickable="true"
+    android:background="#ffffffff">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/a"
+        android:gravity="center"
+
+        android:src="@drawable/logo"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3 and half apartment"
+        android:id="@+id/title"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+            android:textSize="18sp"
+        android:textColor="#ff000000"
+        android:layout_toRightOf="@+id/a"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Condo"
+        android:id="@+id/type"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+
+        android:textSize="18sp"
+        android:textColor="#ff000000"
+        android:layout_toRightOf="@+id/a"
+        android:layout_below="@+id/title"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3 Bedrrom"
+        android:id="@+id/bedroom"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+
+        android:textSize="18sp"
+        android:textColor="#ff000000"
+        android:layout_toRightOf="@+id/type"
+        android:layout_below="@+id/title"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price 300$"
+        android:id="@+id/price"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+
+        android:textSize="18sp"
+        android:textColor="#ff000000"
+        android:layout_toRightOf="@+id/a"
+        android:layout_below="@+id/type"/>
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:text="More Details"
+        android:id="@+id/btn_dialog"
+        android:src="@drawable/next"
+       android:layout_toRightOf="@id/bedroom"
+   android:layout_below="@+id/title"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="40dp"
+
+      />
+
+</RelativeLayout>
