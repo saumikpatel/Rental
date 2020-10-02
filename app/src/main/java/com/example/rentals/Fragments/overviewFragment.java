@@ -64,7 +64,7 @@ public class overviewFragment extends Fragment {
         internet=view.findViewById(R.id.internet);
         internettick=view.findViewById(R.id.internettick);
         parking=view.findViewById(R.id.parking);
-        agreementtype=view.findViewById(R.id.agreementtype);
+
 
         getdata();
 
