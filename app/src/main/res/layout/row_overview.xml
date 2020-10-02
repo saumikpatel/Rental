@@ -34,7 +34,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/typeApartment"
+        android:id="@+id/overviewFragmentApartment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apartment"
@@ -132,6 +132,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/hydrotick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -141,6 +142,7 @@
             android:src="@drawable/tickmark"/>
 
         <TextView
+            android:id="@+id/hydro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hydro"
@@ -185,6 +187,7 @@
             android:src="@drawable/tickmark"/>
 
         <TextView
+            android:id="@+id/overviewWater"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Water"

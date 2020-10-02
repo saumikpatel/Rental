@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="3 1/2 Apartment"
+                android:text="Apartment"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:id="@+id/apartmentName"
@@ -121,7 +121,14 @@
 
             </LinearLayout>
 
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/description"
+                android:text="The Apartment is equiped with a full range of appliances"
+                android:textSize="22sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"/>
 
 
             <com.google.android.material.tabs.TabLayout
