@@ -145,6 +145,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 close.setVisibility(View.GONE);
 
                 putmarker(place.getLatLng());
+
+
                 getApartments(place.getName());
 
 
@@ -161,8 +163,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void getApartments(String city) {
-        db = FirebaseFirestore.getInstance();
 
+        db = FirebaseFirestore.getInstance();
         db.collection("Apartment")
                 .whereEqualTo("CityName", city)
                 .get()
@@ -173,8 +175,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("TAG", document.getId() + " => " + document.getData());
                                 LatLng latLng1 = new LatLng((Double) document.getData().get("Latitude"), (Double) document.getData().get("Longitude"));
-                                putApartmentMarker(latLng1);
+                                putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getId());
+
                             }
+
                         } else {
                             Log.d("TAG", "Error getting documents: ", task.getException());
                         }
@@ -183,7 +187,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    private void putApartmentMarker(LatLng latlng) {
+    private void putApartmentMarker(LatLng latlng, String price, String ApartmentId) {
         Toast.makeText(getActivity(), "" + latlng, Toast.LENGTH_SHORT).show();
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latlng);
@@ -192,20 +196,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         IconGenerator iconFactory = new IconGenerator(getActivity());
         iconFactory.setBackground(getResources().getDrawable(R.drawable.marker1));
         iconFactory.setTextAppearance(R.style.myStyleText);
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon("500$")));
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(price + "$")));
 
         markerOptions.anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
 
-
         Marker m = mGoogleMap.addMarker(markerOptions);
-        m.setTag("hello");
+        m.setTag(ApartmentId);
         m.setTitle("vvv");
+
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
 
                 ApartmentDialog alert = new ApartmentDialog();
-                alert.showDialog(getActivity());
+                alert.showDialog(getActivity(), (String) marker.getTag());
 
                 return true;
             }
@@ -326,16 +330,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void putmarker(LatLng latLng) {
         //Place current location marker
-        if (mCurrLocationMarker != null) {
-            mCurrLocationMarker.remove();
-        }
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("Current Position");
-        markerOptions.alpha(0.8f);
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-        mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+//        if (mCurrLocationMarker != null) {
+//            mCurrLocationMarker.remove();
+//        }
+//        MarkerOptions markerOptions = new MarkerOptions();
+//        markerOptions.position(latLng);
+//        markerOptions.title("Current Position");
+//        markerOptions.alpha(0.8f);
+//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+//        //mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+        getApartments("Montreal");
 
 
     }
