@@ -27,8 +27,8 @@ import com.example.rentals.R;
 
 public class overviewFragment extends Fragment {
 
-    TextView apartment,sizebedroom,bathrm,hydro;
-    ImageView hydrotick;
+    TextView apartment,sizebedroom,bathrm,hydro,heat,water,cabletv,internet,parking,agreementtype;
+    ImageView hydrotick,heattick,watertick,cabletick,internettick;
     FirebaseFirestore fstore;
 
     public static overviewFragment getInstance(){
@@ -55,6 +55,16 @@ public class overviewFragment extends Fragment {
         bathrm=view.findViewById(R.id.bathrm);
         hydro=view.findViewById(R.id.hydro);
         hydrotick=view.findViewById(R.id.hydrotick);
+        heattick=view.findViewById(R.id.heattick);
+        heat= view.findViewById(R.id.heat);
+        water=view.findViewById(R.id.water);
+        watertick=view.findViewById(R.id.watertick);
+        cabletv=view.findViewById(R.id.cabletv);
+        cabletick=view.findViewById(R.id.cabletick);
+        internet=view.findViewById(R.id.internet);
+        internettick=view.findViewById(R.id.internettick);
+        parking=view.findViewById(R.id.parking);
+        agreementtype=view.findViewById(R.id.agreementtype);
 
         getdata();
 
@@ -78,14 +88,45 @@ public class overviewFragment extends Fragment {
                         String szbr= data1.get("Bedroom").toString();
                         String btrm= data1.get("Bathroom").toString();
                         String hdro= data1.get("Hydro").toString();
+                        String ht= data1.get("Heat").toString();
+                        String wt=data1.get("Water").toString();
+                        String ct=data1.get("Tv").toString();
+                        String itnt=data1.get("Internet").toString();
+                        String pk=data1.get("ParkingIncluded").toString();
+
                         apartment.setText(ofapt);
                         sizebedroom.setText(szbr);
                         bathrm.setText(btrm);
+                        parking.setText(pk);
                         if (hdro.equals("Yes")){
                             hydrotick.setImageResource(R.drawable.rightmark);
                         }
                         else{
                             hydrotick.setImageResource(R.drawable.wrongmark);
+                        }
+                        if (ht.equals("Yes")){
+                            heattick.setImageResource(R.drawable.rightmark);
+                        }
+                        else {
+                            heattick.setImageResource(R.drawable.wrongmark);
+                        }
+                        if (wt.equals("Yes")){
+                            watertick.setImageResource(R.drawable.rightmark);
+                        }
+                        else {
+                            watertick.setImageResource(R.drawable.wrongmark);
+                        }
+                        if (ct.equals("Yes")){
+                            cabletick.setImageResource(R.drawable.rightmark);
+                        }
+                        else {
+                            cabletick.setImageResource(R.drawable.wrongmark);
+                        }
+                        if (itnt.equals("Yes")){
+                            internettick.setImageResource(R.drawable.rightmark);
+                        }
+                        else {
+                            internettick.setImageResource(R.drawable.wrongmark);
                         }
 
                         // String data2 = data1.toString().trim();

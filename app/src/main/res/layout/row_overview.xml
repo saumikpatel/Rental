@@ -156,6 +156,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/heattick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -165,6 +166,7 @@
             android:src="@drawable/tickmark"/>
 
         <TextView
+            android:id="@+id/heat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Heat"
@@ -178,6 +180,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/watertick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -187,7 +190,7 @@
             android:src="@drawable/tickmark"/>
 
         <TextView
-            android:id="@+id/overviewWater"
+            android:id="@+id/water"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Water"
@@ -223,6 +226,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/cabletick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -232,6 +236,7 @@
             android:src="@drawable/tickmark"/>
 
         <TextView
+            android:id="@+id/cabletv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cable/TV"
@@ -245,6 +250,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/internettick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -254,6 +260,7 @@
             android:src="@drawable/tickmark"/>
 
         <TextView
+            android:id="@+id/internet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Internet"
@@ -285,6 +292,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/parking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
@@ -314,6 +322,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/agreementtype"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1 year"

@@ -50,7 +50,6 @@ public class ApartmentDetails extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tablayout);
         viewPager = findViewById(R.id.viewPager);
-        water = (TextView) findViewById(R.id.overviewWater);
         apartmentName = (TextView) findViewById(R.id.apartmentName);
         price = (TextView) findViewById(R.id.price);
         address = (TextView) findViewById(R.id.address);
