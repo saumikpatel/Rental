@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/gymtick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -60,6 +61,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/pooltick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -82,6 +84,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/conciergetick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -103,6 +106,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/hourtick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -125,6 +129,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/bicycletick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -147,6 +152,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/storagetick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -169,6 +175,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/elevatortick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"

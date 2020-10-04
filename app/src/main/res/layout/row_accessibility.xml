@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/wheelchairtick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -60,6 +61,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/brailletick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -82,6 +84,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/audiotick"
             android:layout_marginTop="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -122,6 +125,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No"
@@ -151,6 +155,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/visual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No"
@@ -180,6 +185,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/accessible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No"
