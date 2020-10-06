@@ -33,7 +33,6 @@ public class overviewFragment extends Fragment {
 
     public static overviewFragment getInstance(){
         overviewFragment OverviewFragment = new overviewFragment();
-
         return OverviewFragment;
     }
 

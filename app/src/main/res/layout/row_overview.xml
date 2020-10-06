@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Overview"
+        android:textColor="#2F4F4F"
         android:textSize="25sp"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,6 +31,7 @@
             android:text="Unit Type"
             android:textSize="20sp"
             android:layout_marginLeft="15dp"
+            android:textColor="#2F4F4F"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
 
@@ -58,6 +60,7 @@
         <TextView
             android:id="@+id/bedroom"
             android:layout_width="wrap_content"
+            android:textColor="#2F4F4F"
             android:layout_height="wrap_content"
             android:text="Bedrooms"
             android:textSize="20sp"
@@ -92,6 +95,7 @@
             android:layout_height="wrap_content"
             android:text="Bathrooms"
             android:textSize="20sp"
+            android:textColor="#2F4F4F"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
@@ -123,6 +127,7 @@
             android:layout_height="wrap_content"
             android:text="Utilities Included"
             android:textSize="20sp"
+            android:textColor="#2F4F4F"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
@@ -217,6 +222,7 @@
             android:layout_height="wrap_content"
             android:text="Also Included"
             android:textSize="20sp"
+            android:textColor="#2F4F4F"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
@@ -287,6 +293,7 @@
             android:layout_height="wrap_content"
             android:text="Parking Included"
             android:textSize="20sp"
+            android:textColor="#2F4F4F"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"/>
     </LinearLayout>

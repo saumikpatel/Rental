@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -42,7 +44,7 @@ public class ApartmentDetails extends AppCompatActivity {
     ViewPager imageViewPager;
 
     FirebaseFirestore fstore;
-
+    ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,12 +59,18 @@ public class ApartmentDetails extends AppCompatActivity {
         btnbuyApartment = (Button) findViewById(R.id.buyapartment);
 
         imageViewPager = findViewById(R.id.imageslider);
+        WebView browser =(WebView) findViewById(R.id.browser2);
+        browser.getSettings().setJavaScriptEnabled(true); //Yes you have to do it
+        browser.loadUrl("file:///android_asset/local.html");
 
         ViewImagePagerAdapter viewImagePagerAdapter = new ViewImagePagerAdapter(this);
         imageViewPager.setAdapter(viewImagePagerAdapter);
-
+        pd = new ProgressDialog(ApartmentDetails.this);
+        pd.setMessage("Loading...");
+        pd.show();
         getTabs();
         getdata();
+        pd.dismiss();
 
         btnbuyApartment.setOnClickListener(new View.OnClickListener() {
             @Override

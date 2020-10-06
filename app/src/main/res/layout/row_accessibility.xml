@@ -8,6 +8,7 @@
         android:id="@+id/accessibility"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#2F4F4F"
         android:text="Accessibility"
         android:textSize="25sp"/>
 
@@ -29,6 +30,7 @@
             android:layout_height="wrap_content"
             android:text="Elevator Accessibility Features"
             android:textSize="20sp"
+            android:textColor="#2F4F4F"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
@@ -121,6 +123,7 @@
             android:text="Barrier-free Entrances and Ramps"
             android:textSize="20sp"
             android:layout_marginLeft="15dp"
+            android:textColor="#2F4F4F"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
 
@@ -149,6 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Visual Aids"
+            android:textColor="#2F4F4F"
             android:textSize="20sp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"/>
@@ -159,6 +163,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No"
+
         android:textSize="20sp"
         android:layout_marginLeft="65dp"/>
 
@@ -178,6 +183,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#2F4F4F"
             android:text="Accessible Washrooms in Suite"
             android:textSize="20sp"
             android:layout_marginLeft="15dp"

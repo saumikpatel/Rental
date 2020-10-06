@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import org.w3c.dom.Text;
 
 public class ApartmentDialog extends AppCompatActivity {
     FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +57,9 @@ public class ApartmentDialog extends AppCompatActivity {
         wlp.y=150;
         window.setAttributes(wlp);
         ImageView next = (ImageView) dialog.findViewById(R.id.btn_dialog);
+
         getApartmentData(dialog,ApartmentId);
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { Intent i =new Intent(activity,ApartmentDetails.class) ;
@@ -63,6 +67,7 @@ public class ApartmentDialog extends AppCompatActivity {
             finish();}
         });
         dialog.show();
+
 
 
 

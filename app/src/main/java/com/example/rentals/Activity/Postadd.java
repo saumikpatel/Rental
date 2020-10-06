@@ -2,24 +2,18 @@ package com.example.rentals.Activity;
 
 
 import android.annotation.SuppressLint;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
-
 import android.net.Uri;
-
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -38,10 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rentals.R;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -62,56 +53,43 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import com.google.maps.android.ui.IconGenerator;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
-import java.util.Arrays;
-
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
-import java.util.UUID;
 
 
 public class Postadd extends AppCompatActivity {
 
 
-    private TextInputLayout et_title, et_des, et_amt, et_unit, et_pnum, et_date, et_bath, et_bed, et_pet, et_size, et_smoke, et_parking;
-    private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
-    private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet, btn_gym, btn_pool, btn_concierge, btn_storage, btn_security, btn_elevator, btn_wheelchair, btn_labels, btn_audio, btn_bicycle;
-
-    String cityName,address;
-    LatLng latLng;
-    FirebaseFirestore fstore;
-    FirebaseAuth auth;
-    AutocompleteSupportFragment autocompleteFragment,city;
-
-    private Button btn_postad, btn_calender;
-
-
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int GALLERY_REQUEST_CODE = 105;
-    ImageView selectedImage, selectedImage1, selectedImage2, selectedImage3 , upload;
+    String cityName, address;
+    LatLng latLng;
+    FirebaseFirestore fstore;
+    FirebaseAuth auth;
+    AutocompleteSupportFragment autocompleteFragment, city;
+    ImageView selectedImage, selectedImage1, selectedImage2, selectedImage3, upload;
     ImageView[] image;
     FirebaseStorage storage;
     StorageReference storageReference;
-    private Uri contenturi;
-
-
+    ArrayList<Uri> contenturi = new ArrayList<Uri>();
+    private TextInputLayout et_title, et_des, et_amt, et_unit, et_pnum, et_date, et_bath, et_bed, et_pet, et_size, et_smoke, et_parking;
+    private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
+    private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet, btn_gym, btn_pool, btn_concierge, btn_storage, btn_security, btn_elevator, btn_wheelchair, btn_labels, btn_audio, btn_bicycle;
+    private Button btn_postad, btn_calender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,9 +111,8 @@ public class Postadd extends AppCompatActivity {
         Button btn_calender = findViewById(R.id.calender);
 
 
-         upload = findViewById(R.id.uploadImage);
+        upload = findViewById(R.id.uploadImage);
         image = new ImageView[]{upload, selectedImage1, selectedImage2, selectedImage3};
-
 
 
         Button btn_postad = findViewById(R.id.post_ad);
@@ -175,9 +152,9 @@ public class Postadd extends AppCompatActivity {
         AutoCompleteTextView smoke = findViewById(R.id.smoke);
         AutoCompleteTextView parking = findViewById(R.id.parking);
         /* -------*/
-        autocompleteFragment= (AutocompleteSupportFragment)
+        autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.location_fragment);
-        city= (AutocompleteSupportFragment)
+        city = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.city);
         String[] units = new String[]{"Apartment", "Room", "House", "Condo"};
 
@@ -260,7 +237,7 @@ public class Postadd extends AppCompatActivity {
 
         calender.setTimeInMillis(today);
 
-        CalendarConstraints.Builder constraint = new CalendarConstraints.Builder();
+        final CalendarConstraints.Builder constraint = new CalendarConstraints.Builder();
         constraint.setValidator(DateValidatorPointForward.now());
 
 
@@ -294,7 +271,6 @@ public class Postadd extends AppCompatActivity {
         // Initialize the AutocompleteSupportFragment.
 
 
-
         // Specify the types of place data to return.
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS));
         //autocompleteFragment.setTypeFilter(TypeFilter.CITIES);
@@ -306,14 +282,10 @@ public class Postadd extends AppCompatActivity {
             public void onPlaceSelected(@NotNull Place place) {
                 // TODO: Get info about the selected place.
                 Log.i("", "Place: " + place.getAddressComponents());
-               setSearchUI();
-               latLng=place.getLatLng();
+                setSearchUI();
+                latLng = place.getLatLng();
 
-               address=place.getName();
-
-
-
-
+                address = place.getName();
 
 
             }
@@ -325,7 +297,7 @@ public class Postadd extends AppCompatActivity {
             }
         });
 
-      setCitySearchUI();
+        setCitySearchUI();
         city.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS));
         city.setTypeFilter(TypeFilter.CITIES);
 
@@ -337,9 +309,7 @@ public class Postadd extends AppCompatActivity {
                 // TODO: Get info about the selected place.
                 Log.i("", "Place: " + place.getAddressComponents());
                 setCitySearchUI();
-                cityName=place.getName();
-
-
+                cityName = place.getName();
 
 
             }
@@ -352,15 +322,12 @@ public class Postadd extends AppCompatActivity {
         });
 
 
-
-
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            selectImage();
+                selectImage();
             }
         });
-
 
 
         btn_postad.setOnClickListener(new View.OnClickListener() {
@@ -645,9 +612,8 @@ public class Postadd extends AppCompatActivity {
                     Log.v("tagvv", " " + uid);
 
 
-
                     Map<String, Object> userMap = new HashMap<>();
-                    userMap.put("UserID",uid);
+                    userMap.put("UserID", uid);
                     userMap.put("Title", Title);
                     userMap.put("Description", Description);
                     userMap.put("Amount", Amount);
@@ -686,38 +652,17 @@ public class Postadd extends AppCompatActivity {
                     userMap.put("Audio_Prompts", Audio);
                     userMap.put("ParkingIncluded", ParkingIncluded);
                     userMap.put("Bicycle_Parking", Bicycle);
-                    userMap.put("CityName",cityName);
-                    userMap.put("Latitude",latLng.latitude);
-                    userMap.put("Longitude",latLng.longitude);
-                    userMap.put("Address",address);
-
-                    storageReference = storage.getInstance().getReference();
-
-                    if(contenturi != null)
-                    {
-                        StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
-
-                        ref.putFile(contenturi)
-                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                                        Toast.makeText(Postadd.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-
-                                        Toast.makeText(Postadd.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    }
+                    userMap.put("CityName", cityName);
+                    userMap.put("Latitude", latLng.latitude);
+                    userMap.put("Longitude", latLng.longitude);
+                    userMap.put("Address", address);
 
 
                     fstore.collection("Apartment").add(userMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
+
+                            uploadImage((String)documentReference.getId());
                             Toast.makeText(Postadd.this, " Data Added in DB ", Toast.LENGTH_SHORT).show();
                             pd.dismiss();
 
@@ -805,13 +750,13 @@ public class Postadd extends AppCompatActivity {
         builder1.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                 if (options[item].equals("Choose from Gallery")) {
-
+                if (options[item].equals("Choose from Gallery")) {
+                    contenturi.clear();
                     upload.setImageResource(R.drawable.uploadnew);
 
                     Intent gallery = new Intent();
                     gallery.setType("image/*");
-                    //  gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    //gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                     gallery.setAction(Intent.ACTION_GET_CONTENT);
 
@@ -851,38 +796,65 @@ public class Postadd extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 ClipData clipdata = data.getClipData();
 
-                if(clipdata.getItemCount() > 4){
-                    Toast.makeText(this, "please select only for items" , Toast.LENGTH_SHORT).show();
-                } else if (clipdata != null) {
+
+                if (clipdata != null) {
+                    if (clipdata.getItemCount() > 4) {
+                        Toast.makeText(this, "please select only four items", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     Toast.makeText(this, "" + clipdata.getItemCount(), Toast.LENGTH_SHORT).show();
                     for (int i = 0; i < clipdata.getItemCount(); i++) {
                         ClipData.Item item = clipdata.getItemAt(i);
-                        Uri contenturi = item.getUri();
-                        image[i].setImageURI(contenturi);
-
-
+                        contenturi.add(item.getUri());
                     }
+
+
+
                 } else {
-                    InputStream ist = null;
-                    try {
-                        ist = this.getContentResolver()
-                                .openInputStream(data.getData());
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    Bitmap bitmap = BitmapFactory.decodeStream(ist);
-                    selectedImage.setImageBitmap(bitmap);
+//                    InputStream ist = null;
+//                    try {
+//                        ist = this.getContentResolver()
+//                                .openInputStream(data.getData());
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Bitmap bitmap = BitmapFactory.decodeStream(ist);
+//                   // selectedImage.setImageBitmap(bitmap);
+                    contenturi.add(data.getData());
+
+
+
 
                 }
             }
         }
 
     }
-    private void uploadImage() {
+
+    private void uploadImage(String id) {
+        storageReference = storage.getInstance().getReference();
+        for (int j = 0; j < contenturi.size(); j++) {
+
+            StorageReference ref = storageReference.child("images").child(id+"/"+j);
+            ref.putFile(contenturi.get(j))
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            Toast.makeText(Postadd.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            Toast.makeText(Postadd.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        }
 
     }
-
-
 
 
 }

@@ -42,7 +42,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical" >
 
             <androidx.viewpager.widget.ViewPager
@@ -130,7 +130,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"/>
 
-
             <com.google.android.material.tabs.TabLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -143,7 +142,11 @@
                 android:layout_height="750dp"
                 android:id="@+id/viewPager"/>
 
-
+                <WebView
+                    android:id="@+id/browser2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
 
 
             <Button

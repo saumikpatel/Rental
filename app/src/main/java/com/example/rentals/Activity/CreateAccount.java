@@ -39,7 +39,6 @@ public class CreateAccount extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
-
         mFirebaseAuth = FirebaseAuth.getInstance();
         create_name = findViewById(R.id.create_name);
         create_phone = findViewById(R.id.create_phone);
@@ -50,6 +49,7 @@ public class CreateAccount extends AppCompatActivity {
         login_btn = findViewById(R.id.login_btn);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
         create_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +63,6 @@ public class CreateAccount extends AppCompatActivity {
                 if (Name.isEmpty() || Phone.isEmpty() || Email.isEmpty() || Password.isEmpty() || ConfirmPassword.isEmpty()) {
                     Toast.makeText(CreateAccount.this, "Please Fill The Form", Toast.LENGTH_SHORT).show();
                     return;
-
                 }
                 if (Password.length() < 6) {
 
@@ -109,28 +108,20 @@ public class CreateAccount extends AppCompatActivity {
                                 }
                             });
                         }
-
-
-
                         else {
                             try{
                                 throw task.getException();
                             } catch (FirebaseAuthUserCollisionException e){
                                 Toast.makeText(CreateAccount.this, "Email id already Exist", Toast.LENGTH_SHORT).show();
-
                             }
                             catch (Exception e) {
                                 e.printStackTrace();
                             }
                             Toast.makeText(CreateAccount.this, "SignUp Unsuccessful, Please Try Again", Toast.LENGTH_SHORT).show();
                             pd.dismiss();
-
                         }
                     }
                 });
-
-
-
             }
         });
 //        login_btn.setOnClickListener(new View.OnClickListener() {
