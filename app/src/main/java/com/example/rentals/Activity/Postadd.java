@@ -1,11 +1,24 @@
 package com.example.rentals.Activity;
 
+
 import android.annotation.SuppressLint;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+
+import android.net.Uri;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +33,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rentals.R;
@@ -48,18 +62,28 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import com.google.maps.android.ui.IconGenerator;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Arrays;
+
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.UUID;
 
 
 public class Postadd extends AppCompatActivity {
@@ -68,11 +92,26 @@ public class Postadd extends AppCompatActivity {
     private TextInputLayout et_title, et_des, et_amt, et_unit, et_pnum, et_date, et_bath, et_bed, et_pet, et_size, et_smoke, et_parking;
     private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
     private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet, btn_gym, btn_pool, btn_concierge, btn_storage, btn_security, btn_elevator, btn_wheelchair, btn_labels, btn_audio, btn_bicycle;
+
     String cityName,address;
     LatLng latLng;
     FirebaseFirestore fstore;
     FirebaseAuth auth;
     AutocompleteSupportFragment autocompleteFragment,city;
+
+    private Button btn_postad, btn_calender;
+
+
+    public static final int CAMERA_PERM_CODE = 101;
+    public static final int CAMERA_REQUEST_CODE = 102;
+    public static final int GALLERY_REQUEST_CODE = 105;
+    ImageView selectedImage, selectedImage1, selectedImage2, selectedImage3 , upload;
+    ImageView[] image;
+    FirebaseStorage storage;
+    StorageReference storageReference;
+    private Uri contenturi;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +132,10 @@ public class Postadd extends AppCompatActivity {
         et_parking = findViewById(R.id.parking1);
         Button btn_calender = findViewById(R.id.calender);
 
-        ImageView upload = findViewById(R.id.uploadImage);
+
+         upload = findViewById(R.id.uploadImage);
+        image = new ImageView[]{upload, selectedImage1, selectedImage2, selectedImage3};
+
 
 
         Button btn_postad = findViewById(R.id.post_ad);
@@ -315,10 +357,11 @@ public class Postadd extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Postadd.this, ImageUpload.class);
-                startActivity(i);
+            selectImage();
             }
         });
+
+
 
         btn_postad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -326,6 +369,7 @@ public class Postadd extends AppCompatActivity {
 
 
                 fstore = FirebaseFirestore.getInstance();
+
 
                 final String Title = et_title.getEditText().getText().toString().trim();
                 final String Description = et_des.getEditText().getText().toString().trim();
@@ -339,9 +383,6 @@ public class Postadd extends AppCompatActivity {
                 String MoveInDate = et_date.getEditText().getText().toString().trim();
                 String SmokePermitted = et_smoke.getEditText().getText().toString().trim();
                 String ParkingIncluded = et_parking.getEditText().getText().toString().trim();
-
-
-
 
 
                /* Log.v("tagvv", " " + Title);
@@ -603,6 +644,8 @@ public class Postadd extends AppCompatActivity {
                     String uid = firebaseUser.getUid();
                     Log.v("tagvv", " " + uid);
 
+
+
                     Map<String, Object> userMap = new HashMap<>();
                     userMap.put("UserID",uid);
                     userMap.put("Title", Title);
@@ -647,6 +690,30 @@ public class Postadd extends AppCompatActivity {
                     userMap.put("Latitude",latLng.latitude);
                     userMap.put("Longitude",latLng.longitude);
                     userMap.put("Address",address);
+
+                    storageReference = storage.getInstance().getReference();
+
+                    if(contenturi != null)
+                    {
+                        StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
+
+                        ref.putFile(contenturi)
+                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                        Toast.makeText(Postadd.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                        Toast.makeText(Postadd.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+
 
                     fstore.collection("Apartment").add(userMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
@@ -716,6 +783,106 @@ public class Postadd extends AppCompatActivity {
         close.setVisibility(View.GONE);
 
     }
+    /*private void askCameraPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
+        } else {
+            dispatchTakePictureIntent();
+        }
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePictureIntent, CAMERA_PERM_CODE);
+        Intent intent = new Intent();
+        Bitmap bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
+    }*/
+
+    private void selectImage() {
+        final CharSequence[] options = {"Choose from Gallery", "Cancel"};
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(Postadd.this);
+        builder1.setTitle("Add Photo!");
+        builder1.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                 if (options[item].equals("Choose from Gallery")) {
+
+                    upload.setImageResource(R.drawable.uploadnew);
+
+                    Intent gallery = new Intent();
+                    gallery.setType("image/*");
+                    //  gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    gallery.setAction(Intent.ACTION_GET_CONTENT);
+
+                    startActivityForResult(Intent.createChooser(gallery, ""), GALLERY_REQUEST_CODE);
+                } else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder1.show();
+    }
+
+    /*@Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == CAMERA_PERM_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                dispatchTakePictureIntent();
+            } else {
+                Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }*/
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*if (requestCode == CAMERA_PERM_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bundle extras = data.getExtras();
+                Bitmap img = (Bitmap) extras.get("data");
+                upload.setImageBitmap(img);
+                Intent intent = new Intent(this, Postadd.class);
+                intent.putExtra("BitmapImage", img);
+            }
+        }*/
+        if (requestCode == GALLERY_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                ClipData clipdata = data.getClipData();
+
+                if(clipdata.getItemCount() > 4){
+                    Toast.makeText(this, "please select only for items" , Toast.LENGTH_SHORT).show();
+                } else if (clipdata != null) {
+                    Toast.makeText(this, "" + clipdata.getItemCount(), Toast.LENGTH_SHORT).show();
+                    for (int i = 0; i < clipdata.getItemCount(); i++) {
+                        ClipData.Item item = clipdata.getItemAt(i);
+                        Uri contenturi = item.getUri();
+                        image[i].setImageURI(contenturi);
+
+
+                    }
+                } else {
+                    InputStream ist = null;
+                    try {
+                        ist = this.getContentResolver()
+                                .openInputStream(data.getData());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Bitmap bitmap = BitmapFactory.decodeStream(ist);
+                    selectedImage.setImageBitmap(bitmap);
+
+                }
+            }
+        }
+
+    }
+    private void uploadImage() {
+
+    }
+
+
 
 
 }
