@@ -50,7 +50,7 @@ public class ApartmentDialog extends AppCompatActivity {
 
 
     }
-    public void showDialog(final Activity activity, String ApartmentId){
+    public void showDialog(final Activity activity, final String ApartmentId){
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_ACTION_MODE_OVERLAY);
         dialog.setCancelable(true);
@@ -71,6 +71,9 @@ public class ApartmentDialog extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { Intent i =new Intent(activity,ApartmentDetails.class) ;
+                Bundle bundle = new Bundle();
+                bundle.putString("AptId", ApartmentId);
+                i.putExtras(bundle);
             activity.startActivity(i);
             finish();}
         });
@@ -81,7 +84,7 @@ public class ApartmentDialog extends AppCompatActivity {
 
     }
 
-    private void getApartmentData(final Dialog dialog, String apartmentId) {
+    private void getApartmentData(final Dialog dialog, final String apartmentId) {
         db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("Apartment").document(apartmentId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -100,7 +103,7 @@ public class ApartmentDialog extends AppCompatActivity {
                         bedroom.setText("Bedroom:- "+document.getData().get("Bedroom"));
                         price.setText("Price "+document.getData().get("Amount")+"$");
 
-                        getImage(dialog,document.getId());
+                        getImage(dialog,apartmentId);
 
 
 
@@ -117,7 +120,7 @@ public class ApartmentDialog extends AppCompatActivity {
     }
 
     private void getImage(final Dialog dialog, String id) {
-        id="NoF5tUfg1f0HM4vZM2RJ";
+
         storageReference = storage.getInstance().getReference();
         storageReference.child("images/"+id+"/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override

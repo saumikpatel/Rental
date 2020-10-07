@@ -26,8 +26,9 @@ public class thebuildingFragment extends Fragment {
     ImageView gymtick,pooltick,conciergetick,hourtick,bicycletick,storagetick,elevatortick;
 
     FirebaseFirestore fstore;
-
-    public static thebuildingFragment getInstance(){
+static String id;
+    public static thebuildingFragment getInstance(String Aptid){
+        id=Aptid;
         thebuildingFragment ThebuildingFragment = new thebuildingFragment();
         return ThebuildingFragment;
     }
@@ -61,7 +62,7 @@ public class thebuildingFragment extends Fragment {
 
     private void getdata() {
         fstore = FirebaseFirestore.getInstance();
-        DocumentReference docRef = fstore.collection("Apartment").document("s4f7fpuSstdKi0nqleoF");
+        DocumentReference docRef = fstore.collection("Apartment").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

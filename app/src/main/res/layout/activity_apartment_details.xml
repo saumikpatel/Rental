@@ -15,6 +15,7 @@
         android:background="#3cb6d3">
 
         <ImageView
+
             android:layout_width="50dp"
             android:layout_height="55dp"
             android:src="@drawable/logo" />
@@ -39,7 +40,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/mainLayout">
+
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/imageslider"
@@ -64,6 +67,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/like"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
@@ -158,9 +162,16 @@
                 android:text="Contact Owner" />
 
 
+
+
         </LinearLayout>
 
-    </ScrollView>
 
+    </ScrollView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/loginlayout">
+    </FrameLayout>
 
 </RelativeLayout>

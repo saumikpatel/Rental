@@ -27,12 +27,16 @@ import com.example.rentals.R;
 
 public class overviewFragment extends Fragment {
 
+    private static String Id;
     TextView apartment,sizebedroom,bathrm,hydro,heat,water,cabletv,internet,parking,agreementtype;
     ImageView hydrotick,heattick,watertick,cabletick,internettick;
     FirebaseFirestore fstore;
 
-    public static overviewFragment getInstance(){
+
+    public static overviewFragment getInstance(String AptId){
+        Id=AptId;
         overviewFragment OverviewFragment = new overviewFragment();
+
         return OverviewFragment;
     }
 
@@ -73,7 +77,7 @@ public class overviewFragment extends Fragment {
 
     private void getdata() {
         fstore = FirebaseFirestore.getInstance();
-        DocumentReference docRef = fstore.collection("Apartment").document("s4f7fpuSstdKi0nqleoF");
+        DocumentReference docRef = fstore.collection("Apartment").document(Id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

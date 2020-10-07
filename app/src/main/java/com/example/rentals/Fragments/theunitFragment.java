@@ -28,9 +28,12 @@ public class theunitFragment extends Fragment {
     ImageView laundrytick,laundrybuildingtick,dishwashertick,fridgetick,yardtick,balconytick;
 
     FirebaseFirestore fstore;
+    static  String id;
 
-    public static theunitFragment getInstance(){
+    public static theunitFragment getInstance(String AptId){
+        id = AptId;
         theunitFragment TheunitFragment = new theunitFragment();
+
         return TheunitFragment;
     }
 
@@ -66,7 +69,7 @@ public class theunitFragment extends Fragment {
 
     private void getdata() {
         fstore = FirebaseFirestore.getInstance();
-        DocumentReference docRef = fstore.collection("Apartment").document("s4f7fpuSstdKi0nqleoF");
+        DocumentReference docRef = fstore.collection("Apartment").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

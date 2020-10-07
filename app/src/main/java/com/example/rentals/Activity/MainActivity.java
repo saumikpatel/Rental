@@ -46,24 +46,27 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (item.getItemId() == R.id.navigation_wishlist) {
-
-                    fm.beginTransaction().hide(active).show(wishlist).commit();
-                    active = wishlist;
+                    curUser = auth.getCurrentUser();
+                    if (curUser != null) {
+                        fm.beginTransaction().hide(active).show(wishlist).commit();
+                        active = wishlist;
+                    } else {
+                        fm.beginTransaction().hide(active).show(profile).commit();
+                        active = profile;
+                    }
                 } else if (item.getItemId() == R.id.navigation_map) {
 
                     fm.beginTransaction().hide(active).show(map).commit();
                     active = map;
                 } else if (item.getItemId() == R.id.navigation_profile) {
-                    curUser=auth.getCurrentUser();
-                       if(curUser!=null){
-                           fm.beginTransaction().hide(active).show(account).commit();
-                           active = account;
-                       }
-                       else{
-                           fm.beginTransaction().hide(active).show(profile).commit();
-                           active = profile;
-                       }
-
+                    curUser = auth.getCurrentUser();
+                    if (curUser != null) {
+                        fm.beginTransaction().hide(active).show(account).commit();
+                        active = account;
+                    } else {
+                        fm.beginTransaction().hide(active).show(profile).commit();
+                        active = profile;
+                    }
 
 
                 }
@@ -75,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 
 

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.rentals.Activity.ApartmentDetails;
 import com.example.rentals.Activity.CreateAccount;
 import com.example.rentals.Activity.ForgotPassword;
 import com.example.rentals.Activity.MainActivity;
@@ -42,7 +43,8 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseUser curUser;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static String from= "map";
+    String AptId;
     private static final String ARG_PARAM2 = "param2";
 
     public ProfileFragment() {
@@ -61,7 +63,7 @@ public class ProfileFragment extends Fragment {
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        //args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -72,8 +74,9 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             // TODO: Rename and change types of parameters
-            String mParam1 = getArguments().getString(ARG_PARAM1);
-            String mParam2 = getArguments().getString(ARG_PARAM2);
+             from = getArguments().getString("From");
+            AptId = getArguments().getString("AptId");
+            Toast.makeText(getActivity().getApplicationContext(), ""+from, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -111,8 +114,24 @@ public class ProfileFragment extends Fragment {
                         if (task.isSuccessful()) {
                             curUser = auth.getCurrentUser();
                             Toast.makeText(getActivity().getApplicationContext(), "Login Success!", Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(getActivity(), MainActivity.class);
-                            startActivity(i);
+                            Toast.makeText(getActivity().getApplicationContext(), "Login Success!"+from, Toast.LENGTH_LONG).show();
+
+                            if(from.equals("wishlist")){
+                                Bundle bundle = new Bundle();
+                                bundle.putString("AptId", AptId);
+                                Intent i = new Intent(getActivity(), ApartmentDetails.class);
+                                i.putExtras(bundle);
+                                startActivity(i);
+
+                            }
+                            else {
+                                Toast.makeText(getActivity().getApplicationContext(), "in else", Toast.LENGTH_LONG).show();
+
+                                Intent i = new Intent(getActivity(), MainActivity.class);
+                                startActivity(i);
+
+                            }
+
 
 //                            Fragment fragment = new MapFragment();
 //                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

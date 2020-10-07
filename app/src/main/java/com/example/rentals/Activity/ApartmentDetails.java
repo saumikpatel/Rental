@@ -1,6 +1,8 @@
 package com.example.rentals.Activity;
 
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,14 +10,21 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.rentals.Adapters.ViewImagePagerAdapter;
 import com.example.rentals.Adapters.ViewPagerAdapter;
+import com.example.rentals.Fragments.ProfileFragment;
+import com.example.rentals.Fragments.WishlistFragment;
 import com.example.rentals.Fragments.accessibilityfragment;
 import com.example.rentals.Fragments.overviewFragment;
 import com.example.rentals.Fragments.thebuildingFragment;
@@ -26,6 +35,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,6 +45,7 @@ import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ApartmentDetails extends AppCompatActivity {
@@ -43,7 +55,8 @@ public class ApartmentDetails extends AppCompatActivity {
     TextView water;
     TextView apartmentName, price, address, description, overviewFragmentApartment;
     Button btnbuyApartment;
-
+    ImageView like;
+    LinearLayout mainLayout;
     ViewPager imageViewPager;
 
     FirebaseFirestore fstore;
@@ -51,6 +64,8 @@ public class ApartmentDetails extends AppCompatActivity {
     ProgressDialog pd;
     FirebaseStorage storage;
     StorageReference storageReference;
+    private FirebaseUser curUser;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,21 +79,29 @@ public class ApartmentDetails extends AppCompatActivity {
         address = (TextView) findViewById(R.id.address);
         description = (TextView) findViewById(R.id.description);
         btnbuyApartment = (Button) findViewById(R.id.buyapartment);
-
+        like = (ImageView) findViewById(R.id.like);
         imageViewPager = findViewById(R.id.imageslider);
         WebView browser = (WebView) findViewById(R.id.browser2);
+        mainLayout=(LinearLayout)findViewById(R.id.mainLayout) ;
         browser.getSettings().setJavaScriptEnabled(true); //Yes you have to do it
         browser.loadUrl("file:///android_asset/local.html");
         ArrayList<Uri> images = new ArrayList<Uri>();
-        getImages(images);
+
+        auth = FirebaseAuth.getInstance();
 
 
+        final String AptId;
+        Bundle extras = getIntent().getExtras();
+        AptId = extras.getString("AptId");
+
+        Toast.makeText(this, "hello"+AptId, Toast.LENGTH_SHORT).show();
         pd = new ProgressDialog(ApartmentDetails.this);
         pd.setMessage("Loading...");
         pd.show();
 
-        getTabs();
-        getdata();
+        getTabs(AptId);
+        getImages(images, AptId);
+        getdata(AptId);
         pd.dismiss();
 
         btnbuyApartment.setOnClickListener(new View.OnClickListener() {
@@ -87,14 +110,72 @@ public class ApartmentDetails extends AppCompatActivity {
 
             }
         });
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ApartmentDetails.this, "in function", Toast.LENGTH_SHORT).show();
+                fstore = FirebaseFirestore.getInstance();
+                curUser = auth.getCurrentUser();
+
+                if (curUser != null) {
+                    String UserId = curUser.getUid();
+                    Map<String, Object> wishlist = new HashMap<>();
+                    wishlist.put("UserId", UserId);
+                    wishlist.put("ApartmentId", AptId);
+                    fstore.collection("Wishlist")
+                            .add(wishlist)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d("TAG", "DocumentSnapshot written with ID: " + documentReference.getId());
+                                    Toast.makeText(ApartmentDetails.this, "added", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("TAG", "Error adding document", e);
+                                }
+                            });
+
+
+                } else {
+                    mainLayout.setVisibility(LinearLayout.GONE);
+                    final Fragment login = new ProfileFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("From", "wishlist");
+                    bundle.putString("AptId",AptId);
+// set Fragmentclass Arguments
+
+                    login.setArguments(bundle);
+                    final FragmentManager fm = getSupportFragmentManager();
+                    fm.beginTransaction().add(R.id.loginlayout, login, "3").commit();
+                }
+
+
+
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+
+
+            startActivity(new Intent(ApartmentDetails.this, MainActivity.class));
+            finish();
 
 
     }
 
-    private void getImages(final ArrayList<Uri> images) {
-        final String id = "NoF5tUfg1f0HM4vZM2RJ";
+    private void getImages(final ArrayList<Uri> images, final String aptId) {
 
-        StorageReference listRef = storage.getInstance().getReference().child("images/" + id);
+
+        StorageReference listRef = storage.getInstance().getReference().child("images/" + aptId);
 
         listRef.listAll()
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {
@@ -112,7 +193,7 @@ public class ApartmentDetails extends AppCompatActivity {
                             String image = location.substring(location.length() - 1);
                             System.out.println(image);
                             storageReference = storage.getInstance().getReference();
-                            storageReference.child("images/" + id + "/" + image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            storageReference.child("images/" + aptId + "/" + image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     // Got the download URL for 'users/me/profile.png'
@@ -149,10 +230,10 @@ public class ApartmentDetails extends AppCompatActivity {
     }
 
 
-    private void getdata() {
+    private void getdata(String aptId) {
 
         fstore = FirebaseFirestore.getInstance();
-        DocumentReference docRef = fstore.collection("Apartment").document("s4f7fpuSstdKi0nqleoF");
+        DocumentReference docRef = fstore.collection("Apartment").document(aptId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -185,7 +266,7 @@ public class ApartmentDetails extends AppCompatActivity {
     }
 
 
-    public void getTabs() {
+    public void getTabs(final String aptId) {
         final ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         new Handler().post(new Runnable() {
@@ -193,10 +274,10 @@ public class ApartmentDetails extends AppCompatActivity {
             public void run() {
 
 
-                viewPagerAdapter.addFragment(overviewFragment.getInstance(), "OVERVIEW");
-                viewPagerAdapter.addFragment(theunitFragment.getInstance(), "THE UNIT");
-                viewPagerAdapter.addFragment(thebuildingFragment.getInstance(), "THE BUILDING");
-                viewPagerAdapter.addFragment(accessibilityfragment.getInstance(), "ACCESSIBILITY");
+                viewPagerAdapter.addFragment(overviewFragment.getInstance(aptId), "OVERVIEW");
+                viewPagerAdapter.addFragment(theunitFragment.getInstance(aptId), "THE UNIT");
+                viewPagerAdapter.addFragment(thebuildingFragment.getInstance(aptId), "THE BUILDING");
+                viewPagerAdapter.addFragment(accessibilityfragment.getInstance(aptId), "ACCESSIBILITY");
 
                 viewPager.setAdapter(viewPagerAdapter);
 

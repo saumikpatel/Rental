@@ -28,9 +28,12 @@ public class accessibilityfragment extends Fragment {
     ImageView wheelchairtick,brailletick,audiotick;
 
     FirebaseFirestore fstore;
+    static String id;
 
-    public static accessibilityfragment getInstance(){
+    public static accessibilityfragment getInstance(String Aptid){
+        id=Aptid;
         accessibilityfragment AccessibilityFragment = new accessibilityfragment();
+
         return AccessibilityFragment;
     }
 
@@ -61,7 +64,7 @@ public class accessibilityfragment extends Fragment {
 
     private void getdata() {
         fstore = FirebaseFirestore.getInstance();
-        DocumentReference docRef = fstore.collection("Apartment").document("s4f7fpuSstdKi0nqleoF");
+        DocumentReference docRef = fstore.collection("Apartment").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
