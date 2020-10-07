@@ -4,29 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Contact"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Activity.Contact">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
 
-        android:background="#3cb6d3 "
-        >
+        android:background="#3cb6d3 ">
+
         <ImageView
             android:layout_width="50dp"
             android:layout_height="55dp"
             android:src="@drawable/logo" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="Rentals"
-            android:textSize="28sp"
             android:textColor="#ffffff"
-            android:textStyle="bold"
-            />
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -74,13 +75,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textField1"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="5dp"
-        android:hint="Name"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:hint="Name">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtname"
@@ -89,15 +90,15 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginTop="10dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:counterEnabled="true"
-        app:counterMaxLength="64"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
         android:hint="Email"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        app:counterEnabled="true"
+        app:counterMaxLength="64">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txteml"
@@ -105,13 +106,14 @@
             android:layout_height="50dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/TextField3"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Phone"
 
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:hint="Phone">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/userphone"
@@ -131,8 +133,7 @@
             android:layout_marginRight="5dp"
             android:hint="Message"
             app:counterEnabled="true"
-            app:counterMaxLength="200"
-            >
+            app:counterMaxLength="200">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputtextsms"
@@ -160,6 +161,7 @@
             android:backgroundTint="#3cb6d3"
             android:singleLine="true"
             android:text="Send Text Message" />
+
         <Button
             android:id="@+id/btnsendemail"
             style="@style/Widget.AppCompat.Button"

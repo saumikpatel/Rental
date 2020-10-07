@@ -80,7 +80,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             if (locationList.size() > 0) {
                 //The last location in the list is the newest
                 Location location = locationList.get(locationList.size() - 1);
-                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+             //   Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
                 if (mCurrLocationMarker != null) {
                     mCurrLocationMarker.remove();
@@ -131,7 +131,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onPlaceSelected(@NotNull Place place) {
                 // TODO: Get info about the selected place.
-                Log.i("", "Place: " + place.getAddressComponents());
+              //  Log.i("", "Place: " + place.getAddressComponents());
                 View fView = autocompleteFragment.getView();
                 EditText etTextInput = fView.findViewById(R.id.places_autocomplete_search_input);
                 etTextInput.setTextColor(Color.BLACK);
@@ -173,7 +173,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("TAG", document.getId() + " => " + document.getData());
+                              //  Log.d("TAG", document.getId() + " => " + document.getData());
                                 LatLng latLng1 = new LatLng((Double) document.getData().get("Latitude"), (Double) document.getData().get("Longitude"));
                                 putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getId());
 
@@ -188,7 +188,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void putApartmentMarker(LatLng latlng, String price, String ApartmentId) {
-        Toast.makeText(getActivity(), "" + latlng, Toast.LENGTH_SHORT).show();
+
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latlng);
         //markerOptions.title("Current Position");

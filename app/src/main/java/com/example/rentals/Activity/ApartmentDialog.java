@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,16 +24,23 @@ import android.widget.TextView;
 
 import com.example.rentals.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
 public class ApartmentDialog extends AppCompatActivity {
     FirebaseFirestore db;
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +90,7 @@ public class ApartmentDialog extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d("TAG", "DocumentSnapshot data: " + document.getData());
+                       // Log.d("TAG", "DocumentSnapshot data: " + document.getData());
                         TextView title = (TextView) dialog.findViewById(R.id.title);
                         TextView type = (TextView) dialog.findViewById(R.id.type);
                         TextView bedroom = (TextView)dialog.findViewById(R.id.bedroom);
@@ -90,7 +98,9 @@ public class ApartmentDialog extends AppCompatActivity {
                         title.setText(""+document.getData().get("Title"));
                         type.setText("Type:- "+document.getData().get("Unit")+", ");
                         bedroom.setText("Bedroom:- "+document.getData().get("Bedroom"));
-                        price.setText("price "+document.getData().get("Amount")+"$");
+                        price.setText("Price "+document.getData().get("Amount")+"$");
+
+                        getImage(dialog,document.getId());
 
 
 
@@ -104,6 +114,25 @@ public class ApartmentDialog extends AppCompatActivity {
         });
 
 
+    }
+
+    private void getImage(final Dialog dialog, String id) {
+        id="NoF5tUfg1f0HM4vZM2RJ";
+        storageReference = storage.getInstance().getReference();
+        storageReference.child("images/"+id+"/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                ImageView image = (ImageView) dialog.findViewById(R.id.dialogimage);
+                Picasso.get().load(uri).resize(120, 120).into(image);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 
 }

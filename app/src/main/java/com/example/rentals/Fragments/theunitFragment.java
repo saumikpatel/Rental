@@ -127,7 +127,7 @@ public class theunitFragment extends Fragment {
                             balconytick.setImageResource(R.drawable.wrongmark);
                         }
 
-                        Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+                    //    Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("tagvv", "No such document");
                     }

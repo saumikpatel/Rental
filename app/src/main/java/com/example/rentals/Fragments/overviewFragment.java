@@ -136,7 +136,7 @@ public class overviewFragment extends Fragment {
 
 
 
-                        Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+                       // Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("tagvv", "No such document");
                     }

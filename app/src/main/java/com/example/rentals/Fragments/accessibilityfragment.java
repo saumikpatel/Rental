@@ -99,7 +99,7 @@ public class accessibilityfragment extends Fragment {
                             audiotick.setImageResource(R.drawable.wrongmark);
                         }
 
-                        Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+                      //  Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("tagvv", "No such document");
                     }

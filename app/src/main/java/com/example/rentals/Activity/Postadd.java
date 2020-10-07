@@ -8,12 +8,9 @@ import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -59,9 +56,6 @@ import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -662,7 +656,7 @@ public class Postadd extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
 
-                            uploadImage((String)documentReference.getId());
+                            uploadImage((String) documentReference.getId());
                             Toast.makeText(Postadd.this, " Data Added in DB ", Toast.LENGTH_SHORT).show();
                             pd.dismiss();
 
@@ -809,7 +803,6 @@ public class Postadd extends AppCompatActivity {
                     }
 
 
-
                 } else {
 //                    InputStream ist = null;
 //                    try {
@@ -823,8 +816,6 @@ public class Postadd extends AppCompatActivity {
                     contenturi.add(data.getData());
 
 
-
-
                 }
             }
         }
@@ -835,7 +826,7 @@ public class Postadd extends AppCompatActivity {
         storageReference = storage.getInstance().getReference();
         for (int j = 0; j < contenturi.size(); j++) {
 
-            StorageReference ref = storageReference.child("images").child(id+"/"+j);
+            StorageReference ref = storageReference.child("images").child(id + "/" + j);
             ref.putFile(contenturi.get(j))
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
