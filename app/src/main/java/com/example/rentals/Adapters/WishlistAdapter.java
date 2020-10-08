@@ -35,7 +35,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
     @Override
     public void onBindViewHolder(@NonNull WishlistAdapter.WishlistViewHolder holder, int position) {
-        Picasso.get().load(wishlist.get(position).getImage()).into(holder.aptimage);
+        Picasso.get().load(wishlist.get(position).getImage()).resize(380,120).into(holder.aptimage);
         holder.price.setText(wishlist.get(position).getPrice());
         holder.type.setText(wishlist.get(position).getType());
         holder.bedroom.setText(wishlist.get(position).getBedroom());

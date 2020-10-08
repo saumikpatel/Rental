@@ -115,10 +115,10 @@ public class WishlistFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
        // auth = FirebaseAuth.getInstance();
-        wishlistRecycler =view.findViewById(R.id.wishlist_recycler);
+
         final ArrayList<WishlistModel> wishlist = new ArrayList<>();
 
       db=FirebaseFirestore.getInstance();
@@ -139,7 +139,7 @@ public class WishlistFragment extends Fragment {
 
                                // Toast.makeText(getActivity().getApplicationContext(), ""+apartmentId, Toast.LENGTH_SHORT).show();
                                 Log.d("", ""+apartmentId);
-                                getApartmentDetails(apartmentId,wishlist);
+                                getApartmentDetails(apartmentId,wishlist,view);
 
                                 // productsList.add(new CartModel(cid,  name, quantity, price,myUri));
 
@@ -148,7 +148,7 @@ public class WishlistFragment extends Fragment {
 
 
                             }
-                            setWishlistRecycler(wishlist);
+                            setWishlistRecycler(wishlist,view);
 
 
 
@@ -159,7 +159,7 @@ public class WishlistFragment extends Fragment {
                 });
     }
 
-    private void getApartmentDetails(final String apartmentId, final ArrayList<WishlistModel> wishlist) {
+    private void getApartmentDetails(final String apartmentId, final ArrayList<WishlistModel> wishlist, final View view) {
         DocumentReference docRef = db.collection("Apartment").document(apartmentId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -174,7 +174,7 @@ public class WishlistFragment extends Fragment {
                         type=(String)document.getData().get("Unit");
                         bedroom=(String)document.getData().get("Bedroom");
                         bathroom=(String)document.getData().get("Bathroom");
-                        getImage(apartmentId,price,type,location,bedroom,bathroom,wishlist);
+                        getImage(apartmentId,price,type,location,bedroom,bathroom,wishlist,view);
                     } else {
                         Log.d("TAG", "No such document");
                     }
@@ -186,12 +186,13 @@ public class WishlistFragment extends Fragment {
 
     }
 
-    private void getImage(final String apartmentId, final String price, final String type, final String location, final String bedroom, final String bathroom, final ArrayList<WishlistModel> wishlist) {
+    private void getImage(final String apartmentId, final String price, final String type, final String location, final String bedroom, final String bathroom, final ArrayList<WishlistModel> wishlist, View view) {
         storageReference = storage.getInstance().getReference();
-        storageReference.child("images/"+apartmentId+"/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child("images/4GDNfppYHM9POsVsgSxR/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 // Got the download URL for 'users/me/profile.png'
+                Log.d("TAG", "image got");
                 wishlist.add(new WishlistModel(apartmentId,  price, bedroom, bathroom,location,type,uri));
 
             }
@@ -199,13 +200,14 @@ public class WishlistFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
+                Log.d("TAG", "image not got");
             }
         });
 
     }
 
-    private void setWishlistRecycler(ArrayList<WishlistModel> wishlist) {
-
+    private void setWishlistRecycler(ArrayList<WishlistModel> wishlist, View view) {
+        wishlistRecycler =view.findViewById(R.id.wishlist_recycler);
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getActivity().getApplicationContext(), RecyclerView.VERTICAL, false);
         wishlistRecycler.setLayoutManager(layoutManager);
         wishAdapter = new WishlistAdapter(getActivity().getApplicationContext(), wishlist);
