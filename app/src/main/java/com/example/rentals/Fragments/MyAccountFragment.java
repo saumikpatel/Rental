@@ -2,15 +2,9 @@ package com.example.rentals.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -19,13 +13,10 @@ import com.example.rentals.Activity.MainActivity;
 import com.example.rentals.Activity.Postadd;
 import com.example.rentals.Activity.ProfileDetails;
 import com.example.rentals.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.rentals.entities.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.example.rentals.entities.User;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -36,20 +27,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 // */
 public class MyAccountFragment extends PreferenceFragmentCompat {
 
-    CircleImageView ivProfile;
-    TextView tvPersonName;
-    LinearLayout llProfile;
-
-    FirebaseUser fUser;
-    User user = null;
-    private FirebaseAuth auth;
-    private FirebaseFirestore mFirebaseFirestore;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    CircleImageView ivProfile;
+    TextView tvPersonName;
+    LinearLayout llProfile;
+    FirebaseUser fUser;
+    User user = null;
+    private FirebaseAuth auth;
+    private FirebaseFirestore mFirebaseFirestore;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -106,7 +94,7 @@ public class MyAccountFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
-                Intent i = new Intent(getActivity(),ProfileDetails.class);
+                Intent i = new Intent(getActivity(), ProfileDetails.class);
                 startActivity(i);
                 return true;
             }
@@ -133,7 +121,7 @@ public class MyAccountFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
-                Intent i = new Intent(getActivity(),ProfileDetails.class);
+                Intent i = new Intent(getActivity(), ProfileDetails.class);
                 startActivity(i);
                 return true;
             }
@@ -144,7 +132,7 @@ public class MyAccountFragment extends PreferenceFragmentCompat {
 
                 FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(getActivity(), MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
                 startActivity(i);
 
                 return true;

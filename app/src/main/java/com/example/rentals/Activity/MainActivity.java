@@ -61,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.navigation_profile) {
                     curUser = auth.getCurrentUser();
                     if (curUser != null) {
-                        fm.beginTransaction().hide(active).show(account).commit();
+                        fm.beginTransaction().hide(active).show(account).disallowAddToBackStack().commit();
                         active = account;
                     } else {
-                        fm.beginTransaction().hide(active).show(profile).commit();
+                        fm.beginTransaction().hide(active).show(profile).disallowAddToBackStack().commit();
                         active = profile;
                     }
 

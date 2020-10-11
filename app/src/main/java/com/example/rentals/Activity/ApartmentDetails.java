@@ -1,6 +1,5 @@
 package com.example.rentals.Activity;
 
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,7 +23,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.rentals.Adapters.ViewImagePagerAdapter;
 import com.example.rentals.Adapters.ViewPagerAdapter;
 import com.example.rentals.Fragments.ProfileFragment;
-import com.example.rentals.Fragments.WishlistFragment;
 import com.example.rentals.Fragments.accessibilityfragment;
 import com.example.rentals.Fragments.overviewFragment;
 import com.example.rentals.Fragments.thebuildingFragment;
@@ -40,6 +38,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -58,12 +58,14 @@ public class ApartmentDetails extends AppCompatActivity {
     ImageView like;
     LinearLayout mainLayout;
     ViewPager imageViewPager;
-
+    Boolean wishlisted = false;
     FirebaseFirestore fstore;
 
     ProgressDialog pd;
     FirebaseStorage storage;
     StorageReference storageReference;
+    String UserId,fromLogin="abc";
+    String WishlistedId;
     private FirebaseUser curUser;
     private FirebaseAuth auth;
 
@@ -82,8 +84,8 @@ public class ApartmentDetails extends AppCompatActivity {
         like = (ImageView) findViewById(R.id.like);
         imageViewPager = findViewById(R.id.imageslider);
         WebView browser = (WebView) findViewById(R.id.browser2);
-        mainLayout=(LinearLayout)findViewById(R.id.mainLayout) ;
-        browser.getSettings().setJavaScriptEnabled(true); //Yes you have to do it
+        mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        browser.getSettings().setJavaScriptEnabled(true);
         browser.loadUrl("file:///android_asset/local.html");
         ArrayList<Uri> images = new ArrayList<Uri>();
 
@@ -93,8 +95,11 @@ public class ApartmentDetails extends AppCompatActivity {
         final String AptId;
         Bundle extras = getIntent().getExtras();
         AptId = extras.getString("AptId");
-
-        Toast.makeText(this, "hello"+AptId, Toast.LENGTH_SHORT).show();
+      //   fromLogin=extras.getString("fromlogin");
+        curUser = auth.getCurrentUser();
+        if (curUser != null) {
+            UserId = curUser.getUid();
+        }
         pd = new ProgressDialog(ApartmentDetails.this);
         pd.setMessage("Loading...");
         pd.show();
@@ -102,6 +107,7 @@ public class ApartmentDetails extends AppCompatActivity {
         getTabs(AptId);
         getImages(images, AptId);
         getdata(AptId);
+        checkWishlist(AptId, like);
         pd.dismiss();
 
         btnbuyApartment.setOnClickListener(new View.OnClickListener() {
@@ -113,46 +119,79 @@ public class ApartmentDetails extends AppCompatActivity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ApartmentDetails.this, "in function", Toast.LENGTH_SHORT).show();
+
                 fstore = FirebaseFirestore.getInstance();
                 curUser = auth.getCurrentUser();
+                if (curUser != null) {
+                    UserId = curUser.getUid();
+                }
 
                 if (curUser != null) {
-                    String UserId = curUser.getUid();
-                    Map<String, Object> wishlist = new HashMap<>();
-                    wishlist.put("UserId", UserId);
-                    wishlist.put("ApartmentId", AptId);
-                    fstore.collection("Wishlist")
-                            .add(wishlist)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.d("TAG", "DocumentSnapshot written with ID: " + documentReference.getId());
-                                    Toast.makeText(ApartmentDetails.this, "added", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("TAG", "Error adding document", e);
-                                }
-                            });
+                    UserId = curUser.getUid();
+                    if (wishlisted) {
+                        fstore.collection("Wishlist").document(WishlistedId)
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("TAG", "DocumentSnapshot successfully deleted!");
+                                        like.setImageResource(R.drawable.like);
+                                        wishlisted = false;
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("TAG", "Error deleting document", e);
+                                    }
+                                });
+
+
+                    } else {
+                        String filter = UserId + "_" + AptId;
+                        final Map<String, Object> wishlist = new HashMap<>();
+                        wishlist.put("UserId", UserId);
+                        wishlist.put("ApartmentId", AptId);
+                        wishlist.put("Filter", filter);
+
+                        fstore.collection("Wishlist")
+                                .add(wishlist)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Log.d("TAG", "DocumentSnapshot written with ID: " + documentReference.getId());
+                                        Toast.makeText(ApartmentDetails.this, "added", Toast.LENGTH_SHORT).show();
+                                        like.setImageResource(R.drawable.wishlisticon);
+                                        wishlisted = true;
+                                        WishlistedId = documentReference.getId();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("TAG", "Error adding document", e);
+                                    }
+                                });
+                    }
 
 
                 } else {
-                    mainLayout.setVisibility(LinearLayout.GONE);
-                    final Fragment login = new ProfileFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("From", "wishlist");
-                    bundle.putString("AptId",AptId);
-// set Fragmentclass Arguments
+//                    mainLayout.setVisibility(LinearLayout.GONE);
+//                    final Fragment login = new ProfileFragment();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("From", "wishlist");
+//                    bundle.putString("AptId", AptId);
+//
+//
+//                    login.setArguments(bundle);
+//                    final FragmentManager fm = getSupportFragmentManager();
+//                    fm.beginTransaction().replace(R.id.loginlayout, login, "3").addToBackStack(null).commit();
+                    ApartmentDialog alert = new ApartmentDialog();
+                    alert.showLoginDialog(ApartmentDetails.this);
 
-                    login.setArguments(bundle);
-                    final FragmentManager fm = getSupportFragmentManager();
-                    fm.beginTransaction().add(R.id.loginlayout, login, "3").commit();
+
+
                 }
-
-
 
 
             }
@@ -160,14 +199,50 @@ public class ApartmentDetails extends AppCompatActivity {
 
     }
 
+    private void checkWishlist(String aptId, final ImageView like) {
+        Toast.makeText(ApartmentDetails.this, "" + UserId + "_" + aptId, Toast.LENGTH_SHORT).show();
+        fstore.collection("Wishlist")
+                .whereEqualTo("Filter", UserId + "_" + aptId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (document.exists()) {
+                                    Log.d("saumik", document.getId() + " => " + document.getData());
+                                    like.setImageResource(R.drawable.wishlisticon);
+                                    wishlisted = true;
+                                    WishlistedId = document.getId();
+                                    return;
+                                } else {
+                                    Log.d("saumik", "Error getting documents: ", task.getException());
+                                    like.setImageResource(R.drawable.wishlisticon);
+                                }
+
+                            }
+                        } else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
 
+if(fromLogin.equals("true")){
+    Intent i =new Intent(ApartmentDetails.this,MainActivity.class);
+    startActivity(i);
+    finish();
+}
+else {
+    return;
+}
 
-
-            startActivity(new Intent(ApartmentDetails.this, MainActivity.class));
-            finish();
 
 
     }
@@ -246,12 +321,14 @@ public class ApartmentDetails extends AppCompatActivity {
                         String aptname = data1.get("Title").toString();
                         String pr = data1.get("Amount").toString();
                         String des = data1.get("Description").toString();
+                        String Address = data1.get("Address").toString();
 
                         // String data2 = data1.toString().trim();
                         //String aptname = data2.substring(data2.indexOf("Title") + 6, data2.indexOf(", Braille_Labels="));
                         apartmentName.setText(aptname);
-                        price.setText(pr);
+                        price.setText(pr + "$");
                         description.setText(des);
+                        address.setText(Address);
 
 
                         Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
@@ -273,16 +350,18 @@ public class ApartmentDetails extends AppCompatActivity {
             @Override
             public void run() {
 
-
                 viewPagerAdapter.addFragment(overviewFragment.getInstance(aptId), "OVERVIEW");
                 viewPagerAdapter.addFragment(theunitFragment.getInstance(aptId), "THE UNIT");
                 viewPagerAdapter.addFragment(thebuildingFragment.getInstance(aptId), "THE BUILDING");
                 viewPagerAdapter.addFragment(accessibilityfragment.getInstance(aptId), "ACCESSIBILITY");
-
                 viewPager.setAdapter(viewPagerAdapter);
-
                 tabLayout.setupWithViewPager(viewPager);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

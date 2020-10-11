@@ -2,21 +2,19 @@ package com.example.rentals.Fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.ListAdapter;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.rentals.Adapters.ViewImagePagerAdapter;
 import com.example.rentals.Adapters.WishlistAdapter;
 import com.example.rentals.Models.WishlistModel;
 import com.example.rentals.R;
@@ -33,7 +31,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -44,7 +41,19 @@ import java.util.ArrayList;
  */
 public class WishlistFragment extends Fragment {
 
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
     FirebaseFirestore db;
+    /**
+     * variable declaration for recyclerview
+     */
+    RecyclerView wishlistRecycler;
+
+    WishlistAdapter wishAdapter;
+    FirebaseStorage storage;
+    StorageReference storageReference;
     /**
      * variable declaration authenication object
      */
@@ -53,23 +62,6 @@ public class WishlistFragment extends Fragment {
      * variable declarationfor current user
      */
     private FirebaseUser curUser;
-    /**
-     * variable declaration for recyclerview
-     */
-    RecyclerView wishlistRecycler;
-    /**
-     * variable declaration for list adapter
-     */
-    WishlistAdapter wishAdapter;
-    FirebaseStorage storage;
-    StorageReference storageReference;
-
-
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     public WishlistFragment() {
         // Required empty public constructor
@@ -107,26 +99,36 @@ public class WishlistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+getWishlistDetails();
 
         return inflater.inflate(R.layout.fragment_wishlist, container, false);
-
 
     }
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-       // auth = FirebaseAuth.getInstance();
+
+
+        wishlistRecycler = view.findViewById(R.id.wishlist_recycler);
+       //getWishlistDetails();
+
+    }
+
+    private void getWishlistDetails() {
+
+        auth = FirebaseAuth.getInstance();
 
         final ArrayList<WishlistModel> wishlist = new ArrayList<>();
 
-      db=FirebaseFirestore.getInstance();
-      // curUser=auth.getCurrentUser();
-       // String userId=curUser.getUid();
-
+        db = FirebaseFirestore.getInstance();
+        curUser = auth.getCurrentUser();
+        String userId = null;
+        if (curUser != null) {
+            userId = curUser.getUid(); //Do what you need to do with the id
+        }
         db.collection("Wishlist")
-                .whereEqualTo("UserId", "jjUgo0MRvbgiokGHNAB0LTV8AxI2")
+                .whereEqualTo("UserId", userId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -135,31 +137,25 @@ public class WishlistFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("", document.getId() + " => " + document.getData());
                                 System.out.println(document.getId() + " => " + document.getData());
-                                String apartmentId= (String) document.getData().get("ApartmentId");
+                                String apartmentId = (String) document.getData().get("ApartmentId");
 
-                               // Toast.makeText(getActivity().getApplicationContext(), ""+apartmentId, Toast.LENGTH_SHORT).show();
-                                Log.d("", ""+apartmentId);
-                                getApartmentDetails(apartmentId,wishlist,view);
+                                // Toast.makeText(getActivity().getApplicationContext(), ""+apartmentId, Toast.LENGTH_SHORT).show();
+                                Log.d("", "" + apartmentId);
+                                getApartmentDetails(apartmentId, wishlist);
 
                                 // productsList.add(new CartModel(cid,  name, quantity, price,myUri));
-
-
-
-
-
                             }
-                            setWishlistRecycler(wishlist,view);
-
-
+                            setWishlistRecycler(wishlist);
 
                         } else {
                             Log.d("", "Error getting documents: ", task.getException());
                         }
                     }
                 });
+
     }
 
-    private void getApartmentDetails(final String apartmentId, final ArrayList<WishlistModel> wishlist, final View view) {
+    private void getApartmentDetails(final String apartmentId, final ArrayList<WishlistModel> wishlist) {
         DocumentReference docRef = db.collection("Apartment").document(apartmentId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -168,13 +164,13 @@ public class WishlistFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d("TAG", "DocumentSnapshot data: " + document.getData());
-                        String price,location,type,bedroom,bathroom;
-                        price=(String)document.getData().get("Amount");
-                        location=(String)document.getData().get("Address");
-                        type=(String)document.getData().get("Unit");
-                        bedroom=(String)document.getData().get("Bedroom");
-                        bathroom=(String)document.getData().get("Bathroom");
-                        getImage(apartmentId,price,type,location,bedroom,bathroom,wishlist,view);
+                        String price, location, type, bedroom, bathroom;
+                        price = (String) document.getData().get("Amount");
+                        location = (String) document.getData().get("Address");
+                        type = (String) document.getData().get("Unit");
+                        bedroom = (String) document.getData().get("Bedroom");
+                        bathroom = (String) document.getData().get("Bathroom");
+                        getImage(apartmentId, price, type, location, bedroom, bathroom, wishlist);
                     } else {
                         Log.d("TAG", "No such document");
                     }
@@ -186,14 +182,14 @@ public class WishlistFragment extends Fragment {
 
     }
 
-    private void getImage(final String apartmentId, final String price, final String type, final String location, final String bedroom, final String bathroom, final ArrayList<WishlistModel> wishlist, View view) {
+    private void getImage(final String apartmentId, final String price, final String type, final String location, final String bedroom, final String bathroom, final ArrayList<WishlistModel> wishlist) {
         storageReference = storage.getInstance().getReference();
-        storageReference.child("images/4GDNfppYHM9POsVsgSxR/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child("images/" + apartmentId + "/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 // Got the download URL for 'users/me/profile.png'
                 Log.d("TAG", "image got");
-                wishlist.add(new WishlistModel(apartmentId,  price, bedroom, bathroom,location,type,uri));
+                wishlist.add(new WishlistModel(apartmentId, price, bedroom, bathroom, location, type, uri));
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -206,13 +202,32 @@ public class WishlistFragment extends Fragment {
 
     }
 
-    private void setWishlistRecycler(ArrayList<WishlistModel> wishlist, View view) {
-        wishlistRecycler =view.findViewById(R.id.wishlist_recycler);
-        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getActivity().getApplicationContext(), RecyclerView.VERTICAL, false);
+    private void setWishlistRecycler(ArrayList<WishlistModel> wishlist) {
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), RecyclerView.VERTICAL, false);
         wishlistRecycler.setLayoutManager(layoutManager);
         wishAdapter = new WishlistAdapter(getActivity().getApplicationContext(), wishlist);
         wishlistRecycler.setAdapter(wishAdapter);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getWishlistDetails();
+
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+       // getWishlistDetails();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //getWishlistDetails();
     }
 
 }

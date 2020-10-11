@@ -1,6 +1,7 @@
 package com.example.rentals.Adapters;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rentals.Models.WishlistModel;
 import com.example.rentals.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthProvider;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,10 +30,21 @@ import java.util.List;
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.WishlistViewHolder> {
     Context context;
     List<WishlistModel> wishlist;
+    FirebaseFirestore db;
+    FirebaseUser curUser;
+    FirebaseAuth auth;
+    String userid=null;
+
 
     public WishlistAdapter(Context context,List<WishlistModel> wishlist) {
         this.context = context;
         this.wishlist=wishlist;
+        db=FirebaseFirestore.getInstance();
+        auth=FirebaseAuth.getInstance();
+        curUser=auth.getCurrentUser();
+        if(curUser!=null){
+            userid=curUser.getUid();
+        }
 
     }
 
@@ -34,14 +56,41 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WishlistAdapter.WishlistViewHolder holder, int position) {
-        Picasso.get().load(wishlist.get(position).getImage()).resize(380,120).into(holder.aptimage);
-        holder.price.setText(wishlist.get(position).getPrice());
+    public void onBindViewHolder(@NonNull final WishlistAdapter.WishlistViewHolder holder, final int position) {
+        Picasso.get().load(wishlist.get(position).getImage()).fit().into(holder.aptimage);
+
+        holder.price.setText(wishlist.get(position).getPrice()+"$");
         holder.type.setText(wishlist.get(position).getType());
         holder.bedroom.setText(wishlist.get(position).getBedroom());
         holder.bathroom.setText(wishlist.get(position).getBathroom());
         holder.location.setText(wishlist.get(position).getLocation());
 
+        holder.wishlistIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Query productIdRef  =db.collection("Wishlist")
+                        .whereEqualTo("Filter", userid+"_"+wishlist.get(position).getApartmentId());
+
+                productIdRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            document.getReference().delete();
+                            wishlist.remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, wishlist.size());
+                        }
+                    }
+
+
+
+//
+
+                });
+            }
+        });
     }
 
     @Override
@@ -50,7 +99,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     }
     public static final class WishlistViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView aptimage;
+        ImageView aptimage,wishlistIcon;
         TextView price, bedroom, bathroom,location,type;
 
         public WishlistViewHolder(@NonNull View itemView) {
@@ -61,7 +110,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             bathroom = itemView.findViewById(R.id.bathnumberwishlist);
             location = itemView.findViewById(R.id.addresswishlist);
             type = itemView.findViewById(R.id.apartmentwishlist);
-
+            wishlistIcon = itemView.findViewById(R.id.wishlisticon);
 
 
         }

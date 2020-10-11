@@ -84,6 +84,7 @@ public class Postadd extends AppCompatActivity {
     private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
     private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet, btn_gym, btn_pool, btn_concierge, btn_storage, btn_security, btn_elevator, btn_wheelchair, btn_labels, btn_audio, btn_bicycle;
     private Button btn_postad, btn_calender;
+    int photos=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -438,7 +439,10 @@ public class Postadd extends AppCompatActivity {
                     Toast.makeText(Postadd.this, "Please Select Parking Included from DropDown", Toast.LENGTH_LONG).show();
                     et_parking.getEditText().getText().clear();
                     return;
-                } else {
+
+                }
+                else if(photos<1){Toast.makeText(Postadd.this, "Please Select atleast 1 photo", Toast.LENGTH_LONG).show();}
+                else {
                     final ProgressDialog pd;
                     pd = new ProgressDialog(Postadd.this);
                     pd.setMessage("Loading...");
@@ -792,6 +796,7 @@ public class Postadd extends AppCompatActivity {
 
 
                 if (clipdata != null) {
+                    photos=clipdata.getItemCount();
                     if (clipdata.getItemCount() > 4) {
                         Toast.makeText(this, "please select only four items", Toast.LENGTH_SHORT).show();
                         return;
@@ -814,6 +819,7 @@ public class Postadd extends AppCompatActivity {
 //                    Bitmap bitmap = BitmapFactory.decodeStream(ist);
 //                   // selectedImage.setImageBitmap(bitmap);
                     contenturi.add(data.getData());
+                    photos=1;
 
 
                 }

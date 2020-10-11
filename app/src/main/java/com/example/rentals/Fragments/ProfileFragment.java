@@ -47,6 +47,7 @@ public class ProfileFragment extends Fragment {
     String AptId;
     private static final String ARG_PARAM2 = "param2";
 
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -72,12 +73,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            // TODO: Rename and change types of parameters
-             from = getArguments().getString("From");
-            AptId = getArguments().getString("AptId");
-            Toast.makeText(getActivity().getApplicationContext(), ""+from, Toast.LENGTH_SHORT).show();
-        }
+
     }
 
     @Override
@@ -116,21 +112,16 @@ public class ProfileFragment extends Fragment {
                             Toast.makeText(getActivity().getApplicationContext(), "Login Success!", Toast.LENGTH_LONG).show();
                             Toast.makeText(getActivity().getApplicationContext(), "Login Success!"+from, Toast.LENGTH_LONG).show();
 
-                            if(from.equals("wishlist")){
-                                Bundle bundle = new Bundle();
-                                bundle.putString("AptId", AptId);
-                                Intent i = new Intent(getActivity(), ApartmentDetails.class);
-                                i.putExtras(bundle);
-                                startActivity(i);
 
-                            }
-                            else {
+
                                 Toast.makeText(getActivity().getApplicationContext(), "in else", Toast.LENGTH_LONG).show();
 
                                 Intent i = new Intent(getActivity(), MainActivity.class);
                                 startActivity(i);
 
-                            }
+                               // getFragmentManager().beginTransaction().remove((Fragment) ProfileFragment.this).commitAllowingStateLoss();
+
+
 
 
 //                            Fragment fragment = new MapFragment();
@@ -200,5 +191,14 @@ public class ProfileFragment extends Fragment {
         return v;
     }
 
-
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//
+//    }
+//
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//    }
 }

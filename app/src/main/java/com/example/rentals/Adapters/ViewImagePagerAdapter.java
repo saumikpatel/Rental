@@ -2,22 +2,17 @@ package com.example.rentals.Adapters;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.rentals.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
@@ -27,13 +22,12 @@ public class ViewImagePagerAdapter extends PagerAdapter {
     FirebaseStorage storage;
     StorageReference storageReference;
     private Context context;
-    private ArrayList<Uri> images= new ArrayList<Uri>();
+    private ArrayList<Uri> images = new ArrayList<Uri>();
 
 
     public ViewImagePagerAdapter(Context context, ArrayList<Uri> images) {
         this.context = context;
-        this.images=images;
-
+        this.images = images;
 
 
     }
@@ -104,8 +98,8 @@ public class ViewImagePagerAdapter extends PagerAdapter {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.custom_layout, null);
         ImageView imageView = view.findViewById(R.id.img1);
-       // imageView.setImageURI(images.get(position));
-        Picasso.get().load(images.get(position)).resize(120, 120).into(imageView);
+        // imageView.setImageURI(images.get(position));
+        Picasso.get().load(images.get(position)).into(imageView);
         ViewPager viewPager = (ViewPager) container;
         viewPager.addView(view);
         return view;
