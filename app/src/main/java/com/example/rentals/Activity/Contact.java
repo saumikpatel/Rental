@@ -1,45 +1,66 @@
 package com.example.rentals.Activity;
-import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import android.net.Uri;
+
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.rentals.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import org.w3c.dom.Text;
+import java.util.Map;
 
 public class Contact extends AppCompatActivity {
     //EditText Username = (EditText) findViewById(R.id.txtname);
     private final static int SEND_SMS_PERMISSION_REQUEST_CODE = 111;
     private static final int PERMISSION_REQUEST_CODE = 1;
-
+    FirebaseFirestore fstore;
+    FirebaseStorage storage;
+    StorageReference storageReference;
+    String Uid;
+    EditText username, userphone, eml;
+    TextView phone;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+
+        Intent i = getIntent();
+        Uid = i.getStringExtra("Uid");
+
         Button sendMsg = (Button) findViewById(R.id.btnsendsms);
         Button startBtn = (Button) findViewById(R.id.btnsendemail);
         final EditText msg = (EditText) findViewById(R.id.inputtextsms);
-        final EditText username=(EditText) findViewById(R.id.txtname);
-        final EditText userphone=(EditText) findViewById(R.id.userphone);
+        username = (EditText) findViewById(R.id.txtname);
+        userphone = (EditText) findViewById(R.id.userphone);
         ImageView imageCall = findViewById(R.id.imgcall);
-        final TextView phone = (TextView) findViewById(R.id.txtphonenumber);
+        phone = (TextView) findViewById(R.id.txtphonenumber);
+        eml = findViewById(R.id.txteml);
         startBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 sendEmail();
@@ -50,12 +71,13 @@ public class Contact extends AppCompatActivity {
         if (checkPermission(Manifest.permission.SEND_SMS)) {
             sendMsg.setEnabled(true);
         }   //if permission is not granted then check if the user has denied the permission
-            else{
-                //a pop up will appear asking for required permission to send a sms
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, SEND_SMS_PERMISSION_REQUEST_CODE);
-             }
+        else {
+            //a pop up will appear asking for required permission to send a sms
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, SEND_SMS_PERMISSION_REQUEST_CODE);
+        }
 
-
+        getnumber();
+        getUserData();
         sendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +88,7 @@ public class Contact extends AppCompatActivity {
                     if (checkPermission(Manifest.permission.SEND_SMS)) {
                         SmsManager smsManager = SmsManager.getDefault();
                         smsManager.sendTextMessage(Phonenumber, null, message, null, null);
-                        Toast.makeText(Contact.this,"Message Sent!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Contact.this, "Message Sent!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(Contact.this, "Permission Denied", Toast.LENGTH_SHORT).show();
                     }
@@ -87,8 +109,8 @@ public class Contact extends AppCompatActivity {
     }//end
 
 
-    private boolean checkPermission(String Permission){
-        int checkPermission= ContextCompat.checkSelfPermission(this,Permission);
+    private boolean checkPermission(String Permission) {
+        int checkPermission = ContextCompat.checkSelfPermission(this, Permission);
         return checkPermission == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -127,6 +149,78 @@ public class Contact extends AppCompatActivity {
             Toast.makeText(Contact.this, "Enter Phone Number", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void getnumber() {
+
+        fstore = FirebaseFirestore.getInstance();
+        DocumentReference docRef = fstore.collection("User").document(Uid);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        Map<String, Object> data3 = document.getData();
+                        // String Name = data3.get("Name").toString();
+                        //String Email = data3.get("Email").toString();
+                        String Phnumber = data3.get("Phone").toString();
+                        Log.d("tagvv", "DocumentSnapshot data: " + data3);
+
+                        //username.getEditText().setText(Name);
+                        //email.getEditText().setText(Email);
+                        phone.setText(Phnumber);
+
+
+                        Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d("tagvv", "No such document");
+                    }
+                } else {
+                    Log.d("tagvv", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+
+    private void getUserData() {
+
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        String id = firebaseUser.getUid();
+        Log.v("tagvv", " " + id);
+        fstore = FirebaseFirestore.getInstance();
+        DocumentReference docRef = fstore.collection("User").document(id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        Map<String, Object> data3 = document.getData();
+                        String Name = data3.get("Name").toString();
+                        String Email = data3.get("Email").toString();
+                        String Phnumber = data3.get("Phone").toString();
+                        Log.d("tagvv", "DocumentSnapshot data: " + data3);
+
+                        username.setText(Name);
+                        eml.setText(Email);
+                        userphone.setText(Phnumber);
+
+
+                        Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d("tagvv", "No such document");
+                    }
+                } else {
+                    Log.d("tagvv", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
 
     protected void sendEmail() {
         Log.i("Send email", "");
