@@ -16,13 +16,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.rentals.Adapters.ViewImagePagerAdapter;
 import com.example.rentals.Adapters.ViewPagerAdapter;
-import com.example.rentals.Fragments.ProfileFragment;
 import com.example.rentals.Fragments.accessibilityfragment;
 import com.example.rentals.Fragments.overviewFragment;
 import com.example.rentals.Fragments.thebuildingFragment;
@@ -64,8 +61,8 @@ public class ApartmentDetails extends AppCompatActivity {
     ProgressDialog pd;
     FirebaseStorage storage;
     StorageReference storageReference;
-    String UserId,fromLogin="abc";
-    String WishlistedId;
+    String UserId, fromLogin = "abc";
+    String WishlistedId, Uid;
     private FirebaseUser curUser;
     private FirebaseAuth auth;
 
@@ -95,7 +92,7 @@ public class ApartmentDetails extends AppCompatActivity {
         final String AptId;
         Bundle extras = getIntent().getExtras();
         AptId = extras.getString("AptId");
-      //   fromLogin=extras.getString("fromlogin");
+        //   fromLogin=extras.getString("fromlogin");
         curUser = auth.getCurrentUser();
         if (curUser != null) {
             UserId = curUser.getUid();
@@ -113,6 +110,9 @@ public class ApartmentDetails extends AppCompatActivity {
         btnbuyApartment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), Contact.class);
+                i.putExtra("Uid", Uid);
+                startActivity(i);
 
             }
         });
@@ -190,7 +190,6 @@ public class ApartmentDetails extends AppCompatActivity {
                     alert.showLoginDialog(ApartmentDetails.this);
 
 
-
                 }
 
 
@@ -234,15 +233,13 @@ public class ApartmentDetails extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-if(fromLogin.equals("true")){
-    Intent i =new Intent(ApartmentDetails.this,MainActivity.class);
-    startActivity(i);
-    finish();
-}
-else {
-    return;
-}
-
+        if (fromLogin.equals("true")) {
+            Intent i = new Intent(ApartmentDetails.this, MainActivity.class);
+            startActivity(i);
+            finish();
+        } else {
+            return;
+        }
 
 
     }
@@ -322,6 +319,8 @@ else {
                         String pr = data1.get("Amount").toString();
                         String des = data1.get("Description").toString();
                         String Address = data1.get("Address").toString();
+                        Uid = data1.get("UserID").toString();
+
 
                         // String data2 = data1.toString().trim();
                         //String aptname = data2.substring(data2.indexOf("Title") + 6, data2.indexOf(", Braille_Labels="));
