@@ -40,7 +40,7 @@ public class Contact extends AppCompatActivity {
     FirebaseFirestore fstore;
     FirebaseStorage storage;
     StorageReference storageReference;
-    String Uid;
+    String Uid, OwnerEmail;
     EditText username, userphone, eml;
     TextView phone;
     private FirebaseAuth auth;
@@ -163,7 +163,7 @@ public class Contact extends AppCompatActivity {
 
                         Map<String, Object> data3 = document.getData();
                         // String Name = data3.get("Name").toString();
-                        //String Email = data3.get("Email").toString();
+                        OwnerEmail = data3.get("Email").toString();
                         String Phnumber = data3.get("Phone").toString();
                         Log.d("tagvv", "DocumentSnapshot data: " + data3);
 
@@ -224,7 +224,7 @@ public class Contact extends AppCompatActivity {
 
     protected void sendEmail() {
         Log.i("Send email", "");
-        String[] TO = {""};
+        String[] TO = {OwnerEmail};
         String[] CC = {""};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
@@ -232,8 +232,9 @@ public class Contact extends AppCompatActivity {
         emailIntent.setType("text/plain");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Inquiry for Apartment");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Hi,\n" + "\n" + "I'd like to schedule a visit to your rental property I found on Rentals." +
+                " Please let me know when the best date and time would be.\n" + "\n" + "\n" + "Thank you!");
 
         try {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));

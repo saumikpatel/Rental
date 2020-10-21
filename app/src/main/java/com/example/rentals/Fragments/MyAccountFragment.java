@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -134,7 +135,7 @@ public class MyAccountFragment extends PreferenceFragmentCompat {
                 Intent i = new Intent(getActivity(), MainActivity.class);
 
                 startActivity(i);
-
+                Toast.makeText(getActivity(), "Logout Successfully", Toast.LENGTH_LONG).show();
                 return true;
             }
         });

@@ -110,10 +110,16 @@ public class ApartmentDetails extends AppCompatActivity {
         btnbuyApartment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), Contact.class);
-                i.putExtra("Uid", Uid);
-                startActivity(i);
-
+                auth = FirebaseAuth.getInstance();
+                fstore = FirebaseFirestore.getInstance();
+                curUser = auth.getCurrentUser();
+                if (curUser != null) {
+                    Intent i = new Intent(getApplicationContext(), Contact.class);
+                    i.putExtra("Uid", Uid);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(ApartmentDetails.this, "To Contact You need to login", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         like.setOnClickListener(new View.OnClickListener() {
