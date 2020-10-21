@@ -71,19 +71,19 @@ public class ProfileDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_details);
 
+
+        profile = findViewById(R.id.profile_image);
         name = findViewById(R.id.upadtename);
         email = findViewById(R.id.updateemail);
         phone = findViewById(R.id.updatephone);
 
-        profile = findViewById(R.id.profile_image);
+        getUserData();
+
+        btn_update = findViewById(R.id.btnUpdate);
 
         SharedPreferences sp = getApplicationContext().getSharedPreferences("Userdata", Context.MODE_PRIVATE);
         final String spEmail = sp.getString("USEREmailID", "");
         final String spPassword = sp.getString("USERPassword", "");
-
-
-        btn_update = findViewById(R.id.btnUpdate);
-        getUserData();
 
 
         profile.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +92,7 @@ public class ProfileDetails extends AppCompatActivity {
                 selectImage();
             }
         });
+
 
         btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +196,7 @@ public class ProfileDetails extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Choose from Gallery")) {
-                    contenturi.clear();
+
                     Intent gallery = new Intent();
                     gallery.setType("image/*");
                     //gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -318,7 +319,9 @@ public class ProfileDetails extends AppCompatActivity {
                         email.getEditText().setText(Email);
                         phone.getEditText().setText(Phnumber);
 
-                        Glide.with(ProfileDetails.this).load(firebaseUser.getPhotoUrl()).into(profile);
+                        Glide.with(ProfileDetails.this).load(firebaseUser.getPhotoUrl()).error(R.drawable.account).into(profile);
+
+
                     } else {
                         Log.d("TAG", "No such document");
 

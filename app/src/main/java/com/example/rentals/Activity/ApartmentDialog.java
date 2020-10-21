@@ -44,11 +44,24 @@ public class ApartmentDialog extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     SharedPreferences sp;
+    public TextInputLayout Email, Password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apartment_dialog);
 
+        Email = findViewById(R.id.email);
+        Password = findViewById(R.id.password);
+
+
+        String email = Email.getEditText().getText().toString();
+        String pwd = Password.getEditText().getText().toString();
+        sp = this.getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("USEREmailID", email);
+        editor.putString("USERPassword", pwd);
+        editor.apply();
 
 
     }
@@ -70,7 +83,7 @@ public class ApartmentDialog extends AppCompatActivity {
 
         getApartmentData(dialog,ApartmentId);
 
-        sp = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+
 
 
         next.setOnClickListener(new View.OnClickListener() {
@@ -140,10 +153,9 @@ public class ApartmentDialog extends AppCompatActivity {
                 Log.v("tagvv", " hello"  );
                 String email = Email.getEditText().getText().toString();
                 String pwd = Password.getEditText().getText().toString();
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("USEREmailID", email);
-                editor.putString("USERPassword", pwd);
-                editor.commit();
+                Log.v("tagvv", " " + email);
+                Log.v("tagvv", " " + pwd);
+
                 System.out.println(email+""+pwd);
                 if (email.isEmpty() || pwd.isEmpty()) {
                     Toast.makeText(activity, "Please Fill The Form", Toast.LENGTH_SHORT).show();

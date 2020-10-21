@@ -1,6 +1,7 @@
 package com.example.rentals.Fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -40,8 +41,8 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseUser curUser;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static String from= "map";
-    String AptId,emailStr,passStr;
+    private static String from = "map";
+    String AptId, emailStr, passStr;
     private static final String ARG_PARAM2 = "param2";
     SharedPreferences sp;
 
@@ -71,6 +72,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sp = this.getActivity().getSharedPreferences("Userdata", Context.MODE_PRIVATE);
 
     }
 
@@ -78,7 +80,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_profile, container, false);
+        View v = inflater.inflate(R.layout.fragment_profile, container, false);
 
         auth = FirebaseAuth.getInstance();
         Email = v.findViewById(R.id.email);
@@ -87,20 +89,20 @@ public class ProfileFragment extends Fragment {
         login = v.findViewById(R.id.login);
         forgot = v.findViewById(R.id.forgotpass);
 
-        sp = this.getActivity().getSharedPreferences("Userdata", Context.MODE_PRIVATE);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v("tagvv", " hello"  );
+                Log.v("tagvv", " hello");
                 String email = Email.getEditText().getText().toString();
                 String pwd = Password.getEditText().getText().toString();
+
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("USEREmailID", email);
                 editor.putString("USERPassword", pwd);
                 editor.commit();
 
-                System.out.println(email+""+pwd);
+                System.out.println(email + "" + pwd);
                 if (email.isEmpty() || pwd.isEmpty()) {
                     Toast.makeText(getActivity(), "Please Fill The Form", Toast.LENGTH_SHORT).show();
                     return;
@@ -114,8 +116,7 @@ public class ProfileFragment extends Fragment {
                         if (task.isSuccessful()) {
                             curUser = auth.getCurrentUser();
                             Toast.makeText(getActivity().getApplicationContext(), "Login Success!", Toast.LENGTH_LONG).show();
-                            Toast.makeText(getActivity().getApplicationContext(), "Login Success!"+from, Toast.LENGTH_LONG).show();
-
+                            Toast.makeText(getActivity().getApplicationContext(), "Login Success!" + from, Toast.LENGTH_LONG).show();
 
 
                             Toast.makeText(getActivity().getApplicationContext(), "in else", Toast.LENGTH_LONG).show();
