@@ -189,7 +189,7 @@ public class ProfileDetails extends AppCompatActivity {
     }
 
     private void selectImage() {
-        final CharSequence[] options = {"Choose from Gallery", "Cancel" , "Delete"};
+        final CharSequence[] options = {"Choose from Gallery", "Cancel", "Delete"};
         AlertDialog.Builder builder1 = new AlertDialog.Builder(ProfileDetails.this);
         builder1.setTitle("Add Photo!");
         builder1.setItems(options, new DialogInterface.OnClickListener() {
@@ -206,7 +206,7 @@ public class ProfileDetails extends AppCompatActivity {
                     startActivityForResult(Intent.createChooser(gallery, ""), GALLERY_REQUEST_CODE);
                 } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
-                } else if(options[item].equals("Delete")) {
+                } else if (options[item].equals("Delete")) {
                     deleteImage();
                 }
             }
@@ -296,29 +296,28 @@ public class ProfileDetails extends AppCompatActivity {
         });
     }
 
-private void deleteImage(){
-    auth = FirebaseAuth.getInstance();
-    final FirebaseUser firebaseUser = auth.getCurrentUser();
-    String photoRef = firebaseUser.getUid();
-    Log.v("tagvv", " " + photoRef);
-    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images").child("Profile").child(photoRef + ".jpeg");
-    storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-        @Override
-        public void onSuccess(Void aVoid) {
-           profile.setImageResource(R.drawable.account);
-            Log.d("tagvv", "onSuccess: deleted file");
-        }
-    }).addOnFailureListener(new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception exception) {
-            // Uh-oh, an error occurred!
-            Log.d("tagvv", "onFailure: did not delete file");
-        }
-    });
+    private void deleteImage() {
+        auth = FirebaseAuth.getInstance();
+        final FirebaseUser firebaseUser = auth.getCurrentUser();
+        String photoRef = firebaseUser.getUid();
+        Log.v("tagvv", " " + photoRef);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images").child("Profile").child(photoRef + ".jpeg");
+        storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                profile.setImageResource(R.drawable.account);
+                Log.d("tagvv", "onSuccess: deleted file");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+                Log.d("tagvv", "onFailure: did not delete file");
+            }
+        });
 
-    firebaseUser.getPhotoUrl()
+    }
 
-}
     private void getUserData() {
         auth = FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = auth.getCurrentUser();
