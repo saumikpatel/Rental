@@ -1,30 +1,26 @@
 package com.example.rentals.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.rentals.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,13 +39,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 public class ApartmentDialog extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseStorage storage;
     StorageReference storageReference;
-
+    SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,14 +70,17 @@ public class ApartmentDialog extends AppCompatActivity {
 
         getApartmentData(dialog,ApartmentId);
 
+        sp = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { Intent i =new Intent(activity,ApartmentDetails.class) ;
                 Bundle bundle = new Bundle();
                 bundle.putString("AptId", ApartmentId);
                 i.putExtras(bundle);
-            activity.startActivity(i);
-           }
+                activity.startActivity(i);
+            }
         });
         dialog.show();
 
@@ -107,11 +104,11 @@ public class ApartmentDialog extends AppCompatActivity {
         wlp.y=150;
         window.setAttributes(wlp);
         //ImageView next = (ImageView) dialog.findViewById(R.id.btn_dialog);
-         final TextInputLayout Email, Password;
+        final TextInputLayout Email, Password;
         Button create, login, forgot;
         ProgressDialog pd;
         Toolbar toolbar;
-         final FirebaseAuth auth;
+        final FirebaseAuth auth;
         auth = FirebaseAuth.getInstance();
         Email = dialog.findViewById(R.id.email);
         Password = dialog.findViewById(R.id.password);
@@ -119,7 +116,7 @@ public class ApartmentDialog extends AppCompatActivity {
         login = dialog.findViewById(R.id.login);
         forgot = dialog.findViewById(R.id.forgotpass);
         toolbar=dialog.findViewById(R.id.toolbar);
-      //  getApartmentData(dialog,ApartmentId);
+        //  getApartmentData(dialog,ApartmentId);
 
 //        next.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -131,8 +128,8 @@ public class ApartmentDialog extends AppCompatActivity {
 //            }
 //        });
 
-      create.setTextColor(0);
-      forgot.setVisibility(View.GONE);
+        create.setTextColor(0);
+        forgot.setVisibility(View.GONE);
         toolbar.setVisibility(View.GONE);
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +140,10 @@ public class ApartmentDialog extends AppCompatActivity {
                 Log.v("tagvv", " hello"  );
                 String email = Email.getEditText().getText().toString();
                 String pwd = Password.getEditText().getText().toString();
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("USEREmailID", email);
+                editor.putString("USERPassword", pwd);
+                editor.commit();
                 System.out.println(email+""+pwd);
                 if (email.isEmpty() || pwd.isEmpty()) {
                     Toast.makeText(activity, "Please Fill The Form", Toast.LENGTH_SHORT).show();
@@ -160,7 +161,7 @@ public class ApartmentDialog extends AppCompatActivity {
 
 
 
-                                // getFragmentManager().beginTransaction().remove((Fragment) ProfileFragment.this).commitAllowingStateLoss();
+                            // getFragmentManager().beginTransaction().remove((Fragment) ProfileFragment.this).commitAllowingStateLoss();
 
 
 
@@ -177,8 +178,8 @@ public class ApartmentDialog extends AppCompatActivity {
                             activity.finish();
                             activity.overridePendingTransition(0, 0);
                             activity.startActivity(activity.getIntent());
-                           activity. overridePendingTransition(0, 0);
-                           // activity.startActivity(activity.getIntent());
+                            activity. overridePendingTransition(0, 0);
+                            // activity.startActivity(activity.getIntent());
                             dialog.dismiss();
                             pd.dismiss();
 
@@ -233,7 +234,7 @@ public class ApartmentDialog extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                       // Log.d("TAG", "DocumentSnapshot data: " + document.getData());
+                        // Log.d("TAG", "DocumentSnapshot data: " + document.getData());
                         TextView title = (TextView) dialog.findViewById(R.id.title);
                         TextView type = (TextView) dialog.findViewById(R.id.type);
                         TextView bedroom = (TextView)dialog.findViewById(R.id.bedroom);

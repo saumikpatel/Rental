@@ -2,21 +2,18 @@ package com.example.rentals.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+import android.content.Context;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
-import com.example.rentals.Activity.ApartmentDetails;
 import com.example.rentals.Activity.CreateAccount;
 import com.example.rentals.Activity.ForgotPassword;
 import com.example.rentals.Activity.MainActivity;
@@ -44,8 +41,9 @@ public class ProfileFragment extends Fragment {
     private FirebaseUser curUser;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static String from= "map";
-    String AptId;
+    String AptId,emailStr,passStr;
     private static final String ARG_PARAM2 = "param2";
+    SharedPreferences sp;
 
 
     public ProfileFragment() {
@@ -89,6 +87,7 @@ public class ProfileFragment extends Fragment {
         login = v.findViewById(R.id.login);
         forgot = v.findViewById(R.id.forgotpass);
 
+        sp = this.getActivity().getSharedPreferences("Userdata", Context.MODE_PRIVATE);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +95,11 @@ public class ProfileFragment extends Fragment {
                 Log.v("tagvv", " hello"  );
                 String email = Email.getEditText().getText().toString();
                 String pwd = Password.getEditText().getText().toString();
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("USEREmailID", email);
+                editor.putString("USERPassword", pwd);
+                editor.commit();
+
                 System.out.println(email+""+pwd);
                 if (email.isEmpty() || pwd.isEmpty()) {
                     Toast.makeText(getActivity(), "Please Fill The Form", Toast.LENGTH_SHORT).show();
@@ -114,14 +118,12 @@ public class ProfileFragment extends Fragment {
 
 
 
-                                Toast.makeText(getActivity().getApplicationContext(), "in else", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity().getApplicationContext(), "in else", Toast.LENGTH_LONG).show();
 
-                                Intent i = new Intent(getActivity(), MainActivity.class);
-                                startActivity(i);
+                            Intent i = new Intent(getActivity(), MainActivity.class);
+                            startActivity(i);
 
-                               // getFragmentManager().beginTransaction().remove((Fragment) ProfileFragment.this).commitAllowingStateLoss();
-
-
+                            // getFragmentManager().beginTransaction().remove((Fragment) ProfileFragment.this).commitAllowingStateLoss();
 
 
 //                            Fragment fragment = new MapFragment();
@@ -190,6 +192,7 @@ public class ProfileFragment extends Fragment {
 
         return v;
     }
+
 
 //    @Override
 //    public void onDestroy() {
