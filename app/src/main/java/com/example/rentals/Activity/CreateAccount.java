@@ -63,10 +63,7 @@ public class CreateAccount extends AppCompatActivity {
                 String Password = create_password.getEditText().getText().toString();
                 String ConfirmPassword = create_confirmPassword.getEditText().getText().toString();
 
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("USEREmailID", Email);
-                editor.putString("USERPassword", ConfirmPassword);
-                editor.commit();
+
 
                 if (Name.isEmpty() || Phone.isEmpty() || Email.isEmpty() || Password.isEmpty() || ConfirmPassword.isEmpty()) {
                     Toast.makeText(CreateAccount.this, "Please Fill The Form", Toast.LENGTH_SHORT).show();
@@ -89,6 +86,10 @@ public class CreateAccount extends AppCompatActivity {
                     Toast.makeText(CreateAccount.this, "Please enter valid email", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("USEREmailID", Email);
+                editor.putString("USERPassword", ConfirmPassword);
+                editor.commit();
                 pd = new ProgressDialog(CreateAccount.this);
                 pd.setMessage("Loading...");
                 pd.show();

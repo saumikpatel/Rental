@@ -21,7 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
+
 import com.example.rentals.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -222,16 +223,11 @@ public class ProfileDetails extends AppCompatActivity {
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
-                try {
-                    final Uri imageUri = data.getData();
-                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                    Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
-                    profile.setImageBitmap(bitmap);
-                    uploadImage(bitmap);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
-                }
+                final Uri imageUri = data.getData();
+//                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+//                    Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                //profile.setImageBitmap(bitmap);
+                    uploadImage(imageUri);
 
             } else {
                 Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
@@ -240,23 +236,24 @@ public class ProfileDetails extends AppCompatActivity {
     }
 
 
-    private void uploadImage(Bitmap bitmap) {
+    private void uploadImage(final Uri bitmap) {
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = auth.getCurrentUser();
         String USERid = firebaseUser.getUid();
         db = FirebaseFirestore.getInstance();
         storageReference = storage.getInstance().getReference();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
         final StorageReference ref = storageReference.child("images").child("Profile").child(USERid + ".jpeg");
-        ref.putBytes(baos.toByteArray())
+        ref.putFile(bitmap)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        getDownloadUrl(ref);
+                        //getDownloadUrl(ref);
                         Toast.makeText(ProfileDetails.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                        profile.setImageURI(bitmap);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -269,32 +266,32 @@ public class ProfileDetails extends AppCompatActivity {
 
     }
 
-    private void getDownloadUrl(StorageReference ref) {
-        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                setUSerProfileUrl(uri);
-            }
-        });
-    }
+//    private void getDownloadUrl(StorageReference ref) {
+//        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                setUSerProfileUrl(uri);
+//            }
+//        });
+//    }
 
-    private void setUSerProfileUrl(Uri uri) {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder().setPhotoUri(uri).build();
-        firebaseUser.updateProfile(request).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(ProfileDetails.this, "Success ", Toast.LENGTH_SHORT).show();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-                Toast.makeText(ProfileDetails.this, "Image Failed ", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void setUSerProfileUrl(Uri uri) {
+//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder().setPhotoUri(uri).build();
+//        firebaseUser.updateProfile(request).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Toast.makeText(ProfileDetails.this, "Success ", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//
+//                Toast.makeText(ProfileDetails.this, "Image Failed ", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     private void deleteImage() {
         auth = FirebaseAuth.getInstance();
@@ -321,7 +318,7 @@ public class ProfileDetails extends AppCompatActivity {
     private void getUserData() {
         auth = FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = auth.getCurrentUser();
-        String id = firebaseUser.getUid();
+        final String id = firebaseUser.getUid();
         Log.v("tagvv", " " + id);
         db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("User").document(id);
@@ -340,8 +337,8 @@ public class ProfileDetails extends AppCompatActivity {
                         name.getEditText().setText(Name);
                         email.getEditText().setText(Email);
                         phone.getEditText().setText(Phnumber);
-                        Glide.with(ProfileDetails.this).load(firebaseUser.getPhotoUrl()).error(R.drawable.account).into(profile);
-
+                       // Glide.with(ProfileDetails.this).load(firebaseUser.getPhotoUrl()).error(R.drawable.account).into(profile);
+                        getProfileImage(id);
 
                     } else {
                         Log.d("TAG", "No such document");
@@ -354,6 +351,24 @@ public class ProfileDetails extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void getProfileImage(String id) {
+        storageReference = storage.getInstance().getReference();
+        storageReference.child("images/Profile/"+id+".jpeg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+
+                Picasso.get().load(uri).fit().into(profile);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 }
 

@@ -331,6 +331,7 @@ public class Postadd extends AppCompatActivity {
 
 
                 fstore = FirebaseFirestore.getInstance();
+               // Toast.makeText(Postadd.this, ""+photos, Toast.LENGTH_SHORT).show();
 
 
                 final String Title = et_title.getEditText().getText().toString().trim();
@@ -441,7 +442,8 @@ public class Postadd extends AppCompatActivity {
                     return;
 
                 }
-                else if(photos<1){Toast.makeText(Postadd.this, "Please Select atleast 1 photo", Toast.LENGTH_LONG).show();}
+                else if(photos<1)
+                {Toast.makeText(Postadd.this, "Please Select atleast 1 photo", Toast.LENGTH_LONG).show();}
                 else {
                     final ProgressDialog pd;
                     pd = new ProgressDialog(Postadd.this);

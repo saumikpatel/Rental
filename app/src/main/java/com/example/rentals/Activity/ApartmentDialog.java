@@ -55,13 +55,13 @@ public class ApartmentDialog extends AppCompatActivity {
         Password = findViewById(R.id.password);
 
 
-        String email = Email.getEditText().getText().toString();
-        String pwd = Password.getEditText().getText().toString();
-        sp = this.getSharedPreferences("Userdata", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("USEREmailID", email);
-        editor.putString("USERPassword", pwd);
-        editor.apply();
+//        String email = Email.getEditText().getText().toString();
+//        String pwd = Password.getEditText().getText().toString();
+//        sp = this.getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sp.edit();
+//        editor.putString("USEREmailID", email);
+//        editor.putString("USERPassword", pwd);
+//        editor.apply();
 
 
     }
@@ -161,6 +161,11 @@ public class ApartmentDialog extends AppCompatActivity {
                     Toast.makeText(activity, "Please Fill The Form", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                sp = activity.getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("USEREmailID", email);
+                editor.putString("USERPassword", pwd);
+                editor.commit();
                 pd = new ProgressDialog(activity);
                 pd.setMessage("Loading...");
                 pd.show();
