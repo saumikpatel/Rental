@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.rentals.PostList;
 import com.example.rentals.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -75,7 +76,7 @@ public class UpdateAd extends AppCompatActivity {
     FirebaseFirestore fstore;
     FirebaseAuth auth;
     AutocompleteSupportFragment autocompleteFragment, city;
-    ImageView selectedImage, selectedImage1, selectedImage2, selectedImage3, upload;
+    ImageView selectedImage, selectedImage1, selectedImage2, selectedImage3, upload ,del;
     ImageView[] image;
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -112,6 +113,7 @@ public class UpdateAd extends AppCompatActivity {
 
         upload = findViewById(R.id.updateImage);
         image = new ImageView[]{upload, selectedImage1, selectedImage2, selectedImage3};
+        del =findViewById(R.id.delete);
 
 
         Button btn_postad = findViewById(R.id.post_ad);
@@ -327,6 +329,27 @@ public class UpdateAd extends AppCompatActivity {
         getImages();
 
 
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final CharSequence[] options = {"Delete", "Cancel"};
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(UpdateAd.this);
+                builder1.setTitle("Delete Post");
+                builder1.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (options[item].equals("Delete")) {
+                            delete();
+                        } else if (options[item].equals("Cancel")) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                builder1.show();
+
+            }
+        });
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -771,6 +794,26 @@ public class UpdateAd extends AppCompatActivity {
 
     }
 
+    private void delete(){
+        fstore = FirebaseFirestore.getInstance();
+        DocumentReference docRef = fstore.collection("Apartment").document(aptid);
+        docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                deleteImages();
+                Log.d("tagvv", "DocumentSnapshot successfully deleted!");
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("tagvv", "Error deleting document", e);
+                    }
+                });
+
+    }
     private void getdata() {
         fstore = FirebaseFirestore.getInstance();
         DocumentReference docRef = fstore.collection("Apartment").document(aptid);
@@ -923,7 +966,7 @@ public class UpdateAd extends AppCompatActivity {
                             RadioButton rb1 = findViewById(R.id.poolyes);
                             rb1.setChecked(true);
                         } else {
-                            RadioButton rb2 = findViewById(R.id.poolyes);
+                            RadioButton rb2 = findViewById(R.id.poolno);
                             rb2.setChecked(true);
                         }
 
@@ -971,7 +1014,7 @@ public class UpdateAd extends AppCompatActivity {
                             RadioButton rb1 = findViewById(R.id.securityyes);
                             rb1.setChecked(true);
                         } else {
-                            RadioButton rb2 = findViewById(R.id.security);
+                            RadioButton rb2 = findViewById(R.id.securityno);
                             rb2.setChecked(true);
                         }
 
@@ -1011,7 +1054,7 @@ public class UpdateAd extends AppCompatActivity {
                             RadioButton rb1 = findViewById(R.id.internetyes);
                             rb1.setChecked(true);
                         } else {
-                            RadioButton rb2 = findViewById(R.id.internetyes);
+                            RadioButton rb2 = findViewById(R.id.internetno);
                             rb2.setChecked(true);
                         }
 
@@ -1027,7 +1070,7 @@ public class UpdateAd extends AppCompatActivity {
                             RadioButton rb1 = findViewById(R.id.wheelchairyes);
                             rb1.setChecked(true);
                         } else {
-                            RadioButton rb2 = findViewById(R.id.wheelchairyes);
+                            RadioButton rb2 = findViewById(R.id.wheelchairno);
                             rb2.setChecked(true);
                         }
 
@@ -1051,7 +1094,7 @@ public class UpdateAd extends AppCompatActivity {
                             RadioButton rb1 = findViewById(R.id.bicycleyes);
                             rb1.setChecked(true);
                         } else {
-                            RadioButton rb2 = findViewById(R.id.bicycleyes);
+                            RadioButton rb2 = findViewById(R.id.bicycleno);
                             rb2.setChecked(true);
                         }
 

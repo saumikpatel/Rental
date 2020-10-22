@@ -27,6 +27,13 @@
             android:textSize="28sp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_gravity="right"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:src="@drawable/trash" />
+
     </androidx.appcompat.widget.Toolbar>
 
 
@@ -244,7 +251,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:width="150dp"
-                        android:text="Yes" />
+                            android:text="Yes" />
 
                     <RadioButton
                         android:id="@+id/Fno"
@@ -1739,7 +1746,8 @@
                 android:layout_marginRight="10dp"
                 android:backgroundTint="#3cb6d3"
                 android:singleLine="true"
-                android:text="Post Ad" />
+                android:text="Update" />
+
 
         </LinearLayout>
 
