@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.UpdateAd"></activity>
+        <activity android:name=".PostList"></activity>
+        <activity android:name=".Activity.UpdateAd" />
         <activity android:name=".Filter" />
         <activity android:name=".Activity.ApartmentDialog" />
         <activity android:name=".Activity.ApartmentDetails" />

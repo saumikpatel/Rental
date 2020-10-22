@@ -61,7 +61,7 @@ public class ApartmentDetails extends AppCompatActivity {
     ProgressDialog pd;
     FirebaseStorage storage;
     StorageReference storageReference;
-    String UserId, fromLogin = "abc";
+    String UserId;
     String WishlistedId, Uid;
     private FirebaseUser curUser;
     private FirebaseAuth auth;
@@ -118,7 +118,8 @@ public class ApartmentDetails extends AppCompatActivity {
                     i.putExtra("Uid", Uid);
                     startActivity(i);
                 } else {
-                    Toast.makeText(ApartmentDetails.this, "To Contact You need to login", Toast.LENGTH_SHORT).show();
+                    ApartmentDialog alert = new ApartmentDialog();
+                    alert.showLoginDialog(ApartmentDetails.this);
                 }
             }
         });
@@ -235,20 +236,20 @@ public class ApartmentDetails extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        if (fromLogin.equals("true")) {
-            Intent i = new Intent(ApartmentDetails.this, MainActivity.class);
-            startActivity(i);
-            finish();
-        } else {
-            return;
-        }
-
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//
+//        if (fromLogin.equals("true")) {
+//            Intent i = new Intent(ApartmentDetails.this, MainActivity.class);
+//            startActivity(i);
+//            finish();
+//        } else {
+//            return;
+//        }
+//
+//
+//    }
 
     private void getImages(final ArrayList<Uri> images, final String aptId) {
 

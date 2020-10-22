@@ -50,6 +50,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -69,7 +70,7 @@ public class UpdateAd extends AppCompatActivity {
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int GALLERY_REQUEST_CODE = 105;
-    String cityName, address;
+    String cityName, address, aptid;
     LatLng latLng;
     FirebaseFirestore fstore;
     FirebaseAuth auth;
@@ -79,16 +80,20 @@ public class UpdateAd extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     ArrayList<Uri> contenturi = new ArrayList<Uri>();
+    int photos = 0,internetPhotos=0;
+    Boolean changed = false;
     private TextInputLayout et_title, et_des, et_amt, et_unit, et_pnum, et_date, et_bath, et_bed, et_pet, et_size, et_smoke, et_parking;
     private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
     private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet, btn_gym, btn_pool, btn_concierge, btn_storage, btn_security, btn_elevator, btn_wheelchair, btn_labels, btn_audio, btn_bicycle;
     private Button btn_postad, btn_calender;
-    int photos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_ad);
+        Intent intent = getIntent();
+        aptid = intent.getStringExtra("id");
+
 
         et_title = findViewById(R.id.titleUpdate);
         et_des = findViewById(R.id.desUpdate);
@@ -110,9 +115,6 @@ public class UpdateAd extends AppCompatActivity {
 
 
         Button btn_postad = findViewById(R.id.post_ad);
-
-
-
 
 
         rbfurnished = findViewById(R.id.rbfurnishedUpdate);
@@ -322,6 +324,7 @@ public class UpdateAd extends AppCompatActivity {
         });
 
         getdata();
+        getImages();
 
 
         upload.setOnClickListener(new View.OnClickListener() {
@@ -663,43 +666,45 @@ public class UpdateAd extends AppCompatActivity {
                     userMap.put("Address", address);
 
 
-                    fstore.collection("Apartment").add(userMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
+                    fstore.collection("Apartment").document(aptid)
+                            .set(userMap)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("TAG", "DocumentSnapshot successfully written!");
+                                    Toast.makeText(UpdateAd.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                                    if(changed){
+                                        uploadImage((aptid));
+                                    }
 
-                            uploadImage((String) documentReference.getId());
-                            Toast.makeText(UpdateAd.this, " Data Updated in DB ", Toast.LENGTH_SHORT).show();
-                            pd.dismiss();
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                            String Error = e.getMessage();
-                            Toast.makeText(UpdateAd.this, " Error:" + Error, Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-
-
-                    DocumentReference docRef = fstore.collection("Apartment").document("g1BJ8ohTwN41Ju4Y6efammm");
-                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    //String nu = a.substring(a.indexOf("number=") + 7, a.indexOf(", name="));
-                                    Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
-                                } else {
-                                    Log.d("tagvv", "No such document");
+                                    pd.dismiss();
                                 }
-                            } else {
-                                Log.d("tagvv", "get failed with ", task.getException());
-                            }
-                        }
-                    });
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("TAG", "Error writing document", e);
+                                }
+                            });
+
+
+//                    DocumentReference docRef = fstore.collection("Apartment").document("g1BJ8ohTwN41Ju4Y6efammm");
+//                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                DocumentSnapshot document = task.getResult();
+//                                if (document.exists()) {
+//                                    //String nu = a.substring(a.indexOf("number=") + 7, a.indexOf(", name="));
+//                                    Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+//                                } else {
+//                                    Log.d("tagvv", "No such document");
+//                                }
+//                            } else {
+//                                Log.d("tagvv", "get failed with ", task.getException());
+//                            }
+//                        }
+//                    });
 
                 }
 
@@ -710,9 +715,65 @@ public class UpdateAd extends AppCompatActivity {
 
     }
 
+
+
+
+    private void getImages() {
+        StorageReference listRef = storage.getInstance().getReference().child("images/" + aptid);
+
+        listRef.listAll()
+                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                    @Override
+                    public void onSuccess(ListResult listResult) {
+                        for (StorageReference prefix : listResult.getPrefixes()) {
+                            // All the prefixes under listRef.
+                            // You may call listAll() recursively on them.
+                        }
+
+                        for (StorageReference item : listResult.getItems()) {
+                            // All the items under listRef.
+                            storageReference = storage.getInstance().getReference();
+                            String location = item.toString();
+                            String image = location.substring(location.length() - 1);
+                            System.out.println(image);
+                            storageReference = storage.getInstance().getReference();
+                            storageReference.child("images/" + aptid + "/" + image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    // Got the download URL for 'users/me/profile.png'
+                                    //  ImageView image = (ImageView) dialog.findViewById(R.id.dialogimage);
+                                    // Picasso.get().load(uri).resize(120, 120).into(image);
+
+                                    contenturi.add(uri);
+                                    internetPhotos=internetPhotos+1;
+                                    photos=1;
+
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle any errors
+                                }
+                            });
+
+                        }
+
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Uh-oh, an error occurred!
+                    }
+                });
+
+    }
+
     private void getdata() {
         fstore = FirebaseFirestore.getInstance();
-        DocumentReference docRef = fstore.collection("Apartment").document("52IDsKeqi9uuaA7FBPWD");
+        DocumentReference docRef = fstore.collection("Apartment").document(aptid);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -726,42 +787,47 @@ public class UpdateAd extends AppCompatActivity {
                         String Description1 = data1.get("Description").toString();
                         String Amount1 = data1.get("Amount").toString();
                         String Address1 = data1.get("Address").toString();
-                        String CityName1 =data1.get("CityName").toString();
+                        String CityName1 = data1.get("CityName").toString();
                         String Unit1 = data1.get("Unit").toString();
                         String PhoneNumber1 = data1.get("PhoneNumber").toString();
                         String MoveInDate1 = data1.get("MoveInDate").toString();
                         String Furnished1 = data1.get("Furnished").toString();
-                        String UnitLaundry1 =data1.get("UnitLaundry").toString();
+                        String UnitLaundry1 = data1.get("UnitLaundry").toString();
                         String BuildingLaundry1 = data1.get("BuildingLaundry").toString();
                         String Bathroom1 = data1.get("Bathroom").toString();
                         String Dishwasher1 = data1.get("Dishwasher").toString();
                         String Fridge1 = data1.get("Fridge").toString();
-                        String AirConditioning1 =data1.get("AirConditioning").toString();
+                        String AirConditioning1 = data1.get("AirConditioning").toString();
                         String Bedroom1 = data1.get("Bedroom").toString();
                         String Yard1 = data1.get("Yard").toString();
                         String PetFriendly1 = data1.get("PetFriendly").toString();
                         String Balcony1 = data1.get("Balcony").toString();
-                        String Gym1 =data1.get("Gym").toString();
+                        String Gym1 = data1.get("Gym").toString();
                         String Pool1 = data1.get("Pool").toString();
                         String Concierge1 = data1.get("Concierge").toString();
                         String Size1 = data1.get("Size").toString();
                         String Barrier_free_Entrance_Ramps1 = data1.get("Barrier_free_Entrance_Ramps").toString();
-                        String VisualAids1 =data1.get("VisualAids").toString();
+                        String VisualAids1 = data1.get("VisualAids").toString();
                         String Accessible_Washrooms_in_suite1 = data1.get("Accessible_Washrooms_in_suite").toString();
                         String Storage_Space1 = data1.get("Storage_Space").toString();
                         String Hour_Security1 = data1.get("24_Hour_Security").toString();
                         String SmokePermitted1 = data1.get("SmokePermitted").toString();
-                        String Hydro1 =data1.get("Hydro").toString();
+                        String Hydro1 = data1.get("Hydro").toString();
                         String Heat1 = data1.get("Heat").toString();
                         String Water1 = data1.get("Water").toString();
                         String Tv1 = data1.get("Tv").toString();
                         String Internet1 = data1.get("Internet").toString();
-                        String Elevator1 =data1.get("Elevator").toString();
+                        String Elevator1 = data1.get("Elevator").toString();
                         String Wheelchair_Accessible1 = data1.get("Wheelchair_Accessible").toString();
                         String Braille_Labels1 = data1.get("Braille_Labels").toString();
                         String Audio_Prompts1 = data1.get("Audio_Prompts").toString();
                         String ParkingIncluded1 = data1.get("ParkingIncluded").toString();
-                        String Bicycle_Parking1 =data1.get("Bicycle_Parking").toString();
+                        String Bicycle_Parking1 = data1.get("Bicycle_Parking").toString();
+                        double latitude = (Double) data1.get("Latitude");
+                        double longitude = (Double) data1.get("Longitude");
+                        latLng = new LatLng(latitude, longitude);
+                        cityName = CityName1;
+                        address = Address1;
 
                         // String data2 = data1.toString().trim();
                         //String aptname = data2.substring(data2.indexOf("Title") + 6, data2.indexOf(", Braille_Labels="));
@@ -784,7 +850,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Furnished1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.Fyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.Fno);
                             rb2.setChecked(true);
                         }
@@ -792,7 +858,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (UnitLaundry1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.layes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.lano);
                             rb2.setChecked(true);
                         }
@@ -800,7 +866,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (BuildingLaundry1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.Laundrybyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.Laundrybno);
                             rb2.setChecked(true);
                         }
@@ -808,7 +874,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Dishwasher1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.dyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.dno);
                             rb2.setChecked(true);
                         }
@@ -816,7 +882,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Fridge1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.fryes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.frno);
                             rb2.setChecked(true);
                         }
@@ -824,7 +890,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (AirConditioning1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.ayes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.ano);
                             rb2.setChecked(true);
                         }
@@ -832,7 +898,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Yard1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.yyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.yno);
                             rb2.setChecked(true);
                         }
@@ -840,7 +906,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Balcony1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.balyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.balno);
                             rb2.setChecked(true);
                         }
@@ -848,7 +914,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Gym1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.gymyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.gymno);
                             rb2.setChecked(true);
                         }
@@ -856,7 +922,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Pool1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.poolyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.poolyes);
                             rb2.setChecked(true);
                         }
@@ -864,7 +930,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Concierge1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.conciergeyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.conciergeno);
                             rb2.setChecked(true);
                         }
@@ -872,7 +938,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Barrier_free_Entrance_Ramps1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.rampyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.rampno);
                             rb2.setChecked(true);
                         }
@@ -880,7 +946,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (VisualAids1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.aidsyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.aidsno);
                             rb2.setChecked(true);
                         }
@@ -888,7 +954,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Accessible_Washrooms_in_suite1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.suiteyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.suiteno);
                             rb2.setChecked(true);
                         }
@@ -896,7 +962,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Storage_Space1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.storageyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.storageno);
                             rb2.setChecked(true);
                         }
@@ -904,7 +970,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Hour_Security1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.securityyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.security);
                             rb2.setChecked(true);
                         }
@@ -912,7 +978,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Hydro1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.hydroyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.hydrono);
                             rb2.setChecked(true);
                         }
@@ -920,7 +986,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Heat1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.heatyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.heatno);
                             rb2.setChecked(true);
                         }
@@ -928,7 +994,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Water1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.wateryes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.waterno);
                             rb2.setChecked(true);
                         }
@@ -936,7 +1002,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Tv1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.tvyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.tvno);
                             rb2.setChecked(true);
                         }
@@ -944,7 +1010,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Internet1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.internetyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.internetyes);
                             rb2.setChecked(true);
                         }
@@ -952,7 +1018,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Elevator1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.elevatoryes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.elevatorno);
                             rb2.setChecked(true);
                         }
@@ -960,7 +1026,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Wheelchair_Accessible1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.wheelchairyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.wheelchairyes);
                             rb2.setChecked(true);
                         }
@@ -968,7 +1034,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Braille_Labels1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.labelsyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.labelsno);
                             rb2.setChecked(true);
                         }
@@ -976,7 +1042,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Audio_Prompts1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.audioyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.audiono);
                             rb2.setChecked(true);
                         }
@@ -984,7 +1050,7 @@ public class UpdateAd extends AppCompatActivity {
                         if (Bicycle_Parking1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.bicycleyes);
                             rb1.setChecked(true);
-                        }else {
+                        } else {
                             RadioButton rb2 = findViewById(R.id.bicycleyes);
                             rb2.setChecked(true);
                         }
@@ -1046,7 +1112,7 @@ public class UpdateAd extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Choose from Gallery")) {
-                    contenturi.clear();
+
                     upload.setImageResource(R.drawable.uploadnew);
 
                     Intent gallery = new Intent();
@@ -1091,8 +1157,13 @@ public class UpdateAd extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 ClipData clipdata = data.getClipData();
 
+                contenturi.clear();
+                deleteImages();
+                Toast.makeText(this, ""+internetPhotos, Toast.LENGTH_SHORT).show();
 
                 if (clipdata != null) {
+                    changed = true;
+
                     photos = clipdata.getItemCount();
                     if (clipdata.getItemCount() > 4) {
                         Toast.makeText(this, "please select only four items", Toast.LENGTH_SHORT).show();
@@ -1115,6 +1186,8 @@ public class UpdateAd extends AppCompatActivity {
 //                    }
 //                    Bitmap bitmap = BitmapFactory.decodeStream(ist);
 //                   // selectedImage.setImageBitmap(bitmap);
+
+                    changed = true;
                     contenturi.add(data.getData());
                     photos = 1;
 
@@ -1123,6 +1196,30 @@ public class UpdateAd extends AppCompatActivity {
             }
         }
 
+    }
+
+    private void deleteImages() {
+
+        storageReference = storage.getInstance().getReference();
+
+// Create a reference to the file to delete
+        for(int i= 0;i<internetPhotos;i++) {
+            StorageReference desertRef = storageReference.child("images/"+aptid+"/"+i);
+
+// Delete the file
+            desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    // File deleted successfully
+                    Toast.makeText(UpdateAd.this, "Deleted", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Uh-oh, an error occurred!
+                }
+            });
+        }
     }
 
     private void uploadImage(String id) {
@@ -1135,7 +1232,7 @@ public class UpdateAd extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            Toast.makeText(UpdateAd.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UpdateAd.this, " Image Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

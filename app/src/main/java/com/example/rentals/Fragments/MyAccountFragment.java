@@ -13,6 +13,7 @@ import com.example.rentals.Activity.ForgotPassword;
 import com.example.rentals.Activity.MainActivity;
 import com.example.rentals.Activity.Postadd;
 import com.example.rentals.Activity.ProfileDetails;
+import com.example.rentals.PostList;
 import com.example.rentals.R;
 import com.example.rentals.entities.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -122,7 +123,7 @@ public class MyAccountFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
-                Intent i = new Intent(getActivity(), ProfileDetails.class);
+                Intent i = new Intent(getActivity(), PostList.class);
                 startActivity(i);
                 return true;
             }
@@ -133,7 +134,6 @@ public class MyAccountFragment extends PreferenceFragmentCompat {
 
                 FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(getActivity(), MainActivity.class);
-
                 startActivity(i);
                 Toast.makeText(getActivity(), "Logout Successfully", Toast.LENGTH_LONG).show();
                 return true;
