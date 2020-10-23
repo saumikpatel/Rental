@@ -2,8 +2,11 @@ package com.example.rentals.Fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -11,9 +14,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,7 +33,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.rentals.Activity.ApartmentDetails;
 import com.example.rentals.Activity.ApartmentDialog;
+import com.example.rentals.Filter;
 import com.example.rentals.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -51,6 +60,8 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.material.slider.RangeSlider;
+import com.google.android.material.slider.Slider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -58,6 +69,7 @@ import com.google.maps.android.ui.IconGenerator;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -71,7 +83,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     Marker mCurrLocationMarker;
     FirebaseFirestore db;
     FusedLocationProviderClient mFusedLocationClient;
-    boolean boundary = false;
+    boolean priceChanged = false;
+    ImageView filter;
+    float min=0,max=5000;
+    String city="Montreal";
     LocationCallback mLocationCallback = new LocationCallback() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
@@ -107,6 +122,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        filter=view.findViewById(R.id.filter);
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter(getActivity());
+            }
+        });
+
+
+
+
+
+
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
@@ -146,8 +175,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 putmarker(place.getLatLng());
 
-
-                getApartments(place.getName());
+                city=place.getName();
+                getApartments(city);
 
 
             }
@@ -163,7 +192,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void getApartments(String city) {
-
+        mGoogleMap.clear();
         db = FirebaseFirestore.getInstance();
         db.collection("Apartment")
                 .whereEqualTo("CityName", city)
@@ -175,7 +204,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                               //  Log.d("TAG", document.getId() + " => " + document.getData());
                                 LatLng latLng1 = new LatLng((Double) document.getData().get("Latitude"), (Double) document.getData().get("Longitude"));
-                                putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getId());
+                                int price = (Integer.parseInt((String)document.getData().get("Amount")));
+                                if(priceChanged){
+                                    if(price>=min && price<=max){
+                                        putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getId());
+                                    }
+                                }else{
+                                    putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getId());
+                                }
+
 
                             }
 
@@ -327,6 +364,83 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             // permissions this app might request
         }
     }
+    public void filter(final Activity activity){
+        final Dialog dialog = new Dialog(activity);
+        dialog.requestWindowFeature(Window.FEATURE_ACTION_MODE_OVERLAY);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.activity_filter);
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.gravity = Gravity.CENTER;
+        wlp.height= WindowManager.LayoutParams.WRAP_CONTENT;
+        wlp.width= WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+        final RangeSlider slider = dialog.findViewById(R.id.slider);
+        slider.setValues(min,max);
+        dialog.show();
+
+
+        Button apply = dialog.findViewById(R.id.apply);
+        Button reset = dialog.findViewById(R.id.reset);
+        apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List price=slider.getValues();
+                min=(float)price.get(0);
+                max=(float)price.get(1);
+                Log.d("",min+"");
+                priceChanged=true;
+                dialog.dismiss();
+                getApartments(city);
+            }
+        });
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                min=0;
+                max=5000;
+                priceChanged=false;
+                dialog.dismiss();
+                getApartments(city);
+            }
+        });
+
+
+
+    }
+
+//    private void getApartmentsFilter(String city, float min, float max) {
+//        int imin, imax;
+//        imin=(int)min;
+//        imax=(int)max;
+//        String minimum = String.valueOf(imin);
+//        String maximum = String.valueOf(imax);
+//        Log.d("filter", ""+minimum);
+//        mGoogleMap.clear();
+//        db = FirebaseFirestore.getInstance();
+//        db.collection("Apartment")
+//                .whereEqualTo("CityName", city).whereGreaterThanOrEqualTo("Amount",minimum).whereLessThanOrEqualTo("Amount",maximum)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                 Log.d("FilterData", document.getId() + " => " + document.getData());
+//                                LatLng latLng1 = new LatLng((Double) document.getData().get("Latitude"), (Double) document.getData().get("Longitude"));
+//                                putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getId());
+//                            }
+//
+//                        } else {
+//                            Log.d("TAG", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+//
+//    }
 
     private void putmarker(LatLng latLng) {
         //Place current location marker
@@ -340,8 +454,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 //        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
 //        //mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
-        getApartments("Montreal");
+        getApartments(city);
 
 
     }
+
+
+
 }
+
+//.whereGreaterThanOrEqualTo("Amount","200").whereLessThanOrEqualTo("Amount","800")

@@ -66,10 +66,10 @@ public class Contact extends AppCompatActivity {
                 sendEmail();
             }
         });
-        sendMsg.setEnabled(false);
+        sendMsg.setEnabled(true);
         //check if permission is granted or not
         if (checkPermission(Manifest.permission.SEND_SMS)) {
-            sendMsg.setEnabled(true);
+
         }   //if permission is not granted then check if the user has denied the permission
         else {
             //a pop up will appear asking for required permission to send a sms
@@ -125,7 +125,7 @@ public class Contact extends AppCompatActivity {
                 }
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    makePhoneCall();
+
                 } else {
                     Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
                 }
