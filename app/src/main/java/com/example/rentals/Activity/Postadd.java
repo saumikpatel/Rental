@@ -27,6 +27,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.rentals.Fragments.MyAccountFragment;
+import com.example.rentals.Fragments.ProfileFragment;
 import com.example.rentals.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -698,6 +700,9 @@ public class Postadd extends AppCompatActivity {
 
                 }
 
+                        Intent i = new Intent(getApplicationContext(), MyAccountFragment.class);
+                        startActivity(i);
+                        finish();
 
             }
         });
@@ -800,7 +805,7 @@ public class Postadd extends AppCompatActivity {
                 if (clipdata != null) {
                     photos=clipdata.getItemCount();
                     if (clipdata.getItemCount() > 4) {
-                        Toast.makeText(this, "please select only four items", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Please select only four items", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     Toast.makeText(this, "" + clipdata.getItemCount(), Toast.LENGTH_SHORT).show();

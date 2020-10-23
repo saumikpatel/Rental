@@ -15,7 +15,7 @@ import com.example.rentals.Activity.Postadd;
 import com.example.rentals.Activity.ProfileDetails;
 import com.example.rentals.PostList;
 import com.example.rentals.R;
-import com.example.rentals.entities.User;
+//import com.example.rentals.entities.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,7 +37,7 @@ public class MyAccountFragment extends PreferenceFragmentCompat {
     TextView tvPersonName;
     LinearLayout llProfile;
     FirebaseUser fUser;
-    User user = null;
+   // User user = null;
     private FirebaseAuth auth;
     private FirebaseFirestore mFirebaseFirestore;
     // TODO: Rename and change types of parameters

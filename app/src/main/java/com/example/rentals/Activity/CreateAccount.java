@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.rentals.Fragments.ProfileFragment;
 import com.example.rentals.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -53,6 +54,16 @@ public class CreateAccount extends AppCompatActivity {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         sp = getSharedPreferences("Userdata", Context.MODE_PRIVATE);
+
+        login_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), ProfileFragment.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
         create_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,16 +142,6 @@ public class CreateAccount extends AppCompatActivity {
                 });
             }
         });
-//        login_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(getApplicationContext(), Login.class);
-//                startActivity(i);
-//                finish();
-//
-//            }
-//        });
-
 
     }
 
