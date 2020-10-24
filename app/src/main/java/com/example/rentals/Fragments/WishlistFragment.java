@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.rentals.Adapters.ViewImagePagerAdapter;
 import com.example.rentals.Adapters.WishlistAdapter;
 import com.example.rentals.Models.WishlistModel;
 import com.example.rentals.R;
@@ -99,7 +97,7 @@ public class WishlistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-getWishlistDetails();
+        getWishlistDetails();
 
         return inflater.inflate(R.layout.fragment_wishlist, container, false);
 
@@ -111,7 +109,7 @@ getWishlistDetails();
 
 
         wishlistRecycler = view.findViewById(R.id.wishlist_recycler);
-       //getWishlistDetails();
+        //getWishlistDetails();
 
     }
 
@@ -221,7 +219,7 @@ getWishlistDetails();
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-       // getWishlistDetails();
+        // getWishlistDetails();
     }
 
     @Override

@@ -15,12 +15,13 @@ import com.example.rentals.Activity.Postadd;
 import com.example.rentals.Activity.ProfileDetails;
 import com.example.rentals.PostList;
 import com.example.rentals.R;
-//import com.example.rentals.entities.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+//import com.example.rentals.entities.User;
 
 ///**
 // * A simple {@link Fragment} subclass.

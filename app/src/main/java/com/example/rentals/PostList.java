@@ -1,21 +1,16 @@
 package com.example.rentals;
 
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.Toast;
-
 import com.example.rentals.Adapters.PostListAdapter;
-import com.example.rentals.Adapters.WishlistAdapter;
 import com.example.rentals.Models.PostListModel;
-import com.example.rentals.Models.WishlistModel;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,7 +22,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -47,13 +41,13 @@ public class PostList extends AppCompatActivity {
      */
     private FirebaseUser curUser;
     String userId = null;
-   ArrayList<PostListModel> postlist = new ArrayList<>();
+    ArrayList<PostListModel> postlist = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list);
         auth = FirebaseAuth.getInstance();
-
 
 
         db = FirebaseFirestore.getInstance();
@@ -77,14 +71,14 @@ public class PostList extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                 Log.d("PostList", document.getId() + " => " + document.getData());
-                                String id=document.getId();
-                                String title= (String)document.getData().get("Title");
-                                String price= (String)document.getData().get("Amount");
-                                String type= (String)document.getData().get("Unit");
-                                String bedroom= (String)document.getData().get("Bedroom");
+                                Log.d("PostList", document.getId() + " => " + document.getData());
+                                String id = document.getId();
+                                String title = (String) document.getData().get("Title");
+                                String price = (String) document.getData().get("Amount");
+                                String type = (String) document.getData().get("Unit");
+                                String bedroom = (String) document.getData().get("Bedroom");
 
-                                getImage(id,title, price, type,bedroom);
+                                getImage(id, title, price, type, bedroom);
 
 
                             }
@@ -98,10 +92,9 @@ public class PostList extends AppCompatActivity {
     }
 
 
-
     private void getImage(final String id, final String title, final String price, final String type, final String bedroom) {
         storageReference = storage.getInstance().getReference();
-        storageReference.child("images/"+id+"/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child("images/" + id + "/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 // Got the download URL for 'users/me/profile.png'
@@ -119,10 +112,9 @@ public class PostList extends AppCompatActivity {
     }
 
 
-
     private void setPostListRecycler() {
         PostListRecycler = findViewById(R.id.postlist_recycler);
-        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         PostListRecycler.setLayoutManager(layoutManager);
         postlistAdapter = new PostListAdapter(this, postlist);
         PostListRecycler.setAdapter(postlistAdapter);

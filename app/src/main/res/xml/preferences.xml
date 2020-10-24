@@ -2,14 +2,16 @@
 
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
 
     <PreferenceCategory>
     <Preference
         app:key="profile"
         app:title="Profile"
         app:icon="@drawable/account"
-        app:summary="Name, Email, Phone">
+        app:summary="Name, Email, Phone"
+        android:background="#ffffff">
 
     </Preference>
     </PreferenceCategory>

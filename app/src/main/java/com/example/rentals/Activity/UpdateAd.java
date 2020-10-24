@@ -26,8 +26,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.rentals.Fragments.MyAccountFragment;
-import com.example.rentals.PostList;
 import com.example.rentals.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -77,12 +75,12 @@ public class UpdateAd extends AppCompatActivity {
     FirebaseFirestore fstore;
     FirebaseAuth auth;
     AutocompleteSupportFragment autocompleteFragment, city;
-    ImageView selectedImage, selectedImage1, selectedImage2, selectedImage3, upload ,del;
+    ImageView selectedImage, selectedImage1, selectedImage2, selectedImage3, upload, del;
     ImageView[] image;
     FirebaseStorage storage;
     StorageReference storageReference;
     ArrayList<Uri> contenturi = new ArrayList<Uri>();
-    int photos = 0,internetPhotos=0;
+    int photos = 0, internetPhotos = 0;
     Boolean changed = false;
     private TextInputLayout et_title, et_des, et_amt, et_unit, et_pnum, et_date, et_bath, et_bed, et_pet, et_size, et_smoke, et_parking;
     private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
@@ -114,7 +112,7 @@ public class UpdateAd extends AppCompatActivity {
 
         upload = findViewById(R.id.updateImage);
         image = new ImageView[]{upload, selectedImage1, selectedImage2, selectedImage3};
-        del =findViewById(R.id.delete);
+        del = findViewById(R.id.delete);
 
 
         Button btn_postad = findViewById(R.id.post_ad);
@@ -697,7 +695,7 @@ public class UpdateAd extends AppCompatActivity {
                                 public void onSuccess(Void aVoid) {
                                     Log.d("TAG", "DocumentSnapshot successfully written!");
                                     Toast.makeText(UpdateAd.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
-                                    if(changed){
+                                    if (changed) {
                                         uploadImage((aptid));
                                     }
 
@@ -711,9 +709,11 @@ public class UpdateAd extends AppCompatActivity {
                                 }
                             });
 
-                    Intent i = new Intent(getApplicationContext(), MyAccountFragment.class);
-                    startActivity(i);
-                    finish();
+//                    Fragment fragment  = new MyAccountFragment();
+//                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction.replace(android.R.id.content , fragment);
+//                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.commit();
 //                    DocumentReference docRef = fstore.collection("Apartment").document("g1BJ8ohTwN41Ju4Y6efammm");
 //                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 //                        @Override
@@ -740,8 +740,6 @@ public class UpdateAd extends AppCompatActivity {
 
 
     }
-
-
 
 
     private void getImages() {
@@ -771,8 +769,8 @@ public class UpdateAd extends AppCompatActivity {
                                     // Picasso.get().load(uri).resize(120, 120).into(image);
 
                                     contenturi.add(uri);
-                                    internetPhotos=internetPhotos+1;
-                                    photos=1;
+                                    internetPhotos = internetPhotos + 1;
+                                    photos = 1;
 
 
                                 }
@@ -797,7 +795,7 @@ public class UpdateAd extends AppCompatActivity {
 
     }
 
-    private void delete(){
+    private void delete() {
         fstore = FirebaseFirestore.getInstance();
         DocumentReference docRef = fstore.collection("Apartment").document(aptid);
         docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -805,9 +803,11 @@ public class UpdateAd extends AppCompatActivity {
             public void onSuccess(Void aVoid) {
                 deleteImages();
                 Log.d("tagvv", "DocumentSnapshot successfully deleted!");
-                Intent i = new Intent(getApplicationContext(), MyAccountFragment.class);
-                startActivity(i);
-                finish();
+//                Fragment fragment  = new MyAccountFragment();
+//                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(android.R.id.content , fragment);
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
             }
         })
                 .addOnFailureListener(new OnFailureListener() {
@@ -818,6 +818,7 @@ public class UpdateAd extends AppCompatActivity {
                 });
 
     }
+
     private void getdata() {
         fstore = FirebaseFirestore.getInstance();
         DocumentReference docRef = fstore.collection("Apartment").document(aptid);
@@ -1206,7 +1207,7 @@ public class UpdateAd extends AppCompatActivity {
 
                 contenturi.clear();
                 deleteImages();
-                Toast.makeText(this, ""+internetPhotos, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + internetPhotos, Toast.LENGTH_SHORT).show();
 
                 if (clipdata != null) {
                     changed = true;
@@ -1250,8 +1251,8 @@ public class UpdateAd extends AppCompatActivity {
         storageReference = storage.getInstance().getReference();
 
 // Create a reference to the file to delete
-        for(int i= 0;i<internetPhotos;i++) {
-            StorageReference desertRef = storageReference.child("images/"+aptid+"/"+i);
+        for (int i = 0; i < internetPhotos; i++) {
+            StorageReference desertRef = storageReference.child("images/" + aptid + "/" + i);
 
 // Delete the file
             desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {

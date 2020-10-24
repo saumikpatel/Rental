@@ -142,6 +142,7 @@ public class ApartmentDetails extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d("TAG", "DocumentSnapshot successfully deleted!");
+                                        Toast.makeText(ApartmentDetails.this, "Removed from Wishlist", Toast.LENGTH_SHORT).show();
                                         like.setImageResource(R.drawable.like);
                                         wishlisted = false;
                                     }
@@ -167,7 +168,7 @@ public class ApartmentDetails extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
                                         Log.d("TAG", "DocumentSnapshot written with ID: " + documentReference.getId());
-                                        Toast.makeText(ApartmentDetails.this, "added", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ApartmentDetails.this, "Added to Wishlist", Toast.LENGTH_SHORT).show();
                                         like.setImageResource(R.drawable.wishlisticon);
                                         wishlisted = true;
                                         WishlistedId = documentReference.getId();

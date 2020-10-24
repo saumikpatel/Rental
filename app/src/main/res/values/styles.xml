@@ -8,8 +8,11 @@
     </style>
     <style name="myStyleText">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">#FFFFFF</item>\
+        <item name="android:textColor">#FFFFFF</item>
         <item name="android:textStyle">bold</item>
+    </style>
+    <style name="PreferencesTheme">
+        <item name="android:background">#FFFFFF</item>
     </style>
 
 </resources>

@@ -1,12 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:background="#ffffff"
+    xmlns:tools="http://schemas.android.com/tools"
     android:clickable="true"
     android:orientation="vertical"
     android:layout_marginTop="10dp"
-    >
+   >
 
     <ImageView
         android:id="@+id/postlist_image"

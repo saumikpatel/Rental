@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.example.rentals.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,7 +29,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,9 +37,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,7 +78,8 @@ public class ProfileDetails extends AppCompatActivity {
         SharedPreferences sp = getApplicationContext().getSharedPreferences("Userdata", Context.MODE_PRIVATE);
         final String spEmail = sp.getString("USEREmailID", "");
         final String spPassword = sp.getString("USERPassword", "");
-
+        Log.v("tagp","EMAILID"+ spEmail);
+        Log.v("tagp", "PAssword"+ spPassword);
 
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +167,7 @@ public class ProfileDetails extends AppCompatActivity {
                     db.collection("User").document(id).set(usermap).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(ProfileDetails.this, " Data Added in DB ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileDetails.this, " Profile Updated", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
 
@@ -201,7 +195,7 @@ public class ProfileDetails extends AppCompatActivity {
                     Intent gallery = new Intent();
                     gallery.setType("image/*");
                     //gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
                     gallery.setAction(Intent.ACTION_GET_CONTENT);
 
                     startActivityForResult(Intent.createChooser(gallery, ""), GALLERY_REQUEST_CODE);

@@ -54,7 +54,6 @@ public class ApartmentDialog extends AppCompatActivity {
         Email = findViewById(R.id.email);
         Password = findViewById(R.id.password);
 
-
 //        String email = Email.getEditText().getText().toString();
 //        String pwd = Password.getEditText().getText().toString();
 //        sp = this.getSharedPreferences("Userdata", Context.MODE_PRIVATE);
@@ -65,7 +64,8 @@ public class ApartmentDialog extends AppCompatActivity {
 
 
     }
-    public void showDialog(final Activity activity, final String ApartmentId){
+
+    public void showDialog(final Activity activity, final String ApartmentId) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_ACTION_MODE_OVERLAY);
         dialog.setCancelable(true);
@@ -74,21 +74,20 @@ public class ApartmentDialog extends AppCompatActivity {
         WindowManager.LayoutParams wlp = window.getAttributes();
 
         wlp.gravity = Gravity.BOTTOM;
-        wlp.height= WindowManager.LayoutParams.WRAP_CONTENT;
-        wlp.width= WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        wlp.y=150;
+        wlp.y = 150;
         window.setAttributes(wlp);
         ImageView next = (ImageView) dialog.findViewById(R.id.btn_dialog);
 
-        getApartmentData(dialog,ApartmentId);
-
-
+        getApartmentData(dialog, ApartmentId);
 
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { Intent i =new Intent(activity,ApartmentDetails.class) ;
+            public void onClick(View v) {
+                Intent i = new Intent(activity, ApartmentDetails.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("AptId", ApartmentId);
                 i.putExtras(bundle);
@@ -98,11 +97,9 @@ public class ApartmentDialog extends AppCompatActivity {
         dialog.show();
 
 
-
-
     }
 
-    public void showLoginDialog(final Activity activity){
+    public void showLoginDialog(final Activity activity) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_ACTION_MODE_OVERLAY);
         dialog.setCancelable(true);
@@ -111,10 +108,10 @@ public class ApartmentDialog extends AppCompatActivity {
         WindowManager.LayoutParams wlp = window.getAttributes();
 
         wlp.gravity = Gravity.BOTTOM;
-        wlp.height= WindowManager.LayoutParams.WRAP_CONTENT;
-        wlp.width= WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        wlp.y=150;
+        wlp.y = 150;
         window.setAttributes(wlp);
         //ImageView next = (ImageView) dialog.findViewById(R.id.btn_dialog);
         final TextInputLayout Email, Password;
@@ -128,7 +125,7 @@ public class ApartmentDialog extends AppCompatActivity {
         create = dialog.findViewById(R.id.create);
         login = dialog.findViewById(R.id.login);
         forgot = dialog.findViewById(R.id.forgotpass);
-        toolbar=dialog.findViewById(R.id.toolbar);
+        toolbar = dialog.findViewById(R.id.toolbar);
         //  getApartmentData(dialog,ApartmentId);
 
 //        next.setOnClickListener(new View.OnClickListener() {
@@ -149,14 +146,9 @@ public class ApartmentDialog extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd;
-
-                Log.v("tagvv", " hello"  );
                 String email = Email.getEditText().getText().toString();
                 String pwd = Password.getEditText().getText().toString();
-                Log.v("tagvv", " " + email);
-                Log.v("tagvv", " " + pwd);
-
-                System.out.println(email+""+pwd);
+                System.out.println(email + "" + pwd);
                 if (email.isEmpty() || pwd.isEmpty()) {
                     Toast.makeText(activity, "Please Fill The Form", Toast.LENGTH_SHORT).show();
                     return;
@@ -175,13 +167,7 @@ public class ApartmentDialog extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
                             Toast.makeText(activity.getApplicationContext(), "Login Success!", Toast.LENGTH_LONG).show();
-
-
-
                             // getFragmentManager().beginTransaction().remove((Fragment) ProfileFragment.this).commitAllowingStateLoss();
-
-
-
 
 //                            Fragment fragment = new MapFragment();
 //                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -195,7 +181,7 @@ public class ApartmentDialog extends AppCompatActivity {
                             activity.finish();
                             activity.overridePendingTransition(0, 0);
                             activity.startActivity(activity.getIntent());
-                            activity. overridePendingTransition(0, 0);
+                            activity.overridePendingTransition(0, 0);
                             // activity.startActivity(activity.getIntent());
                             dialog.dismiss();
                             pd.dismiss();
@@ -238,8 +224,6 @@ public class ApartmentDialog extends AppCompatActivity {
         dialog.show();
 
 
-
-
     }
 
     private void getApartmentData(final Dialog dialog, final String apartmentId) {
@@ -254,17 +238,14 @@ public class ApartmentDialog extends AppCompatActivity {
                         // Log.d("TAG", "DocumentSnapshot data: " + document.getData());
                         TextView title = (TextView) dialog.findViewById(R.id.title);
                         TextView type = (TextView) dialog.findViewById(R.id.type);
-                        TextView bedroom = (TextView)dialog.findViewById(R.id.bedroom);
-                        TextView price =(TextView)dialog.findViewById(R.id.price);
-                        title.setText(""+document.getData().get("Title"));
-                        type.setText(""+document.getData().get("Unit"));
-                        bedroom.setText("Bedroom:- "+document.getData().get("Bedroom"));
-                        price.setText(document.getData().get("Amount")+"$");
+                        TextView bedroom = (TextView) dialog.findViewById(R.id.bedroom);
+                        TextView price = (TextView) dialog.findViewById(R.id.price);
+                        title.setText("" + document.getData().get("Title"));
+                        type.setText("" + document.getData().get("Unit"));
+                        bedroom.setText("Bedroom:- " + document.getData().get("Bedroom"));
+                        price.setText(document.getData().get("Amount") + "$");
 
-                        getImage(dialog,apartmentId);
-
-
-
+                        getImage(dialog, apartmentId);
                     } else {
                         Log.d("TAG", "No such document");
                     }
@@ -280,7 +261,7 @@ public class ApartmentDialog extends AppCompatActivity {
     private void getImage(final Dialog dialog, String id) {
 
         storageReference = storage.getInstance().getReference();
-        storageReference.child("images/"+id+"/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child("images/" + id + "/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 // Got the download URL for 'users/me/profile.png'

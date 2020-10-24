@@ -27,8 +27,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.rentals.Fragments.MyAccountFragment;
-import com.example.rentals.Fragments.ProfileFragment;
 import com.example.rentals.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -86,7 +84,7 @@ public class Postadd extends AppCompatActivity {
     private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
     private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet, btn_gym, btn_pool, btn_concierge, btn_storage, btn_security, btn_elevator, btn_wheelchair, btn_labels, btn_audio, btn_bicycle;
     private Button btn_postad, btn_calender;
-    int photos=0;
+    int photos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -333,7 +331,7 @@ public class Postadd extends AppCompatActivity {
 
 
                 fstore = FirebaseFirestore.getInstance();
-               // Toast.makeText(Postadd.this, ""+photos, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(Postadd.this, ""+photos, Toast.LENGTH_SHORT).show();
 
 
                 final String Title = et_title.getEditText().getText().toString().trim();
@@ -443,10 +441,9 @@ public class Postadd extends AppCompatActivity {
                     et_parking.getEditText().getText().clear();
                     return;
 
-                }
-                else if(photos<1)
-                {Toast.makeText(Postadd.this, "Please Select atleast 1 photo", Toast.LENGTH_LONG).show();}
-                else {
+                } else if (photos < 1) {
+                    Toast.makeText(Postadd.this, "Please Select atleast 1 photo", Toast.LENGTH_LONG).show();
+                } else {
                     final ProgressDialog pd;
                     pd = new ProgressDialog(Postadd.this);
                     pd.setMessage("Loading...");
@@ -665,7 +662,7 @@ public class Postadd extends AppCompatActivity {
                         public void onSuccess(DocumentReference documentReference) {
 
                             uploadImage((String) documentReference.getId());
-                            Toast.makeText(Postadd.this, " Data Added in DB ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Postadd.this, " Post added Successfully ", Toast.LENGTH_SHORT).show();
                             pd.dismiss();
 
                         }
@@ -700,9 +697,11 @@ public class Postadd extends AppCompatActivity {
 
                 }
 
-                        Intent i = new Intent(getApplicationContext(), MyAccountFragment.class);
-                        startActivity(i);
-                        finish();
+//                Fragment fragment  = new MyAccountFragment ();
+//                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(android.R.id.content , fragment);
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
 
             }
         });
@@ -803,7 +802,7 @@ public class Postadd extends AppCompatActivity {
 
 
                 if (clipdata != null) {
-                    photos=clipdata.getItemCount();
+                    photos = clipdata.getItemCount();
                     if (clipdata.getItemCount() > 4) {
                         Toast.makeText(this, "Please select only four items", Toast.LENGTH_SHORT).show();
                         return;
@@ -826,7 +825,7 @@ public class Postadd extends AppCompatActivity {
 //                    Bitmap bitmap = BitmapFactory.decodeStream(ist);
 //                   // selectedImage.setImageBitmap(bitmap);
                     contenturi.add(data.getData());
-                    photos=1;
+                    photos = 1;
 
 
                 }
