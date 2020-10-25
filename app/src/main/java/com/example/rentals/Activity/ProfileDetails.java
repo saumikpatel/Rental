@@ -36,6 +36,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +52,8 @@ public class ProfileDetails extends AppCompatActivity {
     int photos = 0;
     ImageView profile;
     FirebaseStorage storage;
+    ArrayList contenturi = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

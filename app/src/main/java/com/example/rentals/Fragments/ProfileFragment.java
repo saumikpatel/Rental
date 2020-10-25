@@ -41,7 +41,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseUser curUser;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String from = "map";
+    private static String from = "map";
     String AptId, emailStr, passStr;
     private static final String ARG_PARAM2 = "param2";
     SharedPreferences sp;

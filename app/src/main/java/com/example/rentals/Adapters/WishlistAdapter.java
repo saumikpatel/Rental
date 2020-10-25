@@ -99,6 +99,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 Bundle bundle = new Bundle();
                 bundle.putString("AptId", wishlist.get(position).getApartmentId());
                 i.putExtras(bundle);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(i);
             }
         });
