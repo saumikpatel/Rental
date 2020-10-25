@@ -697,17 +697,12 @@ public class Postadd extends AppCompatActivity {
                         ClipData.Item item = clipdata.getItemAt(i);
                         contenturi.add(item.getUri());
                     }
-
-
                 } else {
                     contenturi.add(data.getData());
                     photos = 1;
-
-
                 }
             }
         }
-
     }
 
     private void uploadImage(String id) {

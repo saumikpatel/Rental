@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class ViewImagePagerAdapter extends PagerAdapter {
     FirebaseStorage storage;
     StorageReference storageReference;
-    private Context context;
+    private final Context context;
     private ArrayList<Uri> images = new ArrayList<Uri>();
 
 

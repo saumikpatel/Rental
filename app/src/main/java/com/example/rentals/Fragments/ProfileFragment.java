@@ -41,7 +41,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseUser curUser;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static String from = "map";
+    private static final String from = "map";
     String AptId, emailStr, passStr;
     private static final String ARG_PARAM2 = "param2";
     SharedPreferences sp;
@@ -116,24 +116,8 @@ public class ProfileFragment extends Fragment {
                         if (task.isSuccessful()) {
                             curUser = auth.getCurrentUser();
                             Toast.makeText(getActivity().getApplicationContext(), "Login Success!", Toast.LENGTH_LONG).show();
-                            Toast.makeText(getActivity().getApplicationContext(), "Login Success!" + from, Toast.LENGTH_LONG).show();
-
-
-                            Toast.makeText(getActivity().getApplicationContext(), "in else", Toast.LENGTH_LONG).show();
-
                             Intent i = new Intent(getActivity(), MainActivity.class);
                             startActivity(i);
-
-                            // getFragmentManager().beginTransaction().remove((Fragment) ProfileFragment.this).commitAllowingStateLoss();
-
-
-//                            Fragment fragment = new MapFragment();
-//                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                            fragmentTransaction.replace(R.id.profileFragment, fragment);
-//                            fragmentTransaction.addToBackStack(null);
-//                            fragmentTransaction.commit();
-//                            pd.dismiss();
                         } else {
                             try {
                                 throw task.getException();
@@ -146,11 +130,8 @@ public class ProfileFragment extends Fragment {
                                 pd.dismiss();
                                 return;
                             } catch (FirebaseAuthInvalidCredentialsException e) {
-
-
                                 Toast.makeText(getActivity().getApplicationContext(), "Wrong Credential!", Toast.LENGTH_LONG).show();
                                 Password.getEditText().getText().clear();
-
                                 Email.requestFocus();
                                 pd.dismiss();
                                 return;
@@ -159,12 +140,8 @@ public class ProfileFragment extends Fragment {
                                 pd.dismiss();
                             }
                         }
-
-
                     }
                 });
-
-
             }
         });
 
@@ -172,13 +149,11 @@ public class ProfileFragment extends Fragment {
          *  go to Create ACC activity
          */
 
-
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity().getApplicationContext(), CreateAccount.class);
                 startActivity(i);
-
             }
         });
         forgot.setOnClickListener(new View.OnClickListener() {
@@ -186,23 +161,8 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(getActivity().getApplicationContext(), ForgotPassword.class);
                 startActivity(i);
-
             }
         });
-
-
         return v;
     }
-
-
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//    }
 }

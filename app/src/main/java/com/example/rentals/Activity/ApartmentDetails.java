@@ -237,24 +237,7 @@ public class ApartmentDetails extends AppCompatActivity {
 
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//
-//        if (fromLogin.equals("true")) {
-//            Intent i = new Intent(ApartmentDetails.this, MainActivity.class);
-//            startActivity(i);
-//            finish();
-//        } else {
-//            return;
-//        }
-//
-//
-//    }
-
     private void getImages(final ArrayList<Uri> images, final String aptId) {
-
-
         StorageReference listRef = storage.getInstance().getReference().child("images/" + aptId);
 
         listRef.listAll()
@@ -277,14 +260,11 @@ public class ApartmentDetails extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     // Got the download URL for 'users/me/profile.png'
-                                    //  ImageView image = (ImageView) dialog.findViewById(R.id.dialogimage);
-                                    // Picasso.get().load(uri).resize(120, 120).into(image);
                                     System.out.println(images.size() + "maa");
                                     images.add(uri);
                                     ViewImagePagerAdapter viewImagePagerAdapter = new ViewImagePagerAdapter(getApplicationContext(), images);
                                     viewImagePagerAdapter.notifyDataSetChanged();
                                     imageViewPager.setAdapter(viewImagePagerAdapter);
-
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -293,10 +273,7 @@ public class ApartmentDetails extends AppCompatActivity {
                                     // Handle any errors
                                 }
                             });
-
                         }
-
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -305,8 +282,6 @@ public class ApartmentDetails extends AppCompatActivity {
                         // Uh-oh, an error occurred!
                     }
                 });
-
-
     }
 
 
