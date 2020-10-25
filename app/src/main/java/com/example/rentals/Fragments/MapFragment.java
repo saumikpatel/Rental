@@ -381,18 +381,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Button apply = dialog.findViewById(R.id.apply);
         Button reset = dialog.findViewById(R.id.reset);
 
-        slider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
-            @Override
-            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
-                List price = slider.getValues();
-                min = (float) price.get(0);
-                max = (float) price.get(1);
-                to.setText("Min "+min);
-                from.setText("Max "+max);
-            }
+//        slider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
+//            @Override
+//            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
+//                List price = slider.getValues();
+//                min = (float) price.get(0);
+//                max = (float) price.get(1);
+//                to.setText("Min "+min);
+//                from.setText("Max "+max);
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(@NonNull RangeSlider slider) {
+//                List price = slider.getValues();
+//                min = (float) price.get(0);
+//                max = (float) price.get(1);
+//                to.setText("Min "+min);
+//                from.setText("Max "+max);
+//            }
+//        });
 
+        slider.addOnChangeListener(new RangeSlider.OnChangeListener() {
             @Override
-            public void onStopTrackingTouch(@NonNull RangeSlider slider) {
+            public void onValueChange(@NonNull RangeSlider slider, float value, boolean fromUser) {
                 List price = slider.getValues();
                 min = (float) price.get(0);
                 max = (float) price.get(1);
@@ -400,6 +411,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 from.setText("Max "+max);
             }
         });
+
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
