@@ -13,10 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.example.rentals.Fragments.ProfileFragment;
 import com.example.rentals.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -61,7 +58,7 @@ public class CreateAccount extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-               finish();
+                finish();
             }
         });
 
@@ -74,7 +71,6 @@ public class CreateAccount extends AppCompatActivity {
                 String Email = create_email.getEditText().getText().toString();
                 String Password = create_password.getEditText().getText().toString();
                 String ConfirmPassword = create_confirmPassword.getEditText().getText().toString();
-
 
 
                 if (Name.isEmpty() || Phone.isEmpty() || Email.isEmpty() || Password.isEmpty() || ConfirmPassword.isEmpty()) {

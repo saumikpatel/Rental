@@ -342,7 +342,15 @@ public class Postadd extends AppCompatActivity {
                 } else if (Amount.matches(".*[a-zA-Z]+.*")) {
                     Toast.makeText(Postadd.this, "Please Enter Amount in Digit", Toast.LENGTH_LONG).show();
                     return;
-                } else if (Unit.isEmpty()) {
+                }
+//                }  else if (address.isEmpty()) {
+//                    Toast.makeText(Postadd.this, "Please enter Address ", Toast.LENGTH_LONG).show();
+//                    return;
+//                } else if (cityName.isEmpty()) {
+//                    Toast.makeText(Postadd.this, "Please select City", Toast.LENGTH_LONG).show();
+//                    return;
+//                }
+                else if (Unit.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please select Unit", Toast.LENGTH_LONG).show();
                     return;
                 } else if (!(Unit.equals("Apartment") || Unit.equals("Room") || Unit.equals("House") || Unit.equals("Condo"))) {
@@ -643,6 +651,7 @@ public class Postadd extends AppCompatActivity {
         close.setVisibility(View.GONE);
 
     }
+
     private void selectImage() {
         final CharSequence[] options = {"Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder1 = new AlertDialog.Builder(Postadd.this);
