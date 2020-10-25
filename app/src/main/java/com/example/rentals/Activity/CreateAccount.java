@@ -61,11 +61,7 @@ public class CreateAccount extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Fragment fragment  = new ProfileFragment();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(android.R.id.content , fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+               finish();
             }
         });
 

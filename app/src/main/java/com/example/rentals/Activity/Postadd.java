@@ -664,6 +664,7 @@ public class Postadd extends AppCompatActivity {
                             uploadImage((String) documentReference.getId());
                             Toast.makeText(Postadd.this, " Post added Successfully ", Toast.LENGTH_SHORT).show();
                             pd.dismiss();
+                            finish();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -677,23 +678,23 @@ public class Postadd extends AppCompatActivity {
                     });
 
 
-                    DocumentReference docRef = fstore.collection("Apartment").document("g1BJ8ohTwN41Ju4Y6efa");
-                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    //String nu = a.substring(a.indexOf("number=") + 7, a.indexOf(", name="));
-                                    Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
-                                } else {
-                                    Log.d("tagvv", "No such document");
-                                }
-                            } else {
-                                Log.d("tagvv", "get failed with ", task.getException());
-                            }
-                        }
-                    });
+//                    DocumentReference docRef = fstore.collection("Apartment").document("g1BJ8ohTwN41Ju4Y6efa");
+//                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                DocumentSnapshot document = task.getResult();
+//                                if (document.exists()) {
+//                                    //String nu = a.substring(a.indexOf("number=") + 7, a.indexOf(", name="));
+//                                    Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+//                                } else {
+//                                    Log.d("tagvv", "No such document");
+//                                }
+//                            } else {
+//                                Log.d("tagvv", "get failed with ", task.getException());
+//                            }
+//                        }
+//                    });
 
                 }
 

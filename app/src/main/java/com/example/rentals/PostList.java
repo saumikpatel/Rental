@@ -119,4 +119,12 @@ public class PostList extends AppCompatActivity {
         postlistAdapter = new PostListAdapter(this, postlist);
         PostListRecycler.setAdapter(postlistAdapter);
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        postlist.clear();
+        postlistAdapter.notifyDataSetChanged();
+        getApartmetList();
+    }
 }

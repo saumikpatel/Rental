@@ -60,6 +60,7 @@ public class WishlistFragment extends Fragment {
      * variable declarationfor current user
      */
     private FirebaseUser curUser;
+    final ArrayList<WishlistModel> wishlist = new ArrayList<>();
 
     public WishlistFragment() {
         // Required empty public constructor
@@ -117,7 +118,7 @@ public class WishlistFragment extends Fragment {
 
         auth = FirebaseAuth.getInstance();
 
-        final ArrayList<WishlistModel> wishlist = new ArrayList<>();
+
 
         db = FirebaseFirestore.getInstance();
         curUser = auth.getCurrentUser();
@@ -212,20 +213,21 @@ public class WishlistFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getWishlistDetails();
-
+      setWishlistRecycler(wishlist);
     }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        // getWishlistDetails();
-    }
+//    @Override
+//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+//        super.onViewStateRestored(savedInstanceState);
+//        getWishlistDetails();
+//    }
 
     @Override
     public void onStart() {
         super.onStart();
         //getWishlistDetails();
     }
+
+
 
 }

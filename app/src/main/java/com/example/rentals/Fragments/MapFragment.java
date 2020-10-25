@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -24,7 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,9 +32,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.rentals.Activity.ApartmentDetails;
 import com.example.rentals.Activity.ApartmentDialog;
-import com.example.rentals.Filter;
 import com.example.rentals.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -61,7 +58,6 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.slider.RangeSlider;
-import com.google.android.material.slider.Slider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -69,7 +65,6 @@ import com.google.maps.android.ui.IconGenerator;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -85,8 +80,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     FusedLocationProviderClient mFusedLocationClient;
     boolean priceChanged = false;
     ImageView filter;
-    float min=0,max=5000;
-    String city="Montreal";
+    float min = 0, max = 5000;
+    String city = "Montreal";
     LocationCallback mLocationCallback = new LocationCallback() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
@@ -95,7 +90,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             if (locationList.size() > 0) {
                 //The last location in the list is the newest
                 Location location = locationList.get(locationList.size() - 1);
-             //   Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+                //   Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
                 if (mCurrLocationMarker != null) {
                     mCurrLocationMarker.remove();
@@ -122,18 +117,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        filter=view.findViewById(R.id.filter);
+        filter = view.findViewById(R.id.filter);
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 filter(getActivity());
             }
         });
-
-
-
-
-
 
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
@@ -160,7 +150,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onPlaceSelected(@NotNull Place place) {
                 // TODO: Get info about the selected place.
-              //  Log.i("", "Place: " + place.getAddressComponents());
+                //  Log.i("", "Place: " + place.getAddressComponents());
                 View fView = autocompleteFragment.getView();
                 EditText etTextInput = fView.findViewById(R.id.places_autocomplete_search_input);
                 etTextInput.setTextColor(Color.BLACK);
@@ -175,7 +165,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 putmarker(place.getLatLng());
 
-                city=place.getName();
+                city = place.getName();
                 getApartments(city);
 
 
@@ -202,14 +192,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                              //  Log.d("TAG", document.getId() + " => " + document.getData());
+                                //  Log.d("TAG", document.getId() + " => " + document.getData());
                                 LatLng latLng1 = new LatLng((Double) document.getData().get("Latitude"), (Double) document.getData().get("Longitude"));
-                                int price = (Integer.parseInt((String)document.getData().get("Amount")));
-                                if(priceChanged){
-                                    if(price>=min && price<=max){
+                                int price = (Integer.parseInt((String) document.getData().get("Amount")));
+                                if (priceChanged) {
+                                    if (price >= min && price <= max) {
                                         putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getId());
                                     }
-                                }else{
+                                } else {
                                     putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getId());
                                 }
 
@@ -364,7 +354,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             // permissions this app might request
         }
     }
-    public void filter(final Activity activity){
+
+    public void filter(final Activity activity) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_ACTION_MODE_OVERLAY);
         dialog.setCancelable(true);
@@ -373,25 +364,52 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         WindowManager.LayoutParams wlp = window.getAttributes();
 
         wlp.gravity = Gravity.CENTER;
-        wlp.height= WindowManager.LayoutParams.WRAP_CONTENT;
-        wlp.width= WindowManager.LayoutParams.MATCH_PARENT;
+        wlp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         window.setAttributes(wlp);
         final RangeSlider slider = dialog.findViewById(R.id.slider);
-        slider.setValues(min,max);
+        final TextView to = dialog.findViewById(R.id.to);
+        final TextView from = dialog.findViewById(R.id.from);
+
+        slider.setValues(min, max);
+        to.setText("Min "+min);
+        from.setText("Max "+max);
         dialog.show();
 
 
         Button apply = dialog.findViewById(R.id.apply);
         Button reset = dialog.findViewById(R.id.reset);
+
+        slider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
+            @Override
+            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
+                List price = slider.getValues();
+                min = (float) price.get(0);
+                max = (float) price.get(1);
+                to.setText("Min "+min);
+                from.setText("Max "+max);
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull RangeSlider slider) {
+                List price = slider.getValues();
+                min = (float) price.get(0);
+                max = (float) price.get(1);
+                to.setText("Min "+min);
+                from.setText("Max "+max);
+            }
+        });
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List price=slider.getValues();
-                min=(float)price.get(0);
-                max=(float)price.get(1);
-                Log.d("",min+"");
-                priceChanged=true;
+                List price = slider.getValues();
+                min = (float) price.get(0);
+                max = (float) price.get(1);
+                to.setText("Min "+min);
+                from.setText("Max "+max);
+                Log.d("", min + "");
+                priceChanged = true;
                 dialog.dismiss();
                 getApartments(city);
             }
@@ -400,14 +418,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                min=0;
-                max=5000;
-                priceChanged=false;
+                min = 0;
+                max = 5000;
+                to.setText("Min "+min);
+                from.setText("Max "+max);
+                priceChanged = false;
                 dialog.dismiss();
                 getApartments(city);
             }
         });
-
 
 
     }
@@ -458,7 +477,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     }
-
 
 
 }

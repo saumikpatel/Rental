@@ -1,6 +1,8 @@
 package com.example.rentals.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.rentals.Activity.ApartmentDetails;
 import com.example.rentals.Models.WishlistModel;
 import com.example.rentals.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -89,6 +92,16 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 });
             }
         });
+        holder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), ApartmentDetails.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("AptId", wishlist.get(position).getApartmentId());
+                i.putExtras(bundle);
+                context.startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -100,6 +113,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
         ImageView aptimage, wishlistIcon;
         TextView price, bedroom, bathroom, location, type;
+        View item;
 
         public WishlistViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -110,6 +124,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             location = itemView.findViewById(R.id.addresswishlist);
             type = itemView.findViewById(R.id.apartmentwishlist);
             wishlistIcon = itemView.findViewById(R.id.wishlisticon);
+            item=itemView;
+
 
 
         }

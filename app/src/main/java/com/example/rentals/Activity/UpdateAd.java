@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.rentals.Adapters.PostListAdapter;
 import com.example.rentals.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -86,6 +87,7 @@ public class UpdateAd extends AppCompatActivity {
     private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
     private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet, btn_gym, btn_pool, btn_concierge, btn_storage, btn_security, btn_elevator, btn_wheelchair, btn_labels, btn_audio, btn_bicycle;
     private Button btn_postad, btn_calender;
+    PostListAdapter postlistAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -694,12 +696,13 @@ public class UpdateAd extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d("TAG", "DocumentSnapshot successfully written!");
-                                    Toast.makeText(UpdateAd.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+
                                     if (changed) {
                                         uploadImage((aptid));
                                     }
-
+                                    Toast.makeText(UpdateAd.this, "Post Updated Successfully", Toast.LENGTH_SHORT).show();
                                     pd.dismiss();
+                                    finish();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -808,6 +811,9 @@ public class UpdateAd extends AppCompatActivity {
 //                fragmentTransaction.replace(android.R.id.content , fragment);
 //                fragmentTransaction.addToBackStack(null);
 //                fragmentTransaction.commit();
+                Toast.makeText(UpdateAd.this, "Post Deleted Successfully", Toast.LENGTH_SHORT).show();
+              //  postlistAdapter.notifyDataSetChanged();
+                finish();
             }
         })
                 .addOnFailureListener(new OnFailureListener() {
@@ -1280,7 +1286,8 @@ public class UpdateAd extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            Toast.makeText(UpdateAd.this, " Image Uploaded", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(UpdateAd.this, " Image Uploaded", Toast.LENGTH_SHORT).show();
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
