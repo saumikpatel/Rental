@@ -194,7 +194,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //  Log.d("TAG", document.getId() + " => " + document.getData());
                                 LatLng latLng1 = new LatLng((Double) document.getData().get("Latitude"), (Double) document.getData().get("Longitude"));
-                                int price = (Integer.parseInt((String) document.getData().get("Amount")));
+                                float price = (Float.parseFloat((String) document.getData().get("Amount")));
                                 if (priceChanged) {
                                     if (price >= min && price <= max) {
                                         putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getId());
@@ -381,25 +381,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Button apply = dialog.findViewById(R.id.apply);
         Button reset = dialog.findViewById(R.id.reset);
 
-//        slider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
-//            @Override
-//            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
-//                List price = slider.getValues();
-//                min = (float) price.get(0);
-//                max = (float) price.get(1);
-//                to.setText("Min "+min);
-//                from.setText("Max "+max);
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(@NonNull RangeSlider slider) {
-//                List price = slider.getValues();
-//                min = (float) price.get(0);
-//                max = (float) price.get(1);
-//                to.setText("Min "+min);
-//                from.setText("Max "+max);
-//            }
-//        });
+        slider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
+            @Override
+            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
+                List price = slider.getValues();
+                min = (float) price.get(0);
+                max = (float) price.get(1);
+                to.setText("Min "+min);
+                from.setText("Max "+max);
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull RangeSlider slider) {
+                List price = slider.getValues();
+                min = (float) price.get(0);
+                max = (float) price.get(1);
+                to.setText("Min "+min);
+                from.setText("Max "+max);
+            }
+        });
 
         slider.addOnChangeListener(new RangeSlider.OnChangeListener() {
             @Override
