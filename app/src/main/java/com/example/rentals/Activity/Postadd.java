@@ -30,10 +30,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.rentals.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.TypeFilter;
@@ -48,7 +46,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -66,9 +63,6 @@ import java.util.TimeZone;
 
 public class Postadd extends AppCompatActivity {
 
-
-    public static final int CAMERA_PERM_CODE = 101;
-    public static final int CAMERA_REQUEST_CODE = 102;
     public static final int GALLERY_REQUEST_CODE = 105;
     String cityName, address;
     LatLng latLng;
@@ -83,7 +77,6 @@ public class Postadd extends AppCompatActivity {
     private TextInputLayout et_title, et_des, et_amt, et_unit, et_pnum, et_date, et_bath, et_bed, et_pet, et_size, et_smoke, et_parking;
     private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
     private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet, btn_gym, btn_pool, btn_concierge, btn_storage, btn_security, btn_elevator, btn_wheelchair, btn_labels, btn_audio, btn_bicycle;
-    private Button btn_postad, btn_calender;
     int photos = 0;
 
     @Override
@@ -139,14 +132,13 @@ public class Postadd extends AppCompatActivity {
         rbaudio = findViewById(R.id.rbaudio);
         rbbicycle = findViewById(R.id.rbbicycle);
 
-
         AutoCompleteTextView unit = findViewById(R.id.unit);
         AutoCompleteTextView bedroom = findViewById(R.id.bedroom);
         AutoCompleteTextView bathroom = findViewById(R.id.bathroom);
         AutoCompleteTextView pet = findViewById(R.id.pet);
         AutoCompleteTextView smoke = findViewById(R.id.smoke);
         AutoCompleteTextView parking = findViewById(R.id.parking);
-        /* -------*/
+
         autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.location_fragment);
         city = (AutocompleteSupportFragment)
@@ -161,7 +153,6 @@ public class Postadd extends AppCompatActivity {
 
         unit.setAdapter(adapter1);
 
-        /* -------*/
 
         String[] Bedrooms = new String[]{"Studio", "1", "1 + Den", "2", "2 + Den", "3", "3 + Den", "4", "4 + Den", "5+"};
 
@@ -173,9 +164,6 @@ public class Postadd extends AppCompatActivity {
 
         bedroom.setAdapter(adapter2);
 
-        /* -------*/
-
-
         String[] bathrooms = new String[]{"1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5", "5.5", "6"};
 
         ArrayAdapter<String> adapter3 = new ArrayAdapter<>(
@@ -185,8 +173,6 @@ public class Postadd extends AppCompatActivity {
         );
 
         bathroom.setAdapter(adapter3);
-
-        /* -------*/
 
 
         String[] pets = new String[]{"Yes", "No", "Limited"};
@@ -199,8 +185,6 @@ public class Postadd extends AppCompatActivity {
 
         pet.setAdapter(adapter4);
 
-        /* -------*/
-
 
         String[] smokes = new String[]{"Yes", "No", "Outdoors only"};
 
@@ -211,8 +195,6 @@ public class Postadd extends AppCompatActivity {
         );
 
         smoke.setAdapter(adapter5);
-
-        /* -------*/
 
         String[] parkings = new String[]{"0", "1", "2", "3+"};
 
@@ -296,7 +278,6 @@ public class Postadd extends AppCompatActivity {
         city.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS));
         city.setTypeFilter(TypeFilter.CITIES);
 
-        // Set up a PlaceSelectionListener to handle the response.
         city.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @SuppressLint("UseCompatLoadingForDrawables")
             @Override
@@ -305,8 +286,6 @@ public class Postadd extends AppCompatActivity {
                 Log.i("", "Place: " + place.getAddressComponents());
                 setCitySearchUI();
                 cityName = place.getName();
-
-
             }
 
             @Override
@@ -329,10 +308,7 @@ public class Postadd extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
                 fstore = FirebaseFirestore.getInstance();
-                // Toast.makeText(Postadd.this, ""+photos, Toast.LENGTH_SHORT).show();
-
 
                 final String Title = et_title.getEditText().getText().toString().trim();
                 final String Description = et_des.getEditText().getText().toString().trim();
@@ -346,20 +322,6 @@ public class Postadd extends AppCompatActivity {
                 String MoveInDate = et_date.getEditText().getText().toString().trim();
                 String SmokePermitted = et_smoke.getEditText().getText().toString().trim();
                 String ParkingIncluded = et_parking.getEditText().getText().toString().trim();
-
-
-               /* Log.v("tagvv", " " + Title);
-                Log.v("tagvv", " " + Description);
-                Log.v("tagvv", " " + Amount);
-                Log.v("tagvv", " " + Unit);
-                Log.v("tagvv", " " + PhoneNumber);
-                Log.v("tagvv", " " + Bathroom);
-                Log.v("tagvv", " " + Bedroom);
-                Log.v("tagvv", " " + PetFriendly);
-                Log.v("tagvv", " " + Size);
-                Log.v("tagvv", " " + MoveInDate);
-                Log.v("tagvv", " " + SmokePermitted);
-                Log.v("tagvv", " " + ParkingIncluded);*/
 
 
                 if (Title.isEmpty()) {
@@ -450,157 +412,131 @@ public class Postadd extends AppCompatActivity {
                     pd.show();
                     int selectedId1 = rbfurnished.getCheckedRadioButtonId();
                     btn_furnished = findViewById(selectedId1);
-                    //Toast.makeText(Postadd.this, btn_furnished.getText(), Toast.LENGTH_SHORT).show();
                     String Furnished = btn_furnished.getText().toString().trim();
                     Log.v("tagvv", " " + Furnished);
 
                     int selectedId2 = rbflaundry.getCheckedRadioButtonId();
                     btn_flaundry = findViewById(selectedId2);
-                    //Toast.makeText(Postadd.this, btn_flaundry.getText(), Toast.LENGTH_SHORT).show();
                     String UnitLaundry = btn_flaundry.getText().toString().trim();
                     Log.v("tagvv", " " + UnitLaundry);
 
                     int selectedId3 = rbLaundryb.getCheckedRadioButtonId();
                     btn_Laundryb = findViewById(selectedId3);
-                    //Toast.makeText(Postadd.this, btn_Laundryb.getText(), Toast.LENGTH_SHORT).show();
                     String BuildingLaundry = btn_Laundryb.getText().toString().trim();
                     Log.v("tagvv", " " + BuildingLaundry);
 
                     int selectedId4 = rbdishwasher.getCheckedRadioButtonId();
                     btn_dishwasher = findViewById(selectedId4);
-                    //Toast.makeText(Postadd.this, btn_dishwasher.getText(), Toast.LENGTH_SHORT).show();
                     String Dishwasher = btn_dishwasher.getText().toString().trim();
                     Log.v("tagvv", " " + Dishwasher);
 
                     int selectedId5 = rbfridge.getCheckedRadioButtonId();
                     btn_fridge = findViewById(selectedId5);
-                    //Toast.makeText(Postadd.this, btn_fridge.getText(), Toast.LENGTH_SHORT).show();
                     String Fridge = btn_fridge.getText().toString().trim();
                     Log.v("tagvv", " " + Fridge);
 
                     int selectedId6 = rbair_conditioning.getCheckedRadioButtonId();
                     btn_air_conditioning = findViewById(selectedId6);
-                    //Toast.makeText(Postadd.this, btn_air_conditioning.getText(), Toast.LENGTH_SHORT).show();
                     String AirConditioning = btn_air_conditioning.getText().toString().trim();
                     Log.v("tagvv", " " + AirConditioning);
 
                     int selectedId7 = rbyard.getCheckedRadioButtonId();
                     btn_yard = findViewById(selectedId7);
-                    //Toast.makeText(Postadd.this, btn_yard.getText(), Toast.LENGTH_SHORT).show();
                     String Yard = btn_yard.getText().toString().trim();
                     Log.v("tagvv", " " + Yard);
 
                     int selectedId8 = rbbalcony.getCheckedRadioButtonId();
                     btn_balcony = findViewById(selectedId8);
-                    //Toast.makeText(Postadd.this, btn_balcony.getText(), Toast.LENGTH_SHORT).show();
                     String Balcony = btn_balcony.getText().toString().trim();
                     Log.v("tagvv", " " + Balcony);
 
                     int selectedId9 = rbramp.getCheckedRadioButtonId();
                     btn_ramp = findViewById(selectedId9);
-                    //Toast.makeText(Postadd.this, btn_ramp.getText(), Toast.LENGTH_SHORT).show();
                     String Barrier_free_Entrance_Ramps = btn_ramp.getText().toString().trim();
                     Log.v("tagvv", " " + Barrier_free_Entrance_Ramps);
 
                     int selectedId10 = rbaids.getCheckedRadioButtonId();
                     btn_aids = findViewById(selectedId10);
-                    //Toast.makeText(Postadd.this, btn_aids.getText(), Toast.LENGTH_SHORT).show();
                     String VisualAids = btn_aids.getText().toString().trim();
                     Log.v("tagvv", " " + VisualAids);
 
                     int selectedId11 = rbsuite.getCheckedRadioButtonId();
                     btn_suite = findViewById(selectedId11);
-                    //Toast.makeText(Postadd.this, btn_suite.getText(), Toast.LENGTH_SHORT).show();
                     String Accessible_Washrooms_in_suite = btn_suite.getText().toString().trim();
                     Log.v("tagvv", " " + Accessible_Washrooms_in_suite);
 
                     int selectedId12 = rbhydro.getCheckedRadioButtonId();
                     btn_hydro = findViewById(selectedId12);
-                    //Toast.makeText(Postadd.this, btn_hydro.getText(), Toast.LENGTH_SHORT).show();
                     String Hydro = btn_hydro.getText().toString().trim();
                     Log.v("tagvv", " " + Hydro);
 
                     int selectedId13 = rbheat.getCheckedRadioButtonId();
                     btn_heat = findViewById(selectedId13);
-                    //Toast.makeText(Postadd.this, btn_heat.getText(), Toast.LENGTH_SHORT).show();
                     String Heat = btn_heat.getText().toString().trim();
                     Log.v("tagvv", " " + Heat);
 
                     int selectedId14 = rbwater.getCheckedRadioButtonId();
                     btn_water = findViewById(selectedId14);
-                    //Toast.makeText(Postadd.this, btn_water.getText(), Toast.LENGTH_SHORT).show();
                     String Water = btn_water.getText().toString().trim();
                     Log.v("tagvv", " " + Water);
 
                     int selectedId15 = rbtv.getCheckedRadioButtonId();
                     btn_tv = findViewById(selectedId15);
-                    //Toast.makeText(Postadd.this, btn_tv.getText(), Toast.LENGTH_SHORT).show();
                     String Tv = btn_tv.getText().toString().trim();
                     Log.v("tagvv", " " + Tv);
 
                     int selectedId16 = rbinternet.getCheckedRadioButtonId();
                     btn_internet = findViewById(selectedId16);
-                    //Toast.makeText(Postadd.this, btn_internet.getText(), Toast.LENGTH_SHORT).show();
                     String Internet = btn_internet.getText().toString().trim();
                     Log.v("tagvv", " " + Internet);
 
                     int selectedId17 = rbgym.getCheckedRadioButtonId();
                     btn_gym = findViewById(selectedId17);
-                    //Toast.makeText(Postadd.this, btn_gym.getText(), Toast.LENGTH_SHORT).show();
                     String Gym = btn_gym.getText().toString().trim();
                     Log.v("tagvv", " " + Gym);
 
                     int selectedId18 = rbpool.getCheckedRadioButtonId();
                     btn_pool = findViewById(selectedId18);
-                    //Toast.makeText(Postadd.this, btn_pool.getText(), Toast.LENGTH_SHORT).show();
                     String Pool = btn_pool.getText().toString().trim();
                     Log.v("tagvv", " " + Pool);
 
                     int selectedId19 = rbconcierge.getCheckedRadioButtonId();
                     btn_concierge = findViewById(selectedId19);
-                    //Toast.makeText(Postadd.this, btn_concierge.getText(), Toast.LENGTH_SHORT).show();
                     String Concierge = btn_concierge.getText().toString().trim();
                     Log.v("tagvv", " " + Concierge);
 
                     int selectedId20 = rbstorage.getCheckedRadioButtonId();
                     btn_storage = findViewById(selectedId20);
-                    //Toast.makeText(Postadd.this, btn_storage.getText(), Toast.LENGTH_SHORT).show();
                     String Storage_Space = btn_storage.getText().toString().trim();
                     Log.v("tagvv", " " + Storage_Space);
 
                     int selectedId21 = rbsecurity.getCheckedRadioButtonId();
                     btn_security = findViewById(selectedId21);
-                    //Toast.makeText(Postadd.this, btn_security.getText(), Toast.LENGTH_SHORT).show();
                     String Security = btn_security.getText().toString().trim();
                     Log.v("tagvv", " " + Security);
 
                     int selectedId22 = rbelevator.getCheckedRadioButtonId();
                     btn_elevator = findViewById(selectedId22);
-                    //Toast.makeText(Postadd.this, btn_elevator.getText(), Toast.LENGTH_SHORT).show();
                     String Elevator = btn_elevator.getText().toString().trim();
                     Log.v("tagvv", " " + Elevator);
 
                     int selectedId23 = rbwheelchair.getCheckedRadioButtonId();
                     btn_wheelchair = findViewById(selectedId23);
-                    //Toast.makeText(Postadd.this, btn_wheelchair.getText(), Toast.LENGTH_SHORT).show();
                     String Wheelchair = btn_wheelchair.getText().toString().trim();
                     Log.v("tagvv", " " + Wheelchair);
 
                     int selectedId24 = rblabels.getCheckedRadioButtonId();
                     btn_labels = findViewById(selectedId24);
-                    //Toast.makeText(Postadd.this, btn_labels.getText(), Toast.LENGTH_SHORT).show();
                     String Barille_Labels = btn_labels.getText().toString().trim();
                     Log.v("tagvv", " " + Barille_Labels);
 
                     int selectedId25 = rbaudio.getCheckedRadioButtonId();
                     btn_audio = findViewById(selectedId25);
-                    //Toast.makeText(Postadd.this, btn_audio.getText(), Toast.LENGTH_SHORT).show();
                     String Audio = btn_audio.getText().toString().trim();
                     Log.v("tagvv", " " + Audio);
 
                     int selectedId26 = rbbicycle.getCheckedRadioButtonId();
                     btn_bicycle = findViewById(selectedId26);
-                    //Toast.makeText(Postadd.this, btn_bicycle.getText(), Toast.LENGTH_SHORT).show();
                     String Bicycle = btn_bicycle.getText().toString().trim();
                     Log.v("tagvv", " " + Bicycle);
 
@@ -609,7 +545,6 @@ public class Postadd extends AppCompatActivity {
                     FirebaseUser firebaseUser = auth.getCurrentUser();
                     String uid = firebaseUser.getUid();
                     Log.v("tagvv", " " + uid);
-
 
                     Map<String, Object> userMap = new HashMap<>();
                     userMap.put("UserID", uid);
@@ -677,32 +612,7 @@ public class Postadd extends AppCompatActivity {
                         }
                     });
 
-
-//                    DocumentReference docRef = fstore.collection("Apartment").document("g1BJ8ohTwN41Ju4Y6efa");
-//                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                DocumentSnapshot document = task.getResult();
-//                                if (document.exists()) {
-//                                    //String nu = a.substring(a.indexOf("number=") + 7, a.indexOf(", name="));
-//                                    Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
-//                                } else {
-//                                    Log.d("tagvv", "No such document");
-//                                }
-//                            } else {
-//                                Log.d("tagvv", "get failed with ", task.getException());
-//                            }
-//                        }
-//                    });
-
                 }
-
-//                Fragment fragment  = new MyAccountFragment ();
-//                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(android.R.id.content , fragment);
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
 
             }
         });
@@ -733,21 +643,6 @@ public class Postadd extends AppCompatActivity {
         close.setVisibility(View.GONE);
 
     }
-    /*private void askCameraPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
-        } else {
-            dispatchTakePictureIntent();
-        }
-    }
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(takePictureIntent, CAMERA_PERM_CODE);
-        Intent intent = new Intent();
-        Bitmap bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
-    }*/
-
     private void selectImage() {
         final CharSequence[] options = {"Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder1 = new AlertDialog.Builder(Postadd.this);
@@ -758,10 +653,8 @@ public class Postadd extends AppCompatActivity {
                 if (options[item].equals("Choose from Gallery")) {
                     contenturi.clear();
                     upload.setImageResource(R.drawable.uploadnew);
-
                     Intent gallery = new Intent();
                     gallery.setType("image/*");
-                    //gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                     gallery.setAction(Intent.ACTION_GET_CONTENT);
 
@@ -774,29 +667,11 @@ public class Postadd extends AppCompatActivity {
         builder1.show();
     }
 
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == CAMERA_PERM_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                dispatchTakePictureIntent();
-            } else {
-                Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*if (requestCode == CAMERA_PERM_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                Bundle extras = data.getExtras();
-                Bitmap img = (Bitmap) extras.get("data");
-                upload.setImageBitmap(img);
-                Intent intent = new Intent(this, Postadd.class);
-                intent.putExtra("BitmapImage", img);
-            }
-        }*/
+
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 ClipData clipdata = data.getClipData();
@@ -816,15 +691,6 @@ public class Postadd extends AppCompatActivity {
 
 
                 } else {
-//                    InputStream ist = null;
-//                    try {
-//                        ist = this.getContentResolver()
-//                                .openInputStream(data.getData());
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//                    Bitmap bitmap = BitmapFactory.decodeStream(ist);
-//                   // selectedImage.setImageBitmap(bitmap);
                     contenturi.add(data.getData());
                     photos = 1;
 
