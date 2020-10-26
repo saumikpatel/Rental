@@ -65,6 +65,7 @@ public class ApartmentDetails extends AppCompatActivity {
     String WishlistedId, Uid;
     private FirebaseUser curUser;
     private FirebaseAuth auth;
+    WebView  browser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +81,10 @@ public class ApartmentDetails extends AppCompatActivity {
         btnbuyApartment = (Button) findViewById(R.id.buyapartment);
         like = (ImageView) findViewById(R.id.like);
         imageViewPager = findViewById(R.id.imageslider);
-        WebView browser = (WebView) findViewById(R.id.browser2);
+        browser = (WebView) findViewById(R.id.browser2);
         mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         browser.getSettings().setJavaScriptEnabled(true);
-        browser.loadUrl("file:///android_asset/local.html");
+
         ArrayList<Uri> images = new ArrayList<Uri>();
 
         auth = FirebaseAuth.getInstance();
@@ -311,7 +312,9 @@ public class ApartmentDetails extends AppCompatActivity {
                         price.setText(pr + "$");
                         description.setText(des);
                         address.setText(Address);
-
+                        String lat =data1.get("Latitude").toString();
+                        String lng = data1.get("Longitude").toString();
+                        browser.loadUrl("file:///android_asset/local.html?lat="+lat+"&lng="+lng);
 
                         Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {

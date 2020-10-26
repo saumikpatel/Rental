@@ -242,7 +242,7 @@ public class WishlistFragment extends Fragment {
         super.onResume();
         wishlist.clear();
       getWishlistDetails();
-      Toast.makeText(getContext(), ""+wishlist.size(), Toast.LENGTH_SHORT).show();
+     // Toast.makeText(getContext(), ""+wishlist.size(), Toast.LENGTH_SHORT).show();
     }
 
 

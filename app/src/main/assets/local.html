@@ -11,7 +11,11 @@
 
 
 <script>
-
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+// get the required parameter
+const lat = urlParams.get('lat');
+ const lng = urlParams.get('lng');// returns the value of parameter 'lan'
 
   function initLocallogic () {
 
@@ -19,10 +23,10 @@
     var widget = new locallogic.LocalContent('local-content-widget', {
 
 
-      lat: 45.50717558,
+      lat: lat,
 
 
-      lng: -73.5780121,
+      lng: lng,
 
 
       locale: 'en',
@@ -46,13 +50,13 @@
 <!-- Load the Local Logic SDK with your token -->
 
 
-<!--<script async defer-->
+<script async defer
 
 
-<!--        src="https://cdn.locallogic.co/sdk/?token=b60d600bb4d71cc46a0537cb332efcb1a5c63d4318278a765d00c28f9e79f584601049ee21df0a5f&callback=initLocallogic">-->
+        src="https://cdn.locallogic.co/sdk/?token=b60d600bb4d71cc46a0537cb332efcb1a5c63d4318278a765d00c28f9e79f584601049ee21df0a5f&callback=initLocallogic">
 
 
-<!--</script>-->
-<!--<script defer-->
-<!--        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDq8th-y5OqF2xHWpgjfGtAGENikZsFYjo&callback=initMap">-->
-<!--</script>-->
+</script>
+<script defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDq8th-y5OqF2xHWpgjfGtAGENikZsFYjo&callback=initMap">
+</script>
