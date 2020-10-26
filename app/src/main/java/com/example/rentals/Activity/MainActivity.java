@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         if (savedInstanceState == null) {
-            bottomNavigationView.setSelectedItemId(R.id.navigation_map); // change to whichever id should be default
+            bottomNavigationView.setSelectedItemId(R.id.navigation_map);
         }
 
 
