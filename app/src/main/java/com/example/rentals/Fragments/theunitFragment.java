@@ -24,13 +24,13 @@ import java.util.Map;
 
 public class theunitFragment extends Fragment {
 
-    TextView sizeApartment,furnished,ac,smokingpermit;
-    ImageView laundrytick,laundrybuildingtick,dishwashertick,fridgetick,yardtick,balconytick;
+    TextView sizeApartment, furnished, ac, smokingpermit;
+    ImageView laundrytick, laundrybuildingtick, dishwashertick, fridgetick, yardtick, balconytick;
 
     FirebaseFirestore fstore;
-    static  String id;
+    static String id;
 
-    public static theunitFragment getInstance(String AptId){
+    public static theunitFragment getInstance(String AptId) {
         id = AptId;
         theunitFragment TheunitFragment = new theunitFragment();
 
@@ -47,19 +47,19 @@ public class theunitFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.row_theunit,container,false);
+        View view = inflater.inflate(R.layout.row_theunit, container, false);
 
 
-        sizeApartment=view.findViewById(R.id.sizeApartment);
-        furnished=view.findViewById(R.id.furnished);
-        laundrytick=view.findViewById(R.id.laundrytick);
-        laundrybuildingtick=view.findViewById(R.id.laundrybuildingtick);
-        dishwashertick=view.findViewById(R.id.dishwashertick);
-        fridgetick=view.findViewById(R.id.fridgetick);
-        ac=view.findViewById(R.id.ac);
-        yardtick=view.findViewById(R.id.yardtick);
-        balconytick=view.findViewById(R.id.balconytick);
-        smokingpermit=view.findViewById(R.id.smokingpermit);
+        sizeApartment = view.findViewById(R.id.sizeApartment);
+        furnished = view.findViewById(R.id.furnished);
+        laundrytick = view.findViewById(R.id.laundrytick);
+        laundrybuildingtick = view.findViewById(R.id.laundrybuildingtick);
+        dishwashertick = view.findViewById(R.id.dishwashertick);
+        fridgetick = view.findViewById(R.id.fridgetick);
+        ac = view.findViewById(R.id.ac);
+        yardtick = view.findViewById(R.id.yardtick);
+        balconytick = view.findViewById(R.id.balconytick);
+        smokingpermit = view.findViewById(R.id.smokingpermit);
 
         getdata();
 
@@ -79,58 +79,52 @@ public class theunitFragment extends Fragment {
 
                         Map<String, Object> data1 = document.getData();
 
-                        String szapt=data1.get("Size").toString();
-                        String fur=data1.get("Furnished").toString();
-                        String lt=data1.get("UnitLaundry").toString();
-                        String ltb=data1.get("BuildingLaundry").toString();
-                        String dw=data1.get("Dishwasher").toString();
-                        String ft=data1.get("Fridge").toString();
-                        String acd=data1.get("AirConditioning").toString();
-                        String yt=data1.get("Yard").toString();
-                        String bt=data1.get("Balcony").toString();
-                        String sp=data1.get("SmokePermitted").toString();
+                        String szapt = data1.get("Size").toString();
+                        String fur = data1.get("Furnished").toString();
+                        String lt = data1.get("UnitLaundry").toString();
+                        String ltb = data1.get("BuildingLaundry").toString();
+                        String dw = data1.get("Dishwasher").toString();
+                        String ft = data1.get("Fridge").toString();
+                        String acd = data1.get("AirConditioning").toString();
+                        String yt = data1.get("Yard").toString();
+                        String bt = data1.get("Balcony").toString();
+                        String sp = data1.get("SmokePermitted").toString();
                         sizeApartment.setText(szapt);
                         furnished.setText(fur);
                         ac.setText(acd);
                         smokingpermit.setText(sp);
-                        if (lt.equals("Yes")){
+                        if (lt.equals("Yes")) {
                             laundrytick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             laundrytick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (ltb.equals("Yes")){
+                        if (ltb.equals("Yes")) {
                             laundrybuildingtick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             laundrybuildingtick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (dw.equals("Yes")){
+                        if (dw.equals("Yes")) {
                             dishwashertick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             dishwashertick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (ft.equals("Yes")){
+                        if (ft.equals("Yes")) {
                             fridgetick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             fridgetick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (yt.equals("Yes")){
+                        if (yt.equals("Yes")) {
                             yardtick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             yardtick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (bt.equals("Yes")){
+                        if (bt.equals("Yes")) {
                             balconytick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             balconytick.setImageResource(R.drawable.wrongmark);
                         }
 
-                    //    Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+                        //    Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("tagvv", "No such document");
                     }

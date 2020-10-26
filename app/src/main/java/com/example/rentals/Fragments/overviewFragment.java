@@ -8,13 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
+import com.example.rentals.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -23,24 +22,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
 
-import com.example.rentals.R;
-
 public class overviewFragment extends Fragment {
 
     private static String Id;
-    TextView apartment,sizebedroom,bathrm,hydro,heat,water,cabletv,internet,parking,agreementtype;
-    ImageView hydrotick,heattick,watertick,cabletick,internettick;
+    TextView apartment, sizebedroom, bathrm, hydro, heat, water, cabletv, internet, parking, agreementtype;
+    ImageView hydrotick, heattick, watertick, cabletick, internettick;
     FirebaseFirestore fstore;
 
 
-    public static overviewFragment getInstance(String AptId){
-        Id=AptId;
+    public static overviewFragment getInstance(String AptId) {
+        Id = AptId;
         overviewFragment OverviewFragment = new overviewFragment();
 
         return OverviewFragment;
     }
-
-
 
 
     @Override
@@ -48,25 +43,26 @@ public class overviewFragment extends Fragment {
         super.onAttach(context);
 
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.row_overview,container,false);
+        View view = inflater.inflate(R.layout.row_overview, container, false);
 
-        apartment=view.findViewById(R.id.overviewFragmentApartment);
-        sizebedroom=view.findViewById(R.id.sizebedroom);
-        bathrm=view.findViewById(R.id.bathrm);
-        hydro=view.findViewById(R.id.hydro);
-        hydrotick=view.findViewById(R.id.hydrotick);
-        heattick=view.findViewById(R.id.heattick);
-        heat= view.findViewById(R.id.heat);
-        water=view.findViewById(R.id.water);
-        watertick=view.findViewById(R.id.watertick);
-        cabletv=view.findViewById(R.id.cabletv);
-        cabletick=view.findViewById(R.id.cabletick);
-        internet=view.findViewById(R.id.internet);
-        internettick=view.findViewById(R.id.internettick);
-        parking=view.findViewById(R.id.parking);
+        apartment = view.findViewById(R.id.overviewFragmentApartment);
+        sizebedroom = view.findViewById(R.id.sizebedroom);
+        bathrm = view.findViewById(R.id.bathrm);
+        hydro = view.findViewById(R.id.hydro);
+        hydrotick = view.findViewById(R.id.hydrotick);
+        heattick = view.findViewById(R.id.heattick);
+        heat = view.findViewById(R.id.heat);
+        water = view.findViewById(R.id.water);
+        watertick = view.findViewById(R.id.watertick);
+        cabletv = view.findViewById(R.id.cabletv);
+        cabletick = view.findViewById(R.id.cabletick);
+        internet = view.findViewById(R.id.internet);
+        internettick = view.findViewById(R.id.internettick);
+        parking = view.findViewById(R.id.parking);
 
 
         getdata();
@@ -87,48 +83,43 @@ public class overviewFragment extends Fragment {
 
                         Map<String, Object> data1 = document.getData();
 
-                        String ofapt= data1.get("Unit").toString();
-                        String szbr= data1.get("Bedroom").toString();
-                        String btrm= data1.get("Bathroom").toString();
-                        String hdro= data1.get("Hydro").toString();
-                        String ht= data1.get("Heat").toString();
-                        String wt=data1.get("Water").toString();
-                        String ct=data1.get("Tv").toString();
-                        String itnt=data1.get("Internet").toString();
-                        String pk=data1.get("ParkingIncluded").toString();
+                        String ofapt = data1.get("Unit").toString();
+                        String szbr = data1.get("Bedroom").toString();
+                        String btrm = data1.get("Bathroom").toString();
+                        String hdro = data1.get("Hydro").toString();
+                        String ht = data1.get("Heat").toString();
+                        String wt = data1.get("Water").toString();
+                        String ct = data1.get("Tv").toString();
+                        String itnt = data1.get("Internet").toString();
+                        String pk = data1.get("ParkingIncluded").toString();
 
                         apartment.setText(ofapt);
                         sizebedroom.setText(szbr);
                         bathrm.setText(btrm);
                         parking.setText(pk);
-                        if (hdro.equals("Yes")){
+                        if (hdro.equals("Yes")) {
                             hydrotick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             hydrotick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (ht.equals("Yes")){
+                        if (ht.equals("Yes")) {
                             heattick.setImageResource(R.drawable.rightmark);
-                        }
-                        else {
+                        } else {
                             heattick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (wt.equals("Yes")){
+                        if (wt.equals("Yes")) {
                             watertick.setImageResource(R.drawable.rightmark);
-                        }
-                        else {
+                        } else {
                             watertick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (ct.equals("Yes")){
+                        if (ct.equals("Yes")) {
                             cabletick.setImageResource(R.drawable.rightmark);
-                        }
-                        else {
+                        } else {
                             cabletick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (itnt.equals("Yes")){
+                        if (itnt.equals("Yes")) {
                             internettick.setImageResource(R.drawable.rightmark);
-                        }
-                        else {
+                        } else {
                             internettick.setImageResource(R.drawable.wrongmark);
                         }
 
@@ -136,11 +127,7 @@ public class overviewFragment extends Fragment {
                         //String aptname = data2.substring(data2.indexOf("Title") + 6, data2.indexOf(", Braille_Labels="));
 
 
-
-
-
-
-                       // Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+                        // Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("tagvv", "No such document");
                     }
@@ -156,8 +143,6 @@ public class overviewFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-
-
     }
 
     @Override
@@ -165,7 +150,6 @@ public class overviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
-
 
 
 }

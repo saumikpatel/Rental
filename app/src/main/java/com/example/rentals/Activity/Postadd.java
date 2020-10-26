@@ -685,14 +685,13 @@ public class Postadd extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 ClipData clipdata = data.getClipData();
 
-
                 if (clipdata != null) {
                     photos = clipdata.getItemCount();
                     if (clipdata.getItemCount() > 4) {
                         Toast.makeText(this, "Please select only four items", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    Toast.makeText(this, "" + clipdata.getItemCount(), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(this, "" + clipdata.getItemCount(), Toast.LENGTH_SHORT).show();
                     for (int i = 0; i < clipdata.getItemCount(); i++) {
                         ClipData.Item item = clipdata.getItemAt(i);
                         contenturi.add(item.getUri());
@@ -715,7 +714,7 @@ public class Postadd extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            Toast.makeText(Postadd.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(Postadd.this, "Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

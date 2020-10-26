@@ -24,14 +24,14 @@ import java.util.Map;
 
 public class accessibilityfragment extends Fragment {
 
-    TextView barrier,visual,accessible;
-    ImageView wheelchairtick,brailletick,audiotick;
+    TextView barrier, visual, accessible;
+    ImageView wheelchairtick, brailletick, audiotick;
 
     FirebaseFirestore fstore;
     static String id;
 
-    public static accessibilityfragment getInstance(String Aptid){
-        id=Aptid;
+    public static accessibilityfragment getInstance(String Aptid) {
+        id = Aptid;
         accessibilityfragment AccessibilityFragment = new accessibilityfragment();
 
         return AccessibilityFragment;
@@ -47,14 +47,14 @@ public class accessibilityfragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.row_accessibility,container,false);
+        View view = inflater.inflate(R.layout.row_accessibility, container, false);
 
-        wheelchairtick=view.findViewById(R.id.wheelchairtick);
-        brailletick=view.findViewById(R.id.brailletick);
-        audiotick=view.findViewById(R.id.audiotick);
-        barrier=view.findViewById(R.id.barrier);
-        visual=view.findViewById(R.id.visual);
-        accessible=view.findViewById(R.id.accessible);
+        wheelchairtick = view.findViewById(R.id.wheelchairtick);
+        brailletick = view.findViewById(R.id.brailletick);
+        audiotick = view.findViewById(R.id.audiotick);
+        barrier = view.findViewById(R.id.barrier);
+        visual = view.findViewById(R.id.visual);
+        accessible = view.findViewById(R.id.accessible);
 
         getdata();
 
@@ -74,35 +74,32 @@ public class accessibilityfragment extends Fragment {
 
                         Map<String, Object> data1 = document.getData();
 
-                        String wt=data1.get("Wheelchair_Accessible").toString();
-                        String bt=data1.get("Braille_Labels").toString();
-                        String at=data1.get("Audio_Prompts").toString();
-                        String bar=data1.get("Barrier_free_Entrance_Ramps").toString();
-                        String vis=data1.get("VisualAids").toString();
-                        String acc=data1.get("Accessible_Washrooms_in_suite").toString();
+                        String wt = data1.get("Wheelchair_Accessible").toString();
+                        String bt = data1.get("Braille_Labels").toString();
+                        String at = data1.get("Audio_Prompts").toString();
+                        String bar = data1.get("Barrier_free_Entrance_Ramps").toString();
+                        String vis = data1.get("VisualAids").toString();
+                        String acc = data1.get("Accessible_Washrooms_in_suite").toString();
                         barrier.setText(bar);
                         visual.setText(vis);
                         accessible.setText(acc);
-                        if (wt.equals("Yes")){
+                        if (wt.equals("Yes")) {
                             wheelchairtick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             wheelchairtick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (bt.equals("Yes")){
+                        if (bt.equals("Yes")) {
                             brailletick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             brailletick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (at.equals("Yes")){
+                        if (at.equals("Yes")) {
                             audiotick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             audiotick.setImageResource(R.drawable.wrongmark);
                         }
 
-                      //  Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+                        //  Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("tagvv", "No such document");
                     }

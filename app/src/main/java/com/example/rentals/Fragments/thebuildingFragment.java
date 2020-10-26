@@ -23,12 +23,13 @@ import java.util.Map;
 
 public class thebuildingFragment extends Fragment {
 
-    ImageView gymtick,pooltick,conciergetick,hourtick,bicycletick,storagetick,elevatortick;
+    ImageView gymtick, pooltick, conciergetick, hourtick, bicycletick, storagetick, elevatortick;
 
     FirebaseFirestore fstore;
-static String id;
-    public static thebuildingFragment getInstance(String Aptid){
-        id=Aptid;
+    static String id;
+
+    public static thebuildingFragment getInstance(String Aptid) {
+        id = Aptid;
         thebuildingFragment ThebuildingFragment = new thebuildingFragment();
         return ThebuildingFragment;
     }
@@ -43,16 +44,16 @@ static String id;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.row_thebuilding,container,false);
+        View view = inflater.inflate(R.layout.row_thebuilding, container, false);
 
 
-        gymtick=view.findViewById(R.id.gymtick);
-        pooltick=view.findViewById(R.id.pooltick);
-        conciergetick=view.findViewById(R.id.conciergetick);
-        hourtick=view.findViewById(R.id.hourtick);
-        bicycletick=view.findViewById(R.id.bicycletick);
-        storagetick=view.findViewById(R.id.storagetick);
-        elevatortick=view.findViewById(R.id.elevatortick);
+        gymtick = view.findViewById(R.id.gymtick);
+        pooltick = view.findViewById(R.id.pooltick);
+        conciergetick = view.findViewById(R.id.conciergetick);
+        hourtick = view.findViewById(R.id.hourtick);
+        bicycletick = view.findViewById(R.id.bicycletick);
+        storagetick = view.findViewById(R.id.storagetick);
+        elevatortick = view.findViewById(R.id.elevatortick);
 
         getdata();
 
@@ -72,59 +73,51 @@ static String id;
 
                         Map<String, Object> data1 = document.getData();
 
-                        String gt=data1.get("Gym").toString();
-                        String pt=data1.get("Pool").toString();
-                        String ct=data1.get("Concierge").toString();
-                        String ht=data1.get("24_Hour_Security").toString();
-                        String bt=data1.get("Bicycle_Parking").toString();
-                        String st=data1.get("Storage_Space").toString();
-                        String et=data1.get("Elevator").toString();
-                        if (gt.equals("Yes")){
+                        String gt = data1.get("Gym").toString();
+                        String pt = data1.get("Pool").toString();
+                        String ct = data1.get("Concierge").toString();
+                        String ht = data1.get("24_Hour_Security").toString();
+                        String bt = data1.get("Bicycle_Parking").toString();
+                        String st = data1.get("Storage_Space").toString();
+                        String et = data1.get("Elevator").toString();
+                        if (gt.equals("Yes")) {
                             gymtick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             gymtick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (pt.equals("Yes")){
+                        if (pt.equals("Yes")) {
                             pooltick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             pooltick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (ct.equals("Yes")){
+                        if (ct.equals("Yes")) {
                             conciergetick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             conciergetick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (ht.equals("Yes")){
+                        if (ht.equals("Yes")) {
                             hourtick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             hourtick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (bt.equals("Yes")){
+                        if (bt.equals("Yes")) {
                             bicycletick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             bicycletick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (st.equals("Yes")){
+                        if (st.equals("Yes")) {
                             storagetick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             storagetick.setImageResource(R.drawable.wrongmark);
                         }
-                        if (et.equals("Yes")){
+                        if (et.equals("Yes")) {
                             elevatortick.setImageResource(R.drawable.rightmark);
-                        }
-                        else{
+                        } else {
                             elevatortick.setImageResource(R.drawable.wrongmark);
                         }
 
 
-
-                       // Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+                        // Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("tagvv", "No such document");
                     }

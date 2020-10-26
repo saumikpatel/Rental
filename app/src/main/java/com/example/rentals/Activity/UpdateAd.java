@@ -82,7 +82,7 @@ public class UpdateAd extends AppCompatActivity {
     private TextInputLayout et_title, et_des, et_amt, et_unit, et_pnum, et_date, et_bath, et_bed, et_pet, et_size, et_smoke, et_parking;
     private RadioGroup rbfurnished, rbflaundry, rbLaundryb, rbdishwasher, rbfridge, rbair_conditioning, rbyard, rbbalcony, rbramp, rbaids, rbsuite, rbhydro, rbheat, rbwater, rbtv, rbinternet, rbgym, rbpool, rbconcierge, rbstorage, rbsecurity, rbelevator, rbwheelchair, rblabels, rbaudio, rbbicycle;
     private RadioButton btn_flaundry, btn_furnished, btn_Laundryb, btn_dishwasher, btn_fridge, btn_air_conditioning, btn_yard, btn_balcony, btn_ramp, btn_aids, btn_suite, btn_hydro, btn_heat, btn_water, btn_tv, btn_internet, btn_gym, btn_pool, btn_concierge, btn_storage, btn_security, btn_elevator, btn_wheelchair, btn_labels, btn_audio, btn_bicycle;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1089,19 +1089,16 @@ public class UpdateAd extends AppCompatActivity {
                         Toast.makeText(this, "please select only four items", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    Toast.makeText(this, "" + clipdata.getItemCount(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "" + clipdata.getItemCount(), Toast.LENGTH_SHORT).show();
                     for (int i = 0; i < clipdata.getItemCount(); i++) {
                         ClipData.Item item = clipdata.getItemAt(i);
                         contenturi.add(item.getUri());
                     }
 
-
                 } else {
                     changed = true;
                     contenturi.add(data.getData());
                     photos = 1;
-
-
                 }
             }
         }
@@ -1121,7 +1118,7 @@ public class UpdateAd extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void aVoid) {
                     // File deleted successfully
-                    Toast.makeText(UpdateAd.this, "Deleted", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(UpdateAd.this, "Deleted", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

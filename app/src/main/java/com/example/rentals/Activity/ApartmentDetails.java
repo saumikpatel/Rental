@@ -198,17 +198,14 @@ public class ApartmentDetails extends AppCompatActivity {
                     ApartmentDialog alert = new ApartmentDialog();
                     alert.showLoginDialog(ApartmentDetails.this);
 
-
                 }
-
-
             }
         });
 
     }
 
     private void checkWishlist(String aptId, final ImageView like) {
-        Toast.makeText(ApartmentDetails.this, "" + UserId + "_" + aptId, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(ApartmentDetails.this, "" + UserId + "_" + aptId, Toast.LENGTH_SHORT).show();
         fstore.collection("Wishlist")
                 .whereEqualTo("Filter", UserId + "_" + aptId)
                 .get()

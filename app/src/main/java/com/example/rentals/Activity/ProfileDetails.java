@@ -140,8 +140,7 @@ public class ProfileDetails extends AppCompatActivity {
                                                         db.collection("User").document(id).set(usermap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                             @Override
                                                             public void onSuccess(Void aVoid) {
-                                                                //uploadImage(final Uri bitmap);
-                                                                Toast.makeText(ProfileDetails.this, " Data Added in DB ", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(ProfileDetails.this, " Profile Updated ", Toast.LENGTH_SHORT).show();
                                                             }
                                                         }).addOnFailureListener(new OnFailureListener() {
                                                             @Override
@@ -210,15 +209,12 @@ public class ProfileDetails extends AppCompatActivity {
 
                 final Uri imageUri = data.getData();
                 uploadImage(imageUri);
-               // profile.setImageURI(imageUri);
-                //
 
             } else {
                 Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
             }
         }
     }
-
 
     private void uploadImage(final Uri bitmap) {
         auth = FirebaseAuth.getInstance();
@@ -231,14 +227,13 @@ public class ProfileDetails extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(ProfileDetails.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileDetails.this, "Profile Picture is uploaded", Toast.LENGTH_SHORT).show();
                         profile.setImageURI(bitmap);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
                         Toast.makeText(ProfileDetails.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -253,6 +248,7 @@ public class ProfileDetails extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 profile.setImageResource(R.drawable.account);
+                Toast.makeText(ProfileDetails.this, "Profile Picture is deleted", Toast.LENGTH_SHORT).show();
                 Log.d("tagvv", "onSuccess: deleted file");
             }
         }).addOnFailureListener(new OnFailureListener() {
