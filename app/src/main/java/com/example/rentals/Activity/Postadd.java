@@ -154,7 +154,7 @@ public class Postadd extends AppCompatActivity {
         unit.setAdapter(adapter1);
 
 
-        String[] Bedrooms = new String[]{"Studio", "1", "1 + Den", "2", "2 + Den", "3", "3 + Den", "4", "4 + Den", "5+"};
+        String[] Bedrooms = new String[]{"1", "2", "3", "4", "5"};
 
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(
                 Postadd.this,

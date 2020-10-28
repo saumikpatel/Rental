@@ -81,21 +81,33 @@ public class Contact extends AppCompatActivity {
         sendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String message = msg.getText().toString();
-                String Phonenumber = phone.getText().toString();
+//                final CharSequence[] options = {"Yes", "No"};
+//                AlertDialog.Builder builder1 = new AlertDialog.Builder(Contact.this);
+//                builder1.setTitle("Do you want to send message to the owner?!");
+//                builder1.setItems(options, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int item) {
+//                        if (options[item].equals("Yes")) {
+                            String message = msg.getText().toString();
+                            String Phonenumber = phone.getText().toString();
+                            if (!TextUtils.isEmpty(message) && !TextUtils.isEmpty(Phonenumber))
+                                if (checkPermission(Manifest.permission.SEND_SMS)) {
+                                    SmsManager smsManager = SmsManager.getDefault();
+                                    smsManager.sendTextMessage(Phonenumber, null, message, null, null);
+                                    Toast.makeText(Contact.this, "Message Sent!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(Contact.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                                }
+                            else {
+                                Toast.makeText(Contact.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                            }
 
-                if (!TextUtils.isEmpty(message) && !TextUtils.isEmpty(Phonenumber))
-                    if (checkPermission(Manifest.permission.SEND_SMS)) {
-                        SmsManager smsManager = SmsManager.getDefault();
-                        smsManager.sendTextMessage(Phonenumber, null, message, null, null);
-                        Toast.makeText(Contact.this, "Message Sent!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(Contact.this, "Permission Denied", Toast.LENGTH_SHORT).show();
-                    }
-                else {
-                    Toast.makeText(Contact.this, "Permission Denied", Toast.LENGTH_SHORT).show();
-
-                }
+//                        } else if (options[item].equals("NO")) {
+//                            dialog.dismiss();
+//                        }
+//                    }
+//                });
+//                builder1.show();
             }
         });
 
