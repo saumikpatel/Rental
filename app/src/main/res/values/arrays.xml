@@ -5,4 +5,9 @@
     <item>0.0</item>
     <item>5000.0</item>
 </array>
+    <array name="bedroom_slider_values">
+        <item>0.0</item>
+        <item>5.0</item>
+    </array>
+
 </resources>

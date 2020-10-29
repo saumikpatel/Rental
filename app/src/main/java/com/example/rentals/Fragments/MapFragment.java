@@ -79,8 +79,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     FirebaseFirestore db;
     FusedLocationProviderClient mFusedLocationClient;
     boolean priceChanged = false;
+    boolean bedChanged = false;
     ImageView filter;
     float min = 0, max = 5000;
+    float minb = 0, maxb = 5;
+
     String city = "Montreal";
     LocationCallback mLocationCallback = new LocationCallback() {
         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -195,15 +198,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                 //  Log.d("TAG", document.getId() + " => " + document.getData());
                                 LatLng latLng1 = new LatLng((Double) document.getData().get("Latitude"), (Double) document.getData().get("Longitude"));
                                 float price = (Float.parseFloat((String) document.getData().get("Amount")));
+                                float bed = (Float.parseFloat((String) document.getData().get("Bedroom")));
+                                Log.d("",  "DB BED" + bed);
                                 if (priceChanged) {
+                                    Log.d("",  "P CHANGE VALUE" + priceChanged);
                                     if (price >= min && price <= max) {
-                                        putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getId());
+                                        putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getData().get("Bedroom"),(String) document.getId());
                                     }
-                                } else {
-                                    putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getId());
+                                } else if (bedChanged) {
+                                    Log.d("",  "BED CHANGE VALUE" + bedChanged);
+                                    if (bed >= minb && bed <= maxb) {
+                                        putApartmentMarker(latLng1,  (String) document.getData().get("Amount"), (String) document.getData().get("Bedroom"), (String) document.getId());
+                                    }
+                                } else if (priceChanged && bedChanged) {
+                                    if (price >= min && price <= max){
+                                        putApartmentMarker(latLng1, (String) document.getData().get("Amount"),(String) document.getData().get("Bedroom"), (String) document.getId());
+                                    }
+                                    if (bed >= minb && bed <= maxb) {
+                                        putApartmentMarker(latLng1,  (String) document.getData().get("Amount"), (String) document.getData().get("Bedroom"), (String) document.getId());
+                                    }
+
+                                }else  {
+                                    putApartmentMarker(latLng1, (String) document.getData().get("Amount"),(String) document.getData().get("Bedroom"), (String) document.getId());
                                 }
-
-
                             }
 
                         } else {
@@ -214,7 +231,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    private void putApartmentMarker(LatLng latlng, String price, String ApartmentId) {
+    private void putApartmentMarker(LatLng latlng, String price, String bed, String ApartmentId) {
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latlng);
@@ -368,20 +385,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         window.setAttributes(wlp);
-        final RangeSlider slider = dialog.findViewById(R.id.slider);
+        final RangeSlider price_slider = dialog.findViewById(R.id.price_slider);
+        final RangeSlider bedroom_slider = dialog.findViewById(R.id.bedroom_slider);
         final TextView to = dialog.findViewById(R.id.to);
         final TextView from = dialog.findViewById(R.id.from);
+        final TextView tobed = dialog.findViewById(R.id.tobed);
+        final TextView frombed = dialog.findViewById(R.id.frombed);
 
-        slider.setValues(min, max);
+        price_slider.setValues(min, max);
         to.setText("Min "+min);
         from.setText("Max "+max);
         dialog.show();
 
 
+        bedroom_slider.setValues(minb, maxb);
+        tobed.setText("Min "+minb);
+        frombed.setText("Max "+maxb);
+        dialog.show();
+
         Button apply = dialog.findViewById(R.id.apply);
         Button reset = dialog.findViewById(R.id.reset);
 
-        slider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
+        price_slider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull RangeSlider slider) {
                 List price = slider.getValues();
@@ -401,7 +426,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        slider.addOnChangeListener(new RangeSlider.OnChangeListener() {
+        price_slider.addOnChangeListener(new RangeSlider.OnChangeListener() {
             @Override
             public void onValueChange(@NonNull RangeSlider slider, float value, boolean fromUser) {
                 List price = slider.getValues();
@@ -412,16 +437,59 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        bedroom_slider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
+            @Override
+            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
+                List bedroom = slider.getValues();
+                minb = (float) bedroom.get(0);
+                maxb = (float) bedroom.get(1);
+                tobed.setText("Min "+minb);
+                frombed.setText("Max "+maxb);
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull RangeSlider slider) {
+                List bedroom = slider.getValues();
+                minb = (float) bedroom.get(0);
+                maxb = (float) bedroom.get(1);
+                tobed.setText("Min "+minb);
+                frombed.setText("Max "+maxb);
+            }
+        });
+
+        bedroom_slider.addOnChangeListener(new RangeSlider.OnChangeListener() {
+            @Override
+            public void onValueChange(@NonNull RangeSlider slider, float value, boolean fromUser) {
+                List bedroom = slider.getValues();
+                minb = (float) bedroom.get(0);
+                maxb = (float) bedroom.get(1);
+                tobed.setText("Min "+minb);
+                frombed.setText("Max "+maxb);
+            }
+        });
+
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List price = slider.getValues();
+                List price = price_slider.getValues();
                 min = (float) price.get(0);
                 max = (float) price.get(1);
                 to.setText("Min "+min);
                 from.setText("Max "+max);
                 Log.d("", min + "");
                 priceChanged = true;
+
+                List bedroom = bedroom_slider.getValues();
+                Log.d("",  "VALUE SET "+ bedroom);
+                minb = (float) bedroom.get(0);
+                Log.d("",  "VALUE SET "+ minb);
+                maxb = (float) bedroom.get(1);
+                Log.d("",  "VALUE SET "+ maxb);
+                tobed.setText("Min "+minb);
+                Log.d("",  "VALUE SET "+ tobed);
+                frombed.setText("Max "+maxb);
+                Log.d("",  "VALUE SET "+ frombed);
+                bedChanged = true;
                 dialog.dismiss();
                 getApartments(city);
             }
@@ -435,6 +503,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 to.setText("Min "+min);
                 from.setText("Max "+max);
                 priceChanged = false;
+
+                minb = 0;
+                maxb = 5;
+                tobed.setText("Min "+minb);
+                frombed.setText("Max "+maxb);
+                bedChanged = false;
                 dialog.dismiss();
                 getApartments(city);
             }
