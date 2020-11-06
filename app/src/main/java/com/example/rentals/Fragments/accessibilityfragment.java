@@ -59,7 +59,6 @@ public class accessibilityfragment extends Fragment {
         getdata();
 
         return view;
-
     }
 
     private void getdata() {
@@ -99,7 +98,6 @@ public class accessibilityfragment extends Fragment {
                             audiotick.setImageResource(R.drawable.wrongmark);
                         }
 
-                        //  Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("tagvv", "No such document");
                     }

@@ -48,8 +48,6 @@ public class PostList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list);
         auth = FirebaseAuth.getInstance();
-
-
         db = FirebaseFirestore.getInstance();
         curUser = auth.getCurrentUser();
 
@@ -57,8 +55,6 @@ public class PostList extends AppCompatActivity {
             userId = curUser.getUid(); //Do what you need to do with the id
         }
         getApartmetList();
-
-
     }
 
     private void getApartmetList() {
@@ -77,10 +73,7 @@ public class PostList extends AppCompatActivity {
                                 String price = (String) document.getData().get("Amount");
                                 String type = (String) document.getData().get("Unit");
                                 String bedroom = (String) document.getData().get("Bedroom");
-
                                 getImage(id, title, price, type, bedroom);
-
-
                             }
                             setPostListRecycler();
                         } else {
@@ -88,12 +81,11 @@ public class PostList extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 
 
     private void getImage(final String id, final String title, final String price, final String type, final String bedroom) {
-        storageReference = storage.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
         storageReference.child("images/" + id + "/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {

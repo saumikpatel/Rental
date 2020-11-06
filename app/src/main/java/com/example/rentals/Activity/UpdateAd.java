@@ -687,7 +687,7 @@ public class UpdateAd extends AppCompatActivity {
 
 
     private void getImages() {
-        StorageReference listRef = storage.getInstance().getReference().child("images/" + aptid);
+        StorageReference listRef = FirebaseStorage.getInstance().getReference().child("images/" + aptid);
 
         listRef.listAll()
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {
@@ -700,11 +700,11 @@ public class UpdateAd extends AppCompatActivity {
 
                         for (StorageReference item : listResult.getItems()) {
                             // All the items under listRef.
-                            storageReference = storage.getInstance().getReference();
+                            storageReference = FirebaseStorage.getInstance().getReference();
                             String location = item.toString();
                             String image = location.substring(location.length() - 1);
                             System.out.println(image);
-                            storageReference = storage.getInstance().getReference();
+                            storageReference = FirebaseStorage.getInstance().getReference();
                             storageReference.child("images/" + aptid + "/" + image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
@@ -712,7 +712,6 @@ public class UpdateAd extends AppCompatActivity {
                                     contenturi.add(uri);
                                     internetPhotos = internetPhotos + 1;
                                     photos = 1;
-
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -723,8 +722,6 @@ public class UpdateAd extends AppCompatActivity {
                             });
 
                         }
-
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -1145,7 +1142,6 @@ public class UpdateAd extends AppCompatActivity {
                                 }
                             });
 
-
                 } else if (options[item].equals("NO")) {
                     dialog.dismiss();
                 }
@@ -1165,7 +1161,6 @@ public class UpdateAd extends AppCompatActivity {
                 if (options[item].equals("Choose from Gallery")) {
 
                     upload.setImageResource(R.drawable.uploadnew);
-
                     Intent gallery = new Intent();
                     gallery.setType("image/*");
                     gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -1188,20 +1183,17 @@ public class UpdateAd extends AppCompatActivity {
         if (requestCode == GALLERY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 ClipData clipdata = data.getClipData();
-
                 contenturi.clear();
                 deleteImages();
                 Toast.makeText(this, "" + internetPhotos, Toast.LENGTH_SHORT).show();
 
                 if (clipdata != null) {
                     changed = true;
-
                     photos = clipdata.getItemCount();
                     if (clipdata.getItemCount() > 4) {
                         Toast.makeText(this, "please select only four items", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    //Toast.makeText(this, "" + clipdata.getItemCount(), Toast.LENGTH_SHORT).show();
                     for (int i = 0; i < clipdata.getItemCount(); i++) {
                         ClipData.Item item = clipdata.getItemAt(i);
                         contenturi.add(item.getUri());
@@ -1219,18 +1211,16 @@ public class UpdateAd extends AppCompatActivity {
 
     private void deleteImages() {
 
-        storageReference = storage.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
 // Create a reference to the file to delete
         for (int i = 0; i < internetPhotos; i++) {
             StorageReference desertRef = storageReference.child("images/" + aptid + "/" + i);
-
 // Delete the file
             desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     // File deleted successfully
-                    // Toast.makeText(UpdateAd.this, "Deleted", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -1242,9 +1232,8 @@ public class UpdateAd extends AppCompatActivity {
     }
 
     private void uploadImage(String id) {
-        storageReference = storage.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
         for (int j = 0; j < contenturi.size(); j++) {
-
             StorageReference ref = storageReference.child("images").child(id + "/" + j);
             ref.putFile(contenturi.get(j))
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -1260,10 +1249,7 @@ public class UpdateAd extends AppCompatActivity {
                             Toast.makeText(UpdateAd.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-
         }
-
     }
-
 
 }

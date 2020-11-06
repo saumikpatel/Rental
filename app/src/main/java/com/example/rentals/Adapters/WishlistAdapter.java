@@ -125,10 +125,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             location = itemView.findViewById(R.id.addresswishlist);
             type = itemView.findViewById(R.id.apartmentwishlist);
             wishlistIcon = itemView.findViewById(R.id.wishlisticon);
-            item=itemView;
-
-
-
+            item = itemView;
         }
     }
 }

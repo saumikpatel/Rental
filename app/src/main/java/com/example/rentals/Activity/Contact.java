@@ -36,7 +36,6 @@ import com.google.firebase.storage.StorageReference;
 import java.util.Map;
 
 public class Contact extends AppCompatActivity {
-    //EditText Username = (EditText) findViewById(R.id.txtname);
     private final static int SEND_SMS_PERMISSION_REQUEST_CODE = 111;
     private static final int PERMISSION_REQUEST_CODE = 1;
     FirebaseFirestore fstore;
@@ -174,18 +173,11 @@ public class Contact extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-
                         Map<String, Object> data3 = document.getData();
-                        // String Name = data3.get("Name").toString();
                         OwnerEmail = data3.get("Email").toString();
                         String Phnumber = data3.get("Phone").toString();
                         Log.d("tagvv", "DocumentSnapshot data: " + data3);
-
-                        //username.getEditText().setText(Name);
-                        //email.getEditText().setText(Email);
                         phone.setText(Phnumber);
-
-
                         Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("tagvv", "No such document");
@@ -199,7 +191,6 @@ public class Contact extends AppCompatActivity {
 
 
     private void getUserData() {
-
         auth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = auth.getCurrentUser();
         String id = firebaseUser.getUid();
@@ -218,11 +209,9 @@ public class Contact extends AppCompatActivity {
                         String Email = data3.get("Email").toString();
                         String Phnumber = data3.get("Phone").toString();
                         Log.d("tagvv", "DocumentSnapshot data: " + data3);
-
                         username.setText(Name);
                         eml.setText(Email);
                         userphone.setText(Phnumber);
-
 
                         Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {

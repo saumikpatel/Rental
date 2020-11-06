@@ -93,7 +93,6 @@ public class ApartmentDetails extends AppCompatActivity {
         final String AptId;
         Bundle extras = getIntent().getExtras();
         AptId = extras.getString("AptId");
-        //   fromLogin=extras.getString("fromlogin");
         curUser = auth.getCurrentUser();
         if (curUser != null) {
             UserId = curUser.getUid();
@@ -133,7 +132,6 @@ public class ApartmentDetails extends AppCompatActivity {
                 if (curUser != null) {
                     UserId = curUser.getUid();
                 }
-
                 if (curUser != null) {
                     UserId = curUser.getUid();
                     if (wishlisted) {
@@ -154,8 +152,6 @@ public class ApartmentDetails extends AppCompatActivity {
                                         Log.w("TAG", "Error deleting document", e);
                                     }
                                 });
-
-
                     } else {
                         String filter = UserId + "_" + AptId;
                         final Map<String, Object> wishlist = new HashMap<>();
@@ -183,18 +179,7 @@ public class ApartmentDetails extends AppCompatActivity {
                                 });
                     }
 
-
                 } else {
-//                    mainLayout.setVisibility(LinearLayout.GONE);
-//                    final Fragment login = new ProfileFragment();
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("From", "wishlist");
-//                    bundle.putString("AptId", AptId);
-//
-//
-//                    login.setArguments(bundle);
-//                    final FragmentManager fm = getSupportFragmentManager();
-//                    fm.beginTransaction().replace(R.id.loginlayout, login, "3").addToBackStack(null).commit();
                     ApartmentDialog alert = new ApartmentDialog();
                     alert.showLoginDialog(ApartmentDetails.this);
 
@@ -205,7 +190,6 @@ public class ApartmentDetails extends AppCompatActivity {
     }
 
     private void checkWishlist(String aptId, final ImageView like) {
-        //Toast.makeText(ApartmentDetails.this, "" + UserId + "_" + aptId, Toast.LENGTH_SHORT).show();
         fstore.collection("Wishlist")
                 .whereEqualTo("Filter", UserId + "_" + aptId)
                 .get()
@@ -224,20 +208,16 @@ public class ApartmentDetails extends AppCompatActivity {
                                     Log.d("saumik", "Error getting documents: ", task.getException());
                                     like.setImageResource(R.drawable.wishlisticon);
                                 }
-
                             }
                         } else {
                             Log.d("TAG", "Error getting documents: ", task.getException());
                         }
                     }
                 });
-
-
     }
 
     private void getImages(final ArrayList<Uri> images, final String aptId) {
-        StorageReference listRef = storage.getInstance().getReference().child("images/" + aptId);
-
+        StorageReference listRef = FirebaseStorage.getInstance().getReference().child("images/" + aptId);
         listRef.listAll()
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {
                     @Override
@@ -249,11 +229,11 @@ public class ApartmentDetails extends AppCompatActivity {
 
                         for (StorageReference item : listResult.getItems()) {
                             // All the items under listRef.
-                            storageReference = storage.getInstance().getReference();
+                            storageReference = FirebaseStorage.getInstance().getReference();
                             String location = item.toString();
                             String image = location.substring(location.length() - 1);
                             System.out.println(image);
-                            storageReference = storage.getInstance().getReference();
+                            storageReference = FirebaseStorage.getInstance().getReference();
                             storageReference.child("images/" + aptId + "/" + image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
@@ -301,10 +281,6 @@ public class ApartmentDetails extends AppCompatActivity {
                         String des = data1.get("Description").toString();
                         String Address = data1.get("Address").toString();
                         Uid = data1.get("UserID").toString();
-
-
-                        // String data2 = data1.toString().trim();
-                        //String aptname = data2.substring(data2.indexOf("Title") + 6, data2.indexOf(", Braille_Labels="));
                         apartmentName.setText(aptname);
                         price.setText(pr + "$");
                         description.setText(des);

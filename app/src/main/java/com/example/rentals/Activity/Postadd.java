@@ -261,10 +261,7 @@ public class Postadd extends AppCompatActivity {
                 Log.i("", "Place: " + place.getAddressComponents());
                 setSearchUI();
                 latLng = place.getLatLng();
-
                 address = place.getName();
-
-
             }
 
             @Override
@@ -309,7 +306,6 @@ public class Postadd extends AppCompatActivity {
             public void onClick(View view) {
 
                 fstore = FirebaseFirestore.getInstance();
-
                 final String Title = et_title.getEditText().getText().toString().trim();
                 final String Description = et_des.getEditText().getText().toString().trim();
                 final String Amount = et_amt.getEditText().getText().toString().trim();
@@ -342,15 +338,7 @@ public class Postadd extends AppCompatActivity {
                 } else if (Amount.matches(".*[a-zA-Z]+.*")) {
                     Toast.makeText(Postadd.this, "Please Enter Amount in Digit", Toast.LENGTH_LONG).show();
                     return;
-                }
-//                }  else if (address.isEmpty()) {
-//                    Toast.makeText(Postadd.this, "Please enter Address ", Toast.LENGTH_LONG).show();
-//                    return;
-//                } else if (cityName.isEmpty()) {
-//                    Toast.makeText(Postadd.this, "Please select City", Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-                else if (Unit.isEmpty()) {
+                } else if (Unit.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please select Unit", Toast.LENGTH_LONG).show();
                     return;
                 } else if (!(Unit.equals("Apartment") || Unit.equals("Room") || Unit.equals("House") || Unit.equals("Condo"))) {
@@ -617,16 +605,11 @@ public class Postadd extends AppCompatActivity {
 
                             String Error = e.getMessage();
                             Toast.makeText(Postadd.this, " Error:" + Error, Toast.LENGTH_SHORT).show();
-
                         }
                     });
-
                 }
-
             }
         });
-
-
     }
 
     private void setCitySearchUI() {
@@ -692,7 +675,6 @@ public class Postadd extends AppCompatActivity {
                         Toast.makeText(this, "Please select only four items", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    // Toast.makeText(this, "" + clipdata.getItemCount(), Toast.LENGTH_SHORT).show();
                     for (int i = 0; i < clipdata.getItemCount(); i++) {
                         ClipData.Item item = clipdata.getItemAt(i);
                         contenturi.add(item.getUri());
@@ -706,7 +688,7 @@ public class Postadd extends AppCompatActivity {
     }
 
     private void uploadImage(String id) {
-        storageReference = storage.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
         for (int j = 0; j < contenturi.size(); j++) {
 
             StorageReference ref = storageReference.child("images").child(id + "/" + j);
@@ -715,7 +697,6 @@ public class Postadd extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            //Toast.makeText(Postadd.this, "Uploaded", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

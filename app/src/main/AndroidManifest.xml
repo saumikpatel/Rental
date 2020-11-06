@@ -27,7 +27,6 @@
         <activity android:name=".Activity.ApartmentDetails" />
         <activity android:name=".Activity.SplashScreen" />
         <activity android:name=".Activity.ProfileDetails" />
-        <activity android:name=".Activity.ImageUpload" />
         <activity android:name=".Activity.wishlistactivity" />
         <activity android:name=".Activity.CreateAccount" />
         <activity android:name=".Activity.Postadd" />
@@ -40,8 +39,8 @@
 
         <activity
             android:name=".Activity.MainActivity"
-            android:theme="@style/AppTheme"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

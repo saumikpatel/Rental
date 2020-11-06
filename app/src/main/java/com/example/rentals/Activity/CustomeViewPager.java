@@ -17,7 +17,7 @@ public class CustomeViewPager extends ViewPager {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         try {
-            int currentPagePosition=0;
+            int currentPagePosition = 0;
             View child = getChildAt(currentPagePosition);
             if (child != null) {
                 child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));

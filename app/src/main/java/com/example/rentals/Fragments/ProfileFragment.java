@@ -41,11 +41,10 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseUser curUser;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static String from = "map";
+    private static final String from = "map";
     String AptId, emailStr, passStr;
     private static final String ARG_PARAM2 = "param2";
     SharedPreferences sp;
-
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -88,7 +87,6 @@ public class ProfileFragment extends Fragment {
         create = v.findViewById(R.id.create);
         login = v.findViewById(R.id.login);
         forgot = v.findViewById(R.id.forgotpass);
-
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

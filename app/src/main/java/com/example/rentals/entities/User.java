@@ -42,7 +42,7 @@ public class User {
     }
 
 
-    public String toString(){
-        return "Name: "+Name+"Email: "+Email+"Phone: "+Phone;
+    public String toString() {
+        return "Name: " + Name + "Email: " + Email + "Phone: " + Phone;
     }
 }

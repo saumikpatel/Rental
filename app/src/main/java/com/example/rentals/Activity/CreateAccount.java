@@ -72,7 +72,6 @@ public class CreateAccount extends AppCompatActivity {
                 String Password = create_password.getEditText().getText().toString();
                 String ConfirmPassword = create_confirmPassword.getEditText().getText().toString();
 
-
                 if (Name.isEmpty() || Phone.isEmpty() || Email.isEmpty() || Password.isEmpty() || ConfirmPassword.isEmpty()) {
                     Toast.makeText(CreateAccount.this, "Please Fill The Form", Toast.LENGTH_SHORT).show();
                     return;

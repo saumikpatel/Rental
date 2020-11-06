@@ -41,7 +41,6 @@ public class overviewFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
     }
 
     @Nullable
@@ -64,11 +63,9 @@ public class overviewFragment extends Fragment {
         internettick = view.findViewById(R.id.internettick);
         parking = view.findViewById(R.id.parking);
 
-
         getdata();
 
         return view;
-
     }
 
     private void getdata() {
@@ -122,12 +119,6 @@ public class overviewFragment extends Fragment {
                         } else {
                             internettick.setImageResource(R.drawable.wrongmark);
                         }
-
-                        // String data2 = data1.toString().trim();
-                        //String aptname = data2.substring(data2.indexOf("Title") + 6, data2.indexOf(", Braille_Labels="));
-
-
-                        // Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("tagvv", "No such document");
                     }
@@ -142,7 +133,6 @@ public class overviewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
     }
 
     @Override
@@ -150,6 +140,4 @@ public class overviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
-
-
 }

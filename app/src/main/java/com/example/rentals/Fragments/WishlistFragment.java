@@ -1,13 +1,11 @@
 package com.example.rentals.Fragments;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,7 +43,7 @@ public class WishlistFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-     ArrayList<WishlistModel> wishlist = new ArrayList<>();
+    ArrayList<WishlistModel> wishlist = new ArrayList<>();
     FirebaseFirestore db;
     /**
      * variable declaration for recyclerview
@@ -100,27 +98,17 @@ public class WishlistFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         wishlist.clear();
-       // getWishlistDetails();
-
         return inflater.inflate(R.layout.fragment_wishlist, container, false);
-
     }
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
         wishlistRecycler = view.findViewById(R.id.wishlist_recycler);
-        // getWishlistDetails();
-
     }
 
     private void getWishlistDetails() {
-
         auth = FirebaseAuth.getInstance();
-
-
         db = FirebaseFirestore.getInstance();
         curUser = auth.getCurrentUser();
         String userId = null;
@@ -138,23 +126,15 @@ public class WishlistFragment extends Fragment {
                                 Log.d("", document.getId() + " => " + document.getData());
                                 System.out.println(document.getId() + " => " + document.getData());
                                 String apartmentId = (String) document.getData().get("ApartmentId");
-
-                                // Toast.makeText(getActivity().getApplicationContext(), ""+apartmentId, Toast.LENGTH_SHORT).show();
                                 Log.d("", "" + apartmentId);
                                 getApartmentDetails(apartmentId, wishlist);
-
-                                // productsList.add(new CartModel(cid,  name, quantity, price,myUri));
                             }
-                            // wishAdapter.notifyDataSetChanged();
                             setWishlistRecycler(wishlist);
-
-
                         } else {
                             Log.d("", "Error getting documents: ", task.getException());
                         }
                     }
                 });
-
     }
 
     private void getApartmentDetails(final String apartmentId, final ArrayList<WishlistModel> wishlist) {
@@ -181,11 +161,10 @@ public class WishlistFragment extends Fragment {
                 }
             }
         });
-
     }
 
     private void getImage(final String apartmentId, final String price, final String type, final String location, final String bedroom, final String bathroom, final ArrayList<WishlistModel> wishlist) {
-        storageReference = storage.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
         storageReference.child("images/" + apartmentId + "/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -193,8 +172,6 @@ public class WishlistFragment extends Fragment {
                 Log.d("TAG", "image got");
                 wishlist.add(new WishlistModel(apartmentId, price, bedroom, bathroom, location, type, uri));
                 wishAdapter.notifyDataSetChanged();
-
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -212,38 +189,12 @@ public class WishlistFragment extends Fragment {
         wishlistRecycler.setLayoutManager(layoutManager);
         wishAdapter = new WishlistAdapter(getActivity().getApplicationContext(), wishlist);
         wishlistRecycler.setAdapter(wishAdapter);
-
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//
-//      //  getWishlistDetails();
-//
-//    }
-
-//    @Override
-//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-//        super.onViewStateRestored(savedInstanceState);
-//        getWishlistDetails();
-//    }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        getWishlistDetails();
-//        System.out.println("started");
-//    }
 
     @Override
     public void onResume() {
         super.onResume();
         wishlist.clear();
-      getWishlistDetails();
-     // Toast.makeText(getContext(), ""+wishlist.size(), Toast.LENGTH_SHORT).show();
+        getWishlistDetails();
     }
-
-
 }

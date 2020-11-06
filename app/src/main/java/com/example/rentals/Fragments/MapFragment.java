@@ -93,19 +93,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             if (locationList.size() > 0) {
                 //The last location in the list is the newest
                 Location location = locationList.get(locationList.size() - 1);
-                //   Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
                 if (mCurrLocationMarker != null) {
                     mCurrLocationMarker.remove();
                 }
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
                 putmarker(latLng);
-
             }
         }
     };
-
 
     public MapFragment() {
         // Required empty public constructor
@@ -114,7 +110,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -128,11 +123,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
-
 
         Places.initialize(getActivity().getApplicationContext(), "AIzaSyDzkhBJZpa16X7NMsbveeggrcSGfT-IsH0");
 
@@ -141,7 +134,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // Initialize the AutocompleteSupportFragment.
         final AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
 
         // Specify the types of place data to return.
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.VIEWPORT, Place.Field.ADDRESS_COMPONENTS));
@@ -160,7 +152,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 etTextInput.setHintTextColor(Color.GRAY);
                 etTextInput.setTextSize(14.5f);
 
-
                 ImageView ivClear = fView.findViewById(R.id.places_autocomplete_search_button);
                 ImageButton close = fView.findViewById(R.id.places_autocomplete_clear_button);
                 ivClear.setVisibility(View.GONE);
@@ -170,8 +161,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 city = place.getName();
                 getApartments(city);
-
-
             }
 
             @Override
@@ -180,8 +169,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Log.i("", "An error occurred: " + status);
             }
         });
-
-
     }
 
     private void getApartments(String city) {
@@ -195,7 +182,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                //  Log.d("TAG", document.getId() + " => " + document.getData());
                                 LatLng latLng1 = new LatLng((Double) document.getData().get("Latitude"), (Double) document.getData().get("Longitude"));
                                 float price = (Float.parseFloat((String) document.getData().get("Amount")));
                                 float bed = (Float.parseFloat((String) document.getData().get("Bedroom")));
@@ -208,20 +194,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                     putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getData().get("Bedroom"), (String) document.getId());
                                 }
                             }
-
                         } else {
                             Log.d("TAG", "Error getting documents: ", task.getException());
                         }
                     }
                 });
-
     }
 
     private void putApartmentMarker(LatLng latlng, String price, String bed, String ApartmentId) {
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latlng);
-        //markerOptions.title("Current Position");
         markerOptions.alpha(1.0f);
         IconGenerator iconFactory = new IconGenerator(getActivity());
         iconFactory.setBackground(getResources().getDrawable(R.drawable.marker1));
@@ -233,14 +216,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Marker m = mGoogleMap.addMarker(markerOptions);
         m.setTag(ApartmentId);
         m.setTitle("vvv");
-
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
 
                 ApartmentDialog alert = new ApartmentDialog();
                 alert.showDialog(getActivity(), (String) marker.getTag());
-
                 return true;
             }
         });
@@ -263,8 +244,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mGoogleMap.setMinZoomPreference(10);
 
         mLocationRequest = new LocationRequest();
-        //  mLocationRequest.setInterval(30000); // two minute interval
-        // mLocationRequest.setFastestInterval(30000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -280,8 +259,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 mapsetting.setZoomGesturesEnabled(true);
                 mapsetting.setAllGesturesEnabled(true);
                 mapsetting.setScrollGesturesEnabled(true);
-
-
             } else {
                 //Request Location Permission
                 checkLocationPermission();
@@ -334,7 +311,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                     // permission was granted, yay! Do the
                     // location-related task you need to do.
                     if (ContextCompat.checkSelfPermission(getActivity(),
@@ -346,7 +322,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     }
 
                 } else {
-
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                     // Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
@@ -500,50 +475,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
     }
-
-//    private void getApartmentsFilter(String city, float min, float max) {
-//        int imin, imax;
-//        imin=(int)min;
-//        imax=(int)max;
-//        String minimum = String.valueOf(imin);
-//        String maximum = String.valueOf(imax);
-//        Log.d("filter", ""+minimum);
-//        mGoogleMap.clear();
-//        db = FirebaseFirestore.getInstance();
-//        db.collection("Apartment")
-//                .whereEqualTo("CityName", city).whereGreaterThanOrEqualTo("Amount",minimum).whereLessThanOrEqualTo("Amount",maximum)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                 Log.d("FilterData", document.getId() + " => " + document.getData());
-//                                LatLng latLng1 = new LatLng((Double) document.getData().get("Latitude"), (Double) document.getData().get("Longitude"));
-//                                putApartmentMarker(latLng1, (String) document.getData().get("Amount"), (String) document.getId());
-//                            }
-//
-//                        } else {
-//                            Log.d("TAG", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
-//
-//    }
 
     private void putmarker(LatLng latLng) {
         //Place current location marker
-//        if (mCurrLocationMarker != null) {
-//            mCurrLocationMarker.remove();
-//        }
-//        MarkerOptions markerOptions = new MarkerOptions();
-//        markerOptions.position(latLng);
-//        markerOptions.title("Current Position");
-//        markerOptions.alpha(0.8f);
-//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-//        //mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
         getApartments(city);
 
@@ -553,4 +488,3 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 }
 
-//.whereGreaterThanOrEqualTo("Amount","200").whereLessThanOrEqualTo("Amount","800")

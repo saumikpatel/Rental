@@ -26,29 +26,24 @@ public class theunitFragment extends Fragment {
 
     TextView sizeApartment, furnished, ac, smokingpermit;
     ImageView laundrytick, laundrybuildingtick, dishwashertick, fridgetick, yardtick, balconytick;
-
     FirebaseFirestore fstore;
     static String id;
 
     public static theunitFragment getInstance(String AptId) {
         id = AptId;
         theunitFragment TheunitFragment = new theunitFragment();
-
         return TheunitFragment;
     }
-
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.row_theunit, container, false);
-
 
         sizeApartment = view.findViewById(R.id.sizeApartment);
         furnished = view.findViewById(R.id.furnished);
@@ -64,7 +59,6 @@ public class theunitFragment extends Fragment {
         getdata();
 
         return view;
-
     }
 
     private void getdata() {
@@ -123,8 +117,6 @@ public class theunitFragment extends Fragment {
                         } else {
                             balconytick.setImageResource(R.drawable.wrongmark);
                         }
-
-                        //    Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("tagvv", "No such document");
                     }

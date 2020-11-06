@@ -53,16 +53,6 @@ public class ApartmentDialog extends AppCompatActivity {
 
         Email = findViewById(R.id.email);
         Password = findViewById(R.id.password);
-
-//        String email = Email.getEditText().getText().toString();
-//        String pwd = Password.getEditText().getText().toString();
-//        sp = this.getSharedPreferences("Userdata", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sp.edit();
-//        editor.putString("USEREmailID", email);
-//        editor.putString("USERPassword", pwd);
-//        editor.apply();
-
-
     }
 
     public void showDialog(final Activity activity, final String ApartmentId) {
@@ -113,7 +103,6 @@ public class ApartmentDialog extends AppCompatActivity {
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         wlp.y = 150;
         window.setAttributes(wlp);
-        //ImageView next = (ImageView) dialog.findViewById(R.id.btn_dialog);
         final TextInputLayout Email, Password;
         Button create, login, forgot;
         ProgressDialog pd;
@@ -126,17 +115,6 @@ public class ApartmentDialog extends AppCompatActivity {
         login = dialog.findViewById(R.id.login);
         forgot = dialog.findViewById(R.id.forgotpass);
         toolbar = dialog.findViewById(R.id.toolbar);
-        //  getApartmentData(dialog,ApartmentId);
-
-//        next.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) { Intent i =new Intent(activity,ApartmentDetails.class) ;
-//                Bundle bundle = new Bundle();
-//                bundle.putString("AptId", ApartmentId);
-//                i.putExtras(bundle);
-//                activity.startActivity(i);
-//            }
-//        });
 
         create.setTextColor(0);
         forgot.setVisibility(View.GONE);
@@ -167,22 +145,11 @@ public class ApartmentDialog extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
                             Toast.makeText(activity.getApplicationContext(), "Login Success!", Toast.LENGTH_LONG).show();
-                            // getFragmentManager().beginTransaction().remove((Fragment) ProfileFragment.this).commitAllowingStateLoss();
-
-//                            Fragment fragment = new MapFragment();
-//                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                            fragmentTransaction.replace(R.id.profileFragment, fragment);
-//                            fragmentTransaction.addToBackStack(null);
-//                            fragmentTransaction.commit();
-//                            pd.dismiss();
-
 
                             activity.finish();
                             activity.overridePendingTransition(0, 0);
                             activity.startActivity(activity.getIntent());
                             activity.overridePendingTransition(0, 0);
-                            // activity.startActivity(activity.getIntent());
                             dialog.dismiss();
                             pd.dismiss();
 
@@ -198,11 +165,8 @@ public class ApartmentDialog extends AppCompatActivity {
                                 pd.dismiss();
                                 return;
                             } catch (FirebaseAuthInvalidCredentialsException e) {
-
-
                                 Toast.makeText(activity.getApplicationContext(), "Wrong Credential!", Toast.LENGTH_LONG).show();
                                 Password.getEditText().getText().clear();
-
                                 Email.requestFocus();
                                 pd.dismiss();
                                 return;
@@ -212,18 +176,11 @@ public class ApartmentDialog extends AppCompatActivity {
                             }
                         }
 
-
                     }
                 });
-
-
             }
         });
-
-
         dialog.show();
-
-
     }
 
     private void getApartmentData(final Dialog dialog, final String apartmentId) {
@@ -235,7 +192,6 @@ public class ApartmentDialog extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        // Log.d("TAG", "DocumentSnapshot data: " + document.getData());
                         TextView title = (TextView) dialog.findViewById(R.id.title);
                         TextView type = (TextView) dialog.findViewById(R.id.type);
                         TextView bedroom = (TextView) dialog.findViewById(R.id.bedroom);
@@ -260,7 +216,7 @@ public class ApartmentDialog extends AppCompatActivity {
 
     private void getImage(final Dialog dialog, String id) {
 
-        storageReference = storage.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
         storageReference.child("images/" + id + "/0").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {

@@ -1,12 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:clickable="true"
-    android:orientation="vertical"
     android:layout_marginTop="10dp"
-   >
+    android:background="#ffffff"
+    android:clickable="true"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/postlist_image"
@@ -72,11 +71,12 @@
         android:text="Price 300$"
         android:textColor="#ff000000"
         android:textSize="18sp" />
+
     <View
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_below="@+id/postlist_price"
         android:layout_height="1dp"
+        android:layout_below="@+id/postlist_price"
+        android:layout_marginTop="20dp"
         android:background="#3cb6d3" />
 
 

@@ -221,7 +221,7 @@ public class ProfileDetails extends AppCompatActivity {
         FirebaseUser firebaseUser = auth.getCurrentUser();
         String USERid = firebaseUser.getUid();
         db = FirebaseFirestore.getInstance();
-        storageReference = storage.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
         final StorageReference ref = storageReference.child("images").child("Profile").child(USERid + ".jpeg");
         ref.putFile(bitmap)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -297,7 +297,7 @@ public class ProfileDetails extends AppCompatActivity {
     }
 
     private void getProfileImage(String id) {
-        storageReference = storage.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
         storageReference.child("images/Profile/" + id + ".jpeg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {

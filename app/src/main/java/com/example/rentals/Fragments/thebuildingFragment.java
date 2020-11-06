@@ -24,7 +24,6 @@ import java.util.Map;
 public class thebuildingFragment extends Fragment {
 
     ImageView gymtick, pooltick, conciergetick, hourtick, bicycletick, storagetick, elevatortick;
-
     FirebaseFirestore fstore;
     static String id;
 
@@ -40,12 +39,10 @@ public class thebuildingFragment extends Fragment {
         super.onAttach(context);
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.row_thebuilding, container, false);
-
 
         gymtick = view.findViewById(R.id.gymtick);
         pooltick = view.findViewById(R.id.pooltick);
@@ -58,7 +55,6 @@ public class thebuildingFragment extends Fragment {
         getdata();
 
         return view;
-
     }
 
     private void getdata() {
@@ -115,9 +111,6 @@ public class thebuildingFragment extends Fragment {
                         } else {
                             elevatortick.setImageResource(R.drawable.wrongmark);
                         }
-
-
-                        // Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("tagvv", "No such document");
                     }
@@ -127,5 +120,4 @@ public class thebuildingFragment extends Fragment {
             }
         });
     }
-
 }
