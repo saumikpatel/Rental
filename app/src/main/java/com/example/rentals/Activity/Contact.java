@@ -1,6 +1,7 @@
 package com.example.rentals.Activity;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -81,13 +83,13 @@ public class Contact extends AppCompatActivity {
         sendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                final CharSequence[] options = {"Yes", "No"};
-//                AlertDialog.Builder builder1 = new AlertDialog.Builder(Contact.this);
-//                builder1.setTitle("Do you want to send message to the owner?!");
-//                builder1.setItems(options, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int item) {
-//                        if (options[item].equals("Yes")) {
+                final CharSequence[] options = {"Yes", "No"};
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(Contact.this);
+                builder1.setTitle("Do you want to send message to the owner?!");
+                builder1.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (options[item].equals("Yes")) {
                             String message = msg.getText().toString();
                             String Phonenumber = phone.getText().toString();
                             if (!TextUtils.isEmpty(message) && !TextUtils.isEmpty(Phonenumber))
@@ -102,12 +104,12 @@ public class Contact extends AppCompatActivity {
                                 Toast.makeText(Contact.this, "Permission Denied", Toast.LENGTH_SHORT).show();
                             }
 
-//                        } else if (options[item].equals("NO")) {
-//                            dialog.dismiss();
-//                        }
-//                    }
-//                });
-//                builder1.show();
+                        } else if (options[item].equals("NO")) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                builder1.show();
             }
         });
 

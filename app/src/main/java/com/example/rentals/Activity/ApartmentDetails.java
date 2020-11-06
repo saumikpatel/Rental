@@ -65,7 +65,7 @@ public class ApartmentDetails extends AppCompatActivity {
     String WishlistedId, Uid;
     private FirebaseUser curUser;
     private FirebaseAuth auth;
-    WebView  browser;
+    WebView browser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -309,9 +309,9 @@ public class ApartmentDetails extends AppCompatActivity {
                         price.setText(pr + "$");
                         description.setText(des);
                         address.setText(Address);
-                        String lat =data1.get("Latitude").toString();
+                        String lat = data1.get("Latitude").toString();
                         String lng = data1.get("Longitude").toString();
-                        browser.loadUrl("file:///android_asset/local.html?lat="+lat+"&lng="+lng);
+                        browser.loadUrl("file:///android_asset/local.html?lat=" + lat + "&lng=" + lng);
 
                         Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
                     } else {

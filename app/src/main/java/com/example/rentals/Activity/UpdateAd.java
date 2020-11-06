@@ -72,7 +72,7 @@ public class UpdateAd extends AppCompatActivity {
     FirebaseFirestore fstore;
     FirebaseAuth auth;
     AutocompleteSupportFragment autocompleteFragment, city;
-    ImageView selectedImage, selectedImage1, selectedImage2, selectedImage3, upload, del;
+    ImageView selectedImage, selectedImage1, selectedImage2, selectedImage3, upload, del, rent;
     ImageView[] image;
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -109,6 +109,7 @@ public class UpdateAd extends AppCompatActivity {
         upload = findViewById(R.id.updateImage);
         image = new ImageView[]{upload, selectedImage1, selectedImage2, selectedImage3};
         del = findViewById(R.id.delete);
+        rent = findViewById(R.id.rent);
 
 
         Button btn_postad = findViewById(R.id.post_ad);
@@ -331,6 +332,38 @@ public class UpdateAd extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 selectImage();
+            }
+        });
+
+        rent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fstore = FirebaseFirestore.getInstance();
+                DocumentReference docRef = fstore.collection("Apartment").document(aptid);
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Map<String, Object> data1 = document.getData();
+                                String Status = data1.get("Status").toString();
+                                if (Status.equals("Active")) {
+                                    sold();
+                                } else {
+                                    rentagain();
+                                }
+
+                                Log.d("tagvv", "DocumentSnapshot data: " + document.getData());
+                            } else {
+                                Log.d("tagvv", "No such document");
+                            }
+                        } else {
+                            Log.d("tagvv", "get failed with ", task.getException());
+                        }
+                    }
+                });
+
             }
         });
 
@@ -619,6 +652,7 @@ public class UpdateAd extends AppCompatActivity {
                     userMap.put("Latitude", latLng.latitude);
                     userMap.put("Longitude", latLng.longitude);
                     userMap.put("Address", address);
+                    userMap.put("Status", "Active");
 
 
                     fstore.collection("Apartment").document(aptid)
@@ -644,7 +678,6 @@ public class UpdateAd extends AppCompatActivity {
                             });
 
                 }
-
 
             }
         });
@@ -776,6 +809,7 @@ public class UpdateAd extends AppCompatActivity {
                         String Audio_Prompts1 = data1.get("Audio_Prompts").toString();
                         String ParkingIncluded1 = data1.get("ParkingIncluded").toString();
                         String Bicycle_Parking1 = data1.get("Bicycle_Parking").toString();
+                        String Status = data1.get("Status").toString();
                         double latitude = (Double) data1.get("Latitude");
                         double longitude = (Double) data1.get("Longitude");
                         latLng = new LatLng(latitude, longitude);
@@ -799,6 +833,11 @@ public class UpdateAd extends AppCompatActivity {
                         et_smoke.getEditText().setText(SmokePermitted1);
                         et_parking.getEditText().setText(ParkingIncluded1);
 
+                        if (Status.equals("Active")) {
+                            rent.setImageResource(R.drawable.sold);
+                        } else {
+                            rent.setImageResource(R.drawable.rent);
+                        }
                         if (Furnished1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.Fyes);
                             rb1.setChecked(true);
@@ -1042,6 +1081,79 @@ public class UpdateAd extends AppCompatActivity {
 
     }
 
+    private void sold() {
+        final CharSequence[] options = {"Yes", "No"};
+        androidx.appcompat.app.AlertDialog.Builder builder1 = new androidx.appcompat.app.AlertDialog.Builder(UpdateAd.this);
+        builder1.setTitle("Is the house sold ?");
+        builder1.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Yes")) {
+                    fstore = FirebaseFirestore.getInstance();
+                    Map<String, Object> userMap = new HashMap<>();
+                    userMap.put("Status", "Inactive");
+                    fstore.collection("Apartment").document(aptid)
+                            .update(userMap)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("TAG", "DocumentSnapshot successfully written!");
+                                    Toast.makeText(UpdateAd.this, "SOLD", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("TAG", "Error writing document", e);
+                                }
+                            });
+
+                } else if (options[item].equals("NO")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder1.show();
+
+    }
+
+    private void rentagain() {
+        final CharSequence[] options = {"Yes", "No"};
+        androidx.appcompat.app.AlertDialog.Builder builder1 = new androidx.appcompat.app.AlertDialog.Builder(UpdateAd.this);
+        builder1.setTitle("Do you want to Rent it again?");
+        builder1.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Yes")) {
+                    fstore = FirebaseFirestore.getInstance();
+                    Map<String, Object> userMap = new HashMap<>();
+                    userMap.put("Status", "Active");
+                    fstore.collection("Apartment").document(aptid)
+                            .update(userMap)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("TAG", "DocumentSnapshot successfully written!");
+                                    Toast.makeText(UpdateAd.this, "Rented Again Successfully", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("TAG", "Error writing document", e);
+                                }
+                            });
+
+
+                } else if (options[item].equals("NO")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder1.show();
+
+    }
 
     private void selectImage() {
         final CharSequence[] options = {"Choose from Gallery", "Cancel"};
@@ -1118,7 +1230,7 @@ public class UpdateAd extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void aVoid) {
                     // File deleted successfully
-                   // Toast.makeText(UpdateAd.this, "Deleted", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(UpdateAd.this, "Deleted", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

@@ -598,6 +598,7 @@ public class Postadd extends AppCompatActivity {
                     userMap.put("Latitude", latLng.latitude);
                     userMap.put("Longitude", latLng.longitude);
                     userMap.put("Address", address);
+                    userMap.put("Status", "Active");
 
 
                     fstore.collection("Apartment").add(userMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
