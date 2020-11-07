@@ -175,7 +175,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mGoogleMap.clear();
         db = FirebaseFirestore.getInstance();
         db.collection("Apartment")
-                .whereEqualTo("CityName", city)
+                .whereEqualTo("CityName", city).whereEqualTo("Status","Active")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
