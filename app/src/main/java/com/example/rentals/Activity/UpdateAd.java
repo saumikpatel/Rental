@@ -831,7 +831,7 @@ public class UpdateAd extends AppCompatActivity {
                         et_parking.getEditText().setText(ParkingIncluded1);
 
                         if (Status.equals("Active")) {
-                            rent.setImageResource(R.drawable.sold);
+                            rent.setImageResource(R.drawable.rented);
                         } else {
                             rent.setImageResource(R.drawable.rent);
                         }
@@ -1081,7 +1081,7 @@ public class UpdateAd extends AppCompatActivity {
     private void sold() {
         final CharSequence[] options = {"Yes", "No"};
         androidx.appcompat.app.AlertDialog.Builder builder1 = new androidx.appcompat.app.AlertDialog.Builder(UpdateAd.this);
-        builder1.setTitle("Is the house sold ?");
+        builder1.setTitle("Is the house Rented ?");
         builder1.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
@@ -1095,7 +1095,8 @@ public class UpdateAd extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d("TAG", "DocumentSnapshot successfully written!");
-                                    Toast.makeText(UpdateAd.this, "SOLD", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(UpdateAd.this, "Rented", Toast.LENGTH_SHORT).show();
+                                    finish();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
