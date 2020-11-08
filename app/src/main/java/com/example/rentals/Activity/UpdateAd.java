@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -62,6 +63,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
+
+import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 
 
 public class UpdateAd extends AppCompatActivity {
@@ -832,8 +835,26 @@ public class UpdateAd extends AppCompatActivity {
 
                         if (Status.equals("Active")) {
                             rent.setImageResource(R.drawable.rented);
+
+                            new SimpleTooltip.Builder(UpdateAd.this)
+                                    .anchorView(rent)
+                                    .text("Click to mark it as Rented")
+                                    .gravity(Gravity.BOTTOM)
+                                    .dismissOnOutsideTouch(true)
+                                    .dismissOnInsideTouch(false)
+                                    .build()
+                                    .show();
                         } else {
                             rent.setImageResource(R.drawable.rent);
+
+                            new SimpleTooltip.Builder(UpdateAd.this)
+                                    .anchorView(rent)
+                                    .text("Click to Rent it Again")
+                                    .gravity(Gravity.BOTTOM)
+                                    .dismissOnOutsideTouch(true)
+                                    .dismissOnInsideTouch(false)
+                                    .build()
+                                    .show();
                         }
                         if (Furnished1.equals("Yes")) {
                             RadioButton rb1 = findViewById(R.id.Fyes);
