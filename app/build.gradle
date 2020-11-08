@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        test {
+            storePassword 'vir@j123'
+            keyAlias 'keystore'
+            keyPassword 'vir@j123'
+            storeFile file('/Users/virajgandhi/Documents/Rental/app/keystore')
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.1"
 
@@ -13,11 +21,17 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.test
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -36,7 +50,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.4.0'
     implementation 'androidx.preference:preference:1.0.0'
     implementation 'com.google.firebase:firebase-firestore:21.6.0'
-
     implementation 'com.google.firebase:firebase-storage:19.2.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -48,8 +61,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
-
-    //parthiv
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.androidmapsextensions:android-maps-extensions:2.4.0'
