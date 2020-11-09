@@ -351,7 +351,7 @@ public class Postadd extends AppCompatActivity {
                 } else if (PhoneNumber.matches(".*[a-zA-Z]+.*")) {
                     Toast.makeText(Postadd.this, "Please Enter PhoneNumber in Digit", Toast.LENGTH_LONG).show();
                     return;
-                } else if (PhoneNumber.length() < 10 || PhoneNumber.length() > 12) {
+                } else if (PhoneNumber.length() < 10 || PhoneNumber.length() > 10) {
                     Toast.makeText(Postadd.this, "Please enter 10 to 12 digit PhoneNumber", Toast.LENGTH_LONG).show();
                     return;
                 } else if (MoveInDate.isEmpty()) {
