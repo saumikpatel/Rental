@@ -25,7 +25,7 @@ import java.util.Map;
 public class overviewFragment extends Fragment {
 
     private static String Id;
-    TextView apartment, sizebedroom, bathrm, hydro, heat, water, cabletv, internet, parking, agreementtype;
+    TextView apartment, sizebedroom, bathrm, hydro, heat, water, cabletv, internet, parking, agreementtype,moveindate;
     ImageView hydrotick, heattick, watertick, cabletick, internettick;
     FirebaseFirestore fstore;
 
@@ -62,6 +62,7 @@ public class overviewFragment extends Fragment {
         internet = view.findViewById(R.id.internet);
         internettick = view.findViewById(R.id.internettick);
         parking = view.findViewById(R.id.parking);
+        moveindate = view.findViewById(R.id.moveindate);
 
         getdata();
 
@@ -89,11 +90,13 @@ public class overviewFragment extends Fragment {
                         String ct = data1.get("Tv").toString();
                         String itnt = data1.get("Internet").toString();
                         String pk = data1.get("ParkingIncluded").toString();
+                        String mid = data1.get("MoveInDate").toString();
 
                         apartment.setText(ofapt);
                         sizebedroom.setText(szbr);
                         bathrm.setText(btrm);
                         parking.setText(pk);
+                        moveindate.setText(mid);
                         if (hdro.equals("Yes")) {
                             hydrotick.setImageResource(R.drawable.rightmark);
                         } else {
