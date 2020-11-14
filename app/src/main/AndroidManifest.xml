@@ -25,7 +25,7 @@
         <activity android:name=".Filter" />
         <activity android:name=".Activity.ApartmentDialog" />
         <activity android:name=".Activity.ApartmentDetails" />
-        <activity android:name=".Activity.SplashScreen" />
+        <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Activity.ProfileDetails" />
         <activity android:name=".Activity.wishlistactivity" />
         <activity android:name=".Activity.CreateAccount" />
@@ -38,7 +38,7 @@
             android:value="AIzaSyDzkhBJZpa16X7NMsbveeggrcSGfT-IsH0" />
 
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".Activity.SplashScreen"
             android:grantUriPermissions="true"
             android:theme="@style/AppTheme">
             <intent-filter>
