@@ -338,6 +338,12 @@ public class Postadd extends AppCompatActivity {
                 } else if (Amount.matches(".*[a-zA-Z]+.*")) {
                     Toast.makeText(Postadd.this, "Please Enter Amount in Digit", Toast.LENGTH_LONG).show();
                     return;
+                }  else if (address == null) {
+                    Toast.makeText(Postadd.this, "Please enter Address ", Toast.LENGTH_LONG).show();
+                    return;
+                } else if (cityName == null) {
+                    Toast.makeText(Postadd.this, "Please select City", Toast.LENGTH_LONG).show();
+                    return;
                 } else if (Unit.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please select Unit", Toast.LENGTH_LONG).show();
                     return;
@@ -367,7 +373,7 @@ public class Postadd extends AppCompatActivity {
                 } else if (Bedroom.isEmpty()) {
                     Toast.makeText(Postadd.this, "Please select Bedroom", Toast.LENGTH_LONG).show();
                     return;
-                } else if (!(Bedroom.equals("Studio") || Bedroom.equals("1") || Bedroom.equals("1 + Den") || Bedroom.equals("2") || Bedroom.equals("2 + Den") || Bedroom.equals("3") || Bedroom.equals("3 + Den") || Bedroom.equals("4") || Bedroom.equals("4 + Den") || Bedroom.equals("5+"))) {
+                } else if (!(Bedroom.equals("1") || Bedroom.equals("2") || Bedroom.equals("3") || Bedroom.equals("4") || Bedroom.equals("5"))) {
                     Toast.makeText(Postadd.this, "Please Select Bedroom from DropDown", Toast.LENGTH_LONG).show();
                     et_bed.getEditText().getText().clear();
                     return;

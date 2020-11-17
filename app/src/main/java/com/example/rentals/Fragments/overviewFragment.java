@@ -25,7 +25,7 @@ import java.util.Map;
 public class overviewFragment extends Fragment {
 
     private static String Id;
-    TextView apartment, sizebedroom, bathrm, hydro, heat, water, cabletv, internet, parking, agreementtype,moveindate;
+    TextView apartment, sizebedroom, bathrm, hydro, heat, water, cabletv, internet, parking, agreementtype, moveindate;
     ImageView hydrotick, heattick, watertick, cabletick, internettick;
     FirebaseFirestore fstore;
 
@@ -33,7 +33,6 @@ public class overviewFragment extends Fragment {
     public static overviewFragment getInstance(String AptId) {
         Id = AptId;
         overviewFragment OverviewFragment = new overviewFragment();
-
         return OverviewFragment;
     }
 

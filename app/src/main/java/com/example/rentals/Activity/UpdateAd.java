@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -389,7 +390,6 @@ public class UpdateAd extends AppCompatActivity {
                 String SmokePermitted = et_smoke.getEditText().getText().toString().trim();
                 String ParkingIncluded = et_parking.getEditText().getText().toString().trim();
 
-
                 if (Title.isEmpty()) {
                     Toast.makeText(UpdateAd.this, "Please Enter Title", Toast.LENGTH_LONG).show();
                     return;
@@ -408,6 +408,13 @@ public class UpdateAd extends AppCompatActivity {
                 } else if (Amount.matches(".*[a-zA-Z]+.*")) {
                     Toast.makeText(UpdateAd.this, "Please Enter Amount in Digit", Toast.LENGTH_LONG).show();
                     return;
+                }  else if (address == null) {
+                    Toast.makeText(UpdateAd.this, "Please enter Address ", Toast.LENGTH_LONG).show();
+                    return;
+                } else if (cityName == null) {
+                    Toast.makeText(UpdateAd.this, "Please select City", Toast.LENGTH_LONG).show();
+                    return;
+
                 } else if (Unit.isEmpty()) {
                     Toast.makeText(UpdateAd.this, "Please select Unit", Toast.LENGTH_LONG).show();
                     return;
@@ -437,7 +444,7 @@ public class UpdateAd extends AppCompatActivity {
                 } else if (Bedroom.isEmpty()) {
                     Toast.makeText(UpdateAd.this, "Please select Bedroom", Toast.LENGTH_LONG).show();
                     return;
-                } else if (!(Bedroom.equals("Studio") || Bedroom.equals("1") || Bedroom.equals("1 + Den") || Bedroom.equals("2") || Bedroom.equals("2 + Den") || Bedroom.equals("3") || Bedroom.equals("3 + Den") || Bedroom.equals("4") || Bedroom.equals("4 + Den") || Bedroom.equals("5+"))) {
+                } else if (!(Bedroom.equals("1") || Bedroom.equals("2") || Bedroom.equals("3") || Bedroom.equals("4") || Bedroom.equals("5"))) {
                     Toast.makeText(UpdateAd.this, "Please Select Bedroom from DropDown", Toast.LENGTH_LONG).show();
                     et_bed.getEditText().getText().clear();
                     return;
@@ -663,11 +670,11 @@ public class UpdateAd extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Log.d("TAG", "DocumentSnapshot successfully written!");
-
                                     if (changed) {
                                         uploadImage((aptid));
                                     }
+                                    Log.d("TAG", "DocumentSnapshot successfully written!");
+                                    SystemClock.sleep(3000);
                                     Toast.makeText(UpdateAd.this, "Post Updated Successfully", Toast.LENGTH_SHORT).show();
                                     pd.dismiss();
                                     finish();
@@ -1207,7 +1214,7 @@ public class UpdateAd extends AppCompatActivity {
                 ClipData clipdata = data.getClipData();
                 contenturi.clear();
                 deleteImages();
-                Toast.makeText(this, "" + internetPhotos, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(this, "" + internetPhotos, Toast.LENGTH_SHORT).show();
 
                 if (clipdata != null) {
                     changed = true;
